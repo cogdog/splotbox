@@ -370,7 +370,7 @@ function splotbox_attributor( $license, $work_title, $work_link, $work_creator='
 add_action('wp_enqueue_scripts', 'add_splotbox_scripts');
 
 function add_splotbox_scripts() {	 
-    $parent_style = 'garfunkel-style'; 
+    $parent_style = 'garfunkel_style'; 
     
     wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
     
