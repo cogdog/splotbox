@@ -399,6 +399,20 @@ function add_splotbox_scripts() {
 
 }
 
+// create a basic menu if one has not been define for primary
+function splot_default_menu() {
+
+	// site home with trailing slash
+	$splot_home = home_url('/');
+  
+ 	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . 'share' . '">Share</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
+  
+}
+
+
+
+# --------------------------------------
+
 
 
 # -----------------------------------------------------------------

@@ -23,9 +23,6 @@ And if you make a SPLOTbox site, please please pretty *please* fork this repo to
 
 If you have problems, feature suggestions, piles of unmarked bills to send my way, please [contact me via the issues area](https://github.com/cogdog/splotbox/issues) on this repo.
 
-## Relatively New Features
-
-* This is the first release. Likely the new features will be big fixes.
 
 
 ## Requirements
@@ -177,3 +174,11 @@ Get rid of the default widgets on the site; make it your own. In this theme, the
 ![Widgets](images/widgets.jpg "suggested widget set up") 
 
 Go build collections of media!
+
+## Relatively Cool New Features & Updates
+
+* On new installs where no menus are defined, the theme generates a simple menu rather than listing all pages 
+
+
+
+
