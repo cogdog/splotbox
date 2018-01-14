@@ -31,13 +31,24 @@
 						);
 																		
 						wp_nav_menu( $nav_menu_args ); 
-						
 					
-					} else {
-
+					// test uf primary menu location is not set	
+					} elseif ( !splot_is_menu_location_used() ) {
 						echo splot_default_menu();
-						
-					} ?>
+					
+					// normal make menus from pages	
+					} else {
+					
+						wp_list_pages( array(
+					
+							'container' => '',
+							'title_li' => ''
+					
+						));
+					
+					
+					}
+					?>
 											
 				</ul><!-- .main-menu -->
 				
