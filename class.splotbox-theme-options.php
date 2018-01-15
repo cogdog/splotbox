@@ -258,7 +258,7 @@ class splotbox_Theme_Options {
 		$this->settings['caption_prompt'] = array(
 			'title'   => __( 'Description Field Prompt' ),
 			'desc'    => __( 'If using description this is the prompt that will appear on the form. Customize to fit your site.' ),
-			'std'     => 'Enter a descroption to include with this media item.',
+			'std'     => 'Enter a description to include with this media item.',
 			'type'    => 'textarea',
 			'section' => 'general'
 		);
