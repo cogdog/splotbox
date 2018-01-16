@@ -244,7 +244,7 @@ class splotbox_Theme_Options {
 		
 		$this->settings['use_caption'] = array(
 			'section' => 'general',
-			'title'   => __( 'Use description field on submission form and item display?'),
+			'title'   => __( 'Use rich text description field on submission form and item display?'),
 			'desc'    => '',
 			'type'    => 'radio',
 			'std'     => '1',

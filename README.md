@@ -177,6 +177,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+* A rich text editor is now enabled for all description fields 
 * On new installs where no menus are defined, the theme generates a simple menu rather than listing all pages 
 
 

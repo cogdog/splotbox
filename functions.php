@@ -308,8 +308,8 @@ function splotbox_attributor( $license, $work_title, $work_link, $work_creator='
 
 		case 'c': 	
 			return ( array( 
-						$work_str .  '" is &copy; All Rights Reserved.', 
-						$work_str_html . '" is &copy; All Rights Reserved.'
+						$work_str .  ' is &copy; All Rights Reserved.', 
+						$work_str_html . ' is &copy; All Rights Reserved.'
 					)
 			 );
 			break;
@@ -317,16 +317,16 @@ function splotbox_attributor( $license, $work_title, $work_link, $work_creator='
 
 		case 'u': 	
 			return ( array( 
-						$work_str .  '" is unknown or not specified.', 
-						$work_str_html . '" is unknown or not specified.'
+						'The rights of ' . $work_str .  ' is unknown or not specified.', 
+						'The rights of ' . $work_str_html . ' is unknown or not specified.'
 					)
 			 );
 			break;
 
 		case 'yt': 	
 			return ( array( 
-						$work_str .  '" is covered by a YouTube Standard License.', 
-						$work_str_html . '" is covered by a <a href="https://www.youtube.com/t/terms">YouTube Standard License</a>.' 
+						$work_str .  ' is covered by a YouTube Standard License.', 
+						$work_str_html . ' is covered by a <a href="https://www.youtube.com/t/terms">YouTube Standard License</a>.' 
 					)
 			 );
 			break;

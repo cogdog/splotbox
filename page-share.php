@@ -43,7 +43,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
  		$wTitle = 					sanitize_text_field( stripslashes( $_POST['wTitle'] ) );
  		$wAuthor = 					( isset ($_POST['wAuthor'] ) ) ? sanitize_text_field( stripslashes($_POST['wAuthor']) ) : 'Anonymous';		
  		$wTags = 					sanitize_text_field( $_POST['wTags'] );	
- 		$wText = 					sanitize_text_field( stripslashes( $_POST['wText'] ) );
+ 		$wText = 					wp_kses_post( $_POST['wText'] );
  		$wCredit = 					sanitize_text_field( $_POST['wCredit']  );
  		$wNotes = 					sanitize_text_field( stripslashes( $_POST['wNotes'] ) );
  		$wMediaURL = 				trim($_POST['wMediaURL']);
@@ -95,7 +95,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
  			 			
 			$w_information = array(
 				'post_title' => $wTitle,
-				'post_content' => $wMediaURL . "\n<!--more-->\n\n" .  make_links_clickable($wText),
+				'post_content' => $wMediaURL . "\n<!--more-->\n\n" .  $wText,
 				'post_status' => splotbox_option('new_item_status'),
 				'post_category' => $wCats		
 			);
@@ -274,9 +274,17 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
   				
 					<label for="wText"><?php _e('Description', 'garfunkel') ?> <?php echo $required?></label>
 					
-						<p><?php echo  splotbox_option('caption_prompt')?> Note: any URLs included will be automatically converted to hyperlinks when published.</p>
+						<p><?php echo  splotbox_option('caption_prompt')?></p>
 						
-						<textarea name="wText" id="wText" rows="15"  tabindex="3"><?php echo stripslashes( $wText );?></textarea>
+
+						<?php
+						// set up for inserting the WP post editor
+						$settings = array( 'textarea_name' => 'wText', 'editor_height' => '400',  'tabindex'  => "3", 'media_buttons' => false);
+
+						wp_editor(  stripslashes( $wText ), 'wtext', $settings );
+						?>
+						
+						
 					<?php endif?>
 
 					<label for="wCats"><?php _e( 'Categories', 'garfunkel' ) ?></label>
