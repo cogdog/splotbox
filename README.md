@@ -101,7 +101,7 @@ Set **Allow Media Uploads** to `no` to remove the form field for uploading media
 
 You can choose to suppress the description field (if you want media shared only), or if making the description field available, you can require that it has something written in it. You can also customize the prompt that appears for the description if you want to have specific requirements. 
 
-Any URLs that a site visitor includes in the field will be converted to hyperlink when saved. All HTML is stripped out of the input.
+Plus, you can choose to use the plain text area input (simple descriptions, this is the default) or enable the rich text editor to allow for formatted content.
 
 
 ![](images/source-field.jpg)
@@ -111,8 +111,6 @@ You can also choose to use a field if you want contributors to provide a source 
 ![](images/notification-settings.jpg)
 
 Enter email addresses for people who should be notified of new submissions.
-
-
 
 ## License and Attribution
 ![](images/license-settings.jpg)
@@ -177,7 +175,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
-* A rich text editor is now enabled for all description fields 
+* A rich text editor can now be enabled for the description fields or you can opt to use the simpler plain text input text area for descriptions.
 * On new installs where no menus are defined, the theme generates a simple menu rather than listing all pages 
 
 

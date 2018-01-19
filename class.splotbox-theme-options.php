@@ -254,6 +254,18 @@ class splotbox_Theme_Options {
 							'2' => 'Yes, and make it required'
 					)
 		);
+
+		$this->settings['caption_field'] = array(
+			'section' => 'general',
+			'title'   => __( 'Caption Editing Field'),
+			'desc'    => __( 'Use a plain text entry field or rich text editor.'),
+			'type'    => 'radio',
+			'std'     => 's',
+			'choices' => array (
+							's' => 'Simple plain text input field',
+							'r' => 'Rich text editor'
+					)
+		);
 		
 		$this->settings['caption_prompt'] = array(
 			'title'   => __( 'Description Field Prompt' ),

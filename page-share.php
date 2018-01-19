@@ -274,17 +274,23 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
   				
 					<label for="wText"><?php _e('Description', 'garfunkel') ?> <?php echo $required?></label>
 					
-						<p><?php echo  splotbox_option('caption_prompt')?></p>
-						
-
+						<p><?php echo splotbox_option('caption_prompt')?></p>
+	
+	
+						<?php if (  splotbox_option('caption_field') == 's'):?>	
+							<textarea name="wText" id="wText" rows="15"  tabindex="4"><?php echo stripslashes( $wText );?></textarea>
+							
+						<?php else:?>
+							
 						<?php
 						// set up for inserting the WP post editor
-						$settings = array( 'textarea_name' => 'wText', 'editor_height' => '400',  'tabindex'  => "3", 'media_buttons' => false);
+						$settings = array( 'textarea_name' => 'wText', 'editor_height' => '300',  'tabindex'  => "3", 'media_buttons' => false);
 
 						wp_editor(  stripslashes( $wText ), 'wtext', $settings );
-						?>
 						
-						
+						?>	
+						<?php endif?>
+
 					<?php endif?>
 
 					<label for="wCats"><?php _e( 'Categories', 'garfunkel' ) ?></label>
