@@ -11,8 +11,6 @@ by Alan Levine https://cog.dog or http://cogdogblog.com/
 
 ----- 
 
-
-
 ![Sample SPLOTbox Site](screenshot.png "Sample SPLOTbox Site")
 
 ## What is this?
@@ -107,7 +105,7 @@ Set **Allow Media Uploads** to `no` to remove the form field for uploading media
 
 ![](images/description-settings.jpg)
 
-You can choose to suppress the description field (if you want media shared only), or if making the description field available, you can require that it has something written in it. You can also customize the prompt that appears for the description if you want to have specific requirements. 
+You can choose to suppress the description field (if you want media shared only), or if making the description field available, you can require that it has something written in it. 
 
 Plus, you can choose to use the plain text area input (simple descriptions, this is the default) or enable the rich text editor to allow for formatted content.
 
@@ -152,6 +150,23 @@ When everything is set up correctly, the options will indicate that you have bee
 
 If the account is incorrectly set up, when trying the SPLOTbox on a site where you are *not* logged in as an Administrator or Editor, when you try to access the collect form, you will see a Wordpress login. This nearly always means the password for the `sharer` user does not match the settings in the options.
 
+## Customize the Share form
+
+You can now customize the field labels and the descriptions of the form where people submit new items to a SPLOTbox site. On your site navigate to the share form, and  activate the Wordpress Customizer from the admin bar. 
+
+There is a special section at the bottom to open:
+
+![](images/customizer-section.jpg)
+
+Then from this pane, open "Share Form" (eventually the theme options will live here too)
+
+![](images/customizer-share-form.jpg)
+
+And then you will see a series of fields to edit for all form field elements. For each, you can edit the title/label of the field and the prompt that appears below. As you type in the customizer fields on the left, you will see a live preview on the right:
+
+![](images/customizer-edit.jpg)
+
+
 ## Updating the Theme
 
 If you have ftp/sftp access to your site (or this can be done in a cpanel file manager), simply upload the new theme files to the `wp-content/themes` directory that includes the older version theme. 
@@ -183,6 +198,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+* Edit labels and instructions on the upload form using the Wordpress Customizer
 * A rich text editor can now be enabled for the description fields or you can opt to use the simpler plain text input text area for descriptions.
 * On new installs where no menus are defined, the theme generates a simple menu rather than listing all pages 
 

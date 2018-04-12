@@ -21,10 +21,11 @@ if ( !is_user_logged_in() ) {
 // ------------------------ defaults ------------------------
 
 // default welcome message
-$feedback_msg = 'Complete the form below to add an audio or video item to this collection.<br /><br /> <span class="required">*</span> indicates required entries.';
-
+$feedback_msg = splotbox_form_default_prompt() . '. Fields marked  <strong>*</strong> are required.';
 $wAuthor = 'Anonymous';
-				
+$wTitle = $wCredit =  $wMediaURL = $wNotes = $wTags = $wText = '';
+
+			
 $wCats = array( splotbox_option('def_cat')); // preload default category
 $wLicense = '--';
 $all_licenses = splotbox_get_licences();
@@ -239,7 +240,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 		<form  id="splotboxform" method="post" action="" enctype="multipart/form-data">
 
 				<fieldset>
-					<legend>Media Source</legend>
+					<legend><?php splotbox_form_item_upload() ?></legend>
 					
 					<label for="wMediaURL"><?php _e('Enter Audio or Video URL', 'garfunkel' ) ?> <span class="required">*</span></label><br />
 					<p>Embed a media player for audio or video content that exists at certain external URLs. For audio content this includes any valid web link to a sound file (links to <code>.mp3 .m4a .ogg</code> files). URLs can also be used for content in Soundcloud, YouTube or Vimeo. Check the embed settings on the source to make sure there are no restrictions.</p>
@@ -257,24 +258,24 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 						
 						</div>
 						
-						<p>Upload your file by dragging its icon to the window that opens when clicking  <strong>Upload Media</strong> button. The uploader will automatically enter it's URL in the entry field above and will populate title and caption fields below if it finds appropriate metadata in the file. <br clear="left"></p>
+						<p><?php splotbox_form_item_upload_prompt() ?><br clear="left"></p>
 						
 						<?php endif?>
 				</fieldset>						
 
 				<fieldset>
 					<legend>Media Info</legend>
-					<label for="wTitle"><?php _e('Title for the Item', 'garfunkel' ) ?> <span class="required">*</span></label><br />
-					<p>An interesting title goes a long way; it's the headline when it appears on this site.</p>
+					<label for="wTitle"><?php splotbox_form_item_title() ?> <span class="required">*</span></label><br />
+					<p><?php splotbox_form_item_title_prompt() ?> </p>
 					<input type="text" name="wTitle" id="wTitle" class="required" value="<?php echo $wTitle; ?>" tabindex="4" />
 				
 					<?php if (  splotbox_option('use_caption') > '0'):	
   						$required = (splotbox_option('use_caption') == 2) ? '<span class="required">*</span>' : '';
   					?>
   				
-					<label for="wText"><?php _e('Description', 'garfunkel') ?> <?php echo $required?></label>
+					<label for="wText"><?php splotbox_form_item_description() ?> <?php echo $required?></label>
 					
-						<p><?php echo splotbox_option('caption_prompt')?></p>
+						<p><?php splotbox_form_item_description_prompt()?> </p>
 	
 	
 						<?php if (  splotbox_option('caption_field') == 's'):?>	
@@ -293,8 +294,8 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 
 					<?php endif?>
 
-					<label for="wCats"><?php _e( 'Categories', 'garfunkel' ) ?></label>
-					<p>Check all that apply.</p>
+					<label for="wCats"><?php splotbox_form_item_categories() ?></label>
+					<p><?php splotbox_form_item_categories_prompt() ?></p>
 					<?php 
 					
 					// set up arguments to get all categories 
@@ -313,8 +314,8 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 					
 					?>
 					
-					<label for="wTags"><?php _e( 'Tags', 'garfunkel' ) ?></label>
-					<p>Descriptive tags, separate multiple ones with commas</p>
+					<label for="wTags"><?php  splotbox_form_item_tags() ?></label>
+					<p><?php  splotbox_form_item_tags_prompt() ?></p>
 					
 					<input type="text" name="wTags" id="wTags" value="<?php echo $wTags; ?>" tabindex="5"  />
 				</fieldset>
@@ -323,7 +324,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 				<?php if ( splotbox_option('use_source') OR splotbox_option('use_license') ):?>
 
 				<fieldset>
-					<legend>Source and License</legend>
+					<legend>Media Attribution / License</legend>
 					
 					
 					
@@ -331,8 +332,8 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
   						$required = (splotbox_option('use_source') == 2) ? '<span class="required">*</span>' : '';
   						
   					?>
-					<label for="wCredit"><?php _e('Creator of Media', 'garfunkel' ) ?>  <?php echo $required?></label><br />
-					<p>Enter a name of a person, publisher, organization, web site, etc to give credit for this item.</p>
+					<label for="wCredit"><?php splotbox_form_item_media_source() ?>   <?php echo $required?></label><br />
+					<p><?php splotbox_form_item_media_source_prompt() ?></p>
 					<input type="text" name="wCredit" id="wCredit" class="required" value="<?php echo $wCredit; ?>" tabindex="6" />
 					
 					<?php endif?>
@@ -342,8 +343,8 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
   						$required = (splotbox_option('use_license') == 2) ? '<span class="required">*</span>' : '';
   					?>
   					
-					<label for="wLicense"><?php _e('License for Reuse', 'garfunkel' ) ?> <?php echo $required?></label><br />
-					<p>If known indicate a license or copyright attached to this media. If this is your original piece of content, then select a license you wish to attach to it.</p>
+					<label for="wLicense"><?php splotbox_form_item_license() ?> <?php echo $required?></label><br />
+					<p><?php splotbox_form_item_license_prompt() ?></p>
 					<select name="wLicense" id="wLicense" tabindex="7" />
 					<option value="--">Select a License</option>
 					<?php
@@ -362,13 +363,13 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 
 				<fieldset>
 					<legend>Your Info</legend>
-					<label for="wAuthor"><?php _e('Who is Adding this Item? (also know as "you")', 'garfunkel' ) ?> <span class="required">*</span></label><br />
-					<p>Take credit for sharing this item by entering your name, twitter handle, secret agent name, or remain "Anonymous".</p>
+					<label for="wAuthor"><?php splotbox_form_item_author()?> <span class="required">*</span></label><br />
+					<p><?php splotbox_form_item_author_prompt()?></p>
 					<input type="text" name="wAuthor" class="required" id="wAuthor"  value="<?php echo $wAuthor; ?>" tabindex="8" />
 					
 					
-					<label for="wNotes"><?php _e('Notes to the Editor', 'wpbootstrap') ?></label>						
-						<p>Add any notes or messages to the site manager; this will not be part of what is published. If you wish to be contacted, leave an email address or twitter handle below. Otherwise you are completely anonymous.</p>
+					<label for="wNotes"><?php splotbox_form_item_editor_notes() ?></label>						
+						<p><?php splotbox_form_item_editor_notes_prompt() ?></p>
 						<textarea name="wNotes" id="wNotes" rows="10"  tabindex="9"><?php echo stripslashes($wNotes);?></textarea>
 
 				</fieldset>	

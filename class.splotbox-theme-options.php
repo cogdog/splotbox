@@ -266,15 +266,7 @@ class splotbox_Theme_Options {
 							'r' => 'Rich text editor'
 					)
 		);
-		
-		$this->settings['caption_prompt'] = array(
-			'title'   => __( 'Description Field Prompt' ),
-			'desc'    => __( 'If using description this is the prompt that will appear on the form. Customize to fit your site.' ),
-			'std'     => 'Enter a description to include with this media item.',
-			'type'    => 'textarea',
-			'section' => 'general'
-		);
-	
+			
 		$this->settings['use_source'] = array(
 			'section' => 'general',
 			'title'   => __( 'Use source field (e.g. to provide credit for media) on submission form and item display?'),
@@ -452,7 +444,7 @@ class splotbox_Theme_Options {
 				break;
 
 			case 'textarea':
-				echo '<textarea class="' . $field_class . '" id="' . $id . '" name="splotbox_options[' . $id . ']" placeholder="' . $std . '" rows="5" cols="60">' . wp_htmledit_pre( $options[$id] ) . '</textarea>';
+				echo '<textarea class="' . $field_class . '" id="' . $id . '" name="splotbox_options[' . $id . ']" placeholder="' . $std . '" rows="5" cols="60">' . format_for_editor( $options[$id] ) . '</textarea>';
 
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
@@ -462,9 +454,7 @@ class splotbox_Theme_Options {
 			case 'medialoader':
 			
 			
-				echo '<div id="uploader_' . $id . '">';
-				
-				
+				echo '<div id="uploader_' . $id . '">';		
 				
 				if ( $options[$id] )  {
 					$front_img = wp_get_attachment_image_src( $options[$id], 'radcliffe' );
@@ -538,15 +528,11 @@ class splotbox_Theme_Options {
 	public function register_settings() {
 
 		register_setting( 'splotbox_options', 'splotbox_options', array ( &$this, 'validate_settings' ) );
-		//register_setting( 'splotbox_options', 'splotbox_options' );
 
-		foreach ( $this->sections as $slug => $title )
-		
-			if ( $slug == 'docs' ) {
-				add_settings_section( $slug, $title, array( &$this, 'display_docs_section' ), 'splotbox-options' );
-			} else {
-				add_settings_section( $slug, $title, array( &$this, 'display_section' ), 'splotbox-options' );
-			}
+
+		foreach ( $this->sections as $slug => $title ) {
+			add_settings_section( $slug, $title, array( &$this, $this->section_callbacks[$slug] ), 'splotbox-options' );
+		}		
 
 		$this->get_settings();
 	
