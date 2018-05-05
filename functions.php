@@ -61,6 +61,25 @@ function splotbox_setup () {
   	wp_insert_post( $page_data );
   
   }
+
+  if (! get_page_by_path( 'licensed' ) ) {
+  
+  	// create index page and archive for licenses.
+  	
+  	$page_data = array(
+  		'post_title' 	=> 'Items by License',
+  		'post_content'	=> 'Browse the items in this SPLOTbox by license for reuse',
+  		'post_name'		=> 'licensed',
+  		'post_status'	=> 'publish',
+  		'post_type'		=> 'page',
+  		'post_author' 	=> 1,
+  		'post_date' 	=> date('Y-m-d H:i:s', time() - 172800),
+  		'page_template'	=> 'page-licensed.php',
+  	);
+  	
+  	wp_insert_post( $page_data );
+  
+  }
    
 }
 
@@ -149,6 +168,40 @@ function splotbox_order_items( $query ) {
 		}
 	}
 }
+
+// Set up oembed for Archive.org videos
+add_action( 'init', function() {
+
+	wp_embed_register_handler( 
+		'archiveorg', 
+		'#https://archive\.org/details/(.*)#i', 
+		'wp_embed_handler_archiveorg' 
+	);
+
+} );
+
+
+function wp_embed_handler_archiveorg( $matches, $attr, $url, $rawattr ) {
+
+	$embed = sprintf(
+			'<iframe src="https://archive.org/embed/%1$s" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>', 
+			esc_attr( $matches[1] )
+			
+			);
+
+		return apply_filters( 'embed_archiveorg', $embed, $matches, $attr, $url, $rawattr );
+}
+
+// -----  add allowable url parameters
+add_filter('query_vars', 'splotbox_queryvars' );
+
+function splotbox_queryvars( $qvars ) {
+	$qvars[] = 'flavor'; // flag for type of license
+	
+	return $qvars;
+}   
+
+
 
 
 # -----------------------------------------------------------------
@@ -441,7 +494,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 	// setting for description  label
 	$wp_customize->add_setting( 'item_description', array(
-		 'default'           => __( 'Media Info', 'garfunkel'),
+		 'default'           => __( 'Media Description', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -722,7 +775,7 @@ function splotbox_form_item_title() {
 	 if ( get_theme_mod( 'item_title') != "" ) {
 	 	echo get_theme_mod( 'item_title');
 	 }	else {
-	 	echo 'Title for the Item';
+	 	echo 'Title for the Media';
 	 }
 }
 
@@ -786,7 +839,7 @@ function splotbox_form_item_media_source() {
 	 if ( get_theme_mod( 'item_media_source') != "" ) {
 	 	echo get_theme_mod( 'item_media_source');
 	 }	else {
-	 	echo 'Source of Image';
+	 	echo 'Source of Media';
 	 }
 }
 
@@ -1050,10 +1103,21 @@ function splotbox_get_audioplayer( $url ) {
 function splotbox_get_videoplayer( $url ) {
 	// output the  video player
 	
-	$videoplayer = '
+	if ( is_in_url( 'archive.org', $url ) ) {
+	
+		$archiveorg_url = str_replace ( 'details' , 'embed' , $url );
+	
+		$videoplayer = '<iframe src="' . $archiveorg_url . '" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
+	
+	} else {
+	
+		$videoplayer = '
 <video controls="controls" class="video-player">
 	<source src="' . $url . '" type="video/mp4" />
 </video>' . "\n";
+
+	}
+	
 	return ($videoplayer);
 }
 
@@ -1111,7 +1175,8 @@ function url_is_video ( $url ) {
 	$allowables = array(
 					'youtube.com/watch?',
 					'youtu.be',
-					'vimeo.com'
+					'vimeo.com',
+					'archive.org'
 	);
 
 	// walk the array til we get a match

@@ -31,13 +31,23 @@
 							$content_parts = get_extended( $content );
 
 							// oEmbed part before <!--more--> tag
-							$media_url = $content_parts['main'];							
+							$media_url = $content_parts['main'];
+							
+							// can we embed this audio url?
+							if ( is_url_embeddable( $media_url ) ) {							
 
-							// Use oEmbed for YouTube, et al
-							$embed_code = wp_oembed_get( $media_url ); 
+								// Use oEmbed for YouTube, et al
+								$embed_code = wp_oembed_get( $media_url ); 
 					
-							echo $embed_code;
+								echo $embed_code;
 								
+							} else {
+								// then we have a sound file so show it as a player
+								
+								echo splotbox_get_videoplayer( $media_url );
+								
+							}
+													
 							?>
 						
 						</div><!-- .featured-media -->

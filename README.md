@@ -166,6 +166,17 @@ And then you will see a series of fields to edit for all form field elements. Fo
 
 ![](images/customizer-edit.jpg)
 
+## Browse by Licenses
+
+As of version 0.4 SPLOTbox provides links that display archives of content that have the same reuse license (if the feature is activated via the SPLOTbox options). Just make sure there is a Wordpress Page with the url / slug `/licensed` This page is created automatically on new sites, or simply by activating the theme again (activate the parent Garfunkel, then activate SPLOTbox again).
+
+![](images/licensed-options.jpg)
+
+This page (see [example](http://splot.ca/box/licensed/)) provides links to view all content with the licenses available on the share form. The url parameter `flavor=cc-by` yields all items with a Creative Commons CC By Attribution license [example](http://splot.ca/box/licensed/?flavor=cc-by).
+
+Use the page to find links to the ones you wish to use and add to your site's menus or widgets.
+
+
 
 ## Updating the Theme
 
