@@ -174,7 +174,7 @@ add_action( 'init', function() {
 
 	wp_embed_register_handler( 
 		'archiveorg', 
-		'#https://archive\.org/details/(.*)#i', 
+		'#https?://archive\.org/details/(.*)#i', 
 		'wp_embed_handler_archiveorg' 
 	);
 
