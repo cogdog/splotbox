@@ -172,9 +172,9 @@ As of version 0.4 SPLOTbox provides links that display archives of content that 
 
 ![](images/licensed-options.jpg)
 
-This page (see [example](http://splot.ca/box/licensed/)) provides links to view all content with the licenses available on the share form. The url parameter `flavor=cc-by` yields all items with a Creative Commons CC By Attribution license [example](http://splot.ca/box/licensed/?flavor=cc-by).
+This page (see [example](http://splot.ca/box/licensed/)) provides links to view all content with the licenses available on the share form. The url ending ing `licensed/cc-by` yields all items with a Creative Commons CC By Attribution license [example](http://splot.ca/box/licensed/cc-by).
 
-Use the page to find links to the ones you wish to use and add to your site's menus or widgets.
+Use the page to find links to the ones you wish to use and add to your site's menus or widgets. If the links do not work, you may have to go to **Settings** -- **Permalinks** and just click save to regenerate the settings.
 
 
 
