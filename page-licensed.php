@@ -71,7 +71,7 @@ if ( isset( $wp_query->query_vars['flavor'] ) ) {
 								<?php
 				
 									foreach ( $all_licenses as $abbrev => $title) {
-										echo '<li><a href="' . site_url() . '/licensed?flavor=' . $abbrev . '">' . $title . "</a></li>\n";
+										echo '<li><a href="' . site_url() . '/licensed/' . $abbrev . '">' . $title . "</a></li>\n";
 									}
 				
 								?>

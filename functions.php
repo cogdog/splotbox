@@ -199,9 +199,19 @@ function splotbox_queryvars( $qvars ) {
 	$qvars[] = 'flavor'; // flag for type of license
 	
 	return $qvars;
-}   
+}  
 
-
+ 
+// -----  rewrite rules for licensed pretty urls
+add_action('init', 'splotbox_rewrite_rules', 10, 0); 
+      
+function splotbox_rewrite_rules() {
+	$license_page = get_page_by_path('licensed');
+	
+	if ( $license_page ) {
+		add_rewrite_rule( '^licensed/([^/]*)/?',  'index.php?page_id=' . $license_page->ID . '&flavor=$matches[1]','top');	
+	}	
+}
 
 
 # -----------------------------------------------------------------
