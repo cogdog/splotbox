@@ -209,9 +209,11 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
-* Edit labels and instructions on the upload form using the Wordpress Customizer
-* A rich text editor can now be enabled for the description fields or you can opt to use the simpler plain text input text area for descriptions.
-* On new installs where no menus are defined, the theme generates a simple menu rather than listing all pages 
+
+* (0.4) Support for Internet Archive audio and video embed from URL. Page genertor of links to all content with the same reuse license
+* (0.3) Edit labels and instructions on the upload form using the Wordpress Customizer
+* (0.2) A rich text editor can now be enabled for the description fields or you can opt to use the simpler plain text input text area for descriptions.
+* (0.15) On new installs where no menus are defined, the theme generates a simple menu rather than listing all pages 
 
 
 
