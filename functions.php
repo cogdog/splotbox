@@ -1023,7 +1023,14 @@ function splotbox_attributor( $license, $work_title, $work_link, $work_creator='
 				)
 			 );
 	}
+}
 
+function splotbox_get_license_count( $the_license ) {
+
+
+	$lic_query = new WP_Query( array( 'post_status' => 'publish', 'meta_key' => 'license', 'meta_value' =>  $the_license ) );
+
+   return $lic_query->found_posts;
 
 }
 
