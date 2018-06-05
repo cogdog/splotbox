@@ -59,7 +59,7 @@
 			<?php endif; 
 			
 			if ( $pos = strpos( $post->post_content, '<!--more-->' ) ) {
-				echo '<p class="post-excerpt">' . mb_strimwidth( $content_parts['extended'], 0, 200, '...' ) . '</p>';
+				echo '<p class="post-excerpt">' . wp_strip_all_tags( mb_strimwidth( $content_parts['extended'], 0, 200, '...' ), true ) . '</p>';
 			} else {
 				the_excerpt();
 			}

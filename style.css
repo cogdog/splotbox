@@ -2,7 +2,7 @@
 Theme Name: 	Splotbox
 Theme URI: 		http://github.com/cogdog/splotbox
 Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		0.4
+Version: 		0.6
 Template:       garfunkel
 Author: 		CogDog
 Author URI: 	http://cog.dog/
@@ -19,7 +19,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
 /* full player */
 .audio-player {
     width: 100%;
-	padding: 4em 0 0;
 	background-color: #282828;
 }
 
