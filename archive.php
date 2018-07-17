@@ -72,6 +72,8 @@
 		
 		</div><!-- .content -->
 	
+	<?php get_sidebar(); ?>
+	
 	</div><!-- .wrapper-inner -->
 
 </div><!-- .wrapper -->

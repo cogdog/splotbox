@@ -55,6 +55,8 @@
 			</div><!-- .archive-nav -->
 		
 		<?php endif; ?>
+		
+		<?php get_sidebar(); ?>
 	
 	</div><!-- .wrapper-inner -->
 	
