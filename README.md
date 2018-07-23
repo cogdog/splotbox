@@ -23,10 +23,11 @@ This is an improvement and enhancement of the first generation [TRU Sounder SPLO
 
 ### See It In Action
 
+* [GEOL 109  The Earth and Life Through Time](http://sites.usask.ca/geol109/) Student-Curated Geology Video Collection from the University of Saskatchewan
 * [OWLTECH Perspectives](http://perspectives.owlteh.org/) Open Web For Learning & Teaching Expertise Hub -- a series of videos contributed by educators and learners who are actively engaged in using the Open Web within their practice.
-* [SPLOTbox](http://splot.ca/box/) - the development and very first site, stuff can and will break
+* [SPLOTbox](http://splot.ca/box/) - the demo site
 
-And if you make a SPLOTbox site, please please pretty *please* fork this repo to edit this Readme with a link to your new site.
+If you make a SPLOTbox site, please please pretty *please* fork this repo to edit this Readme with a link to your new site, submit a pull request to send to this site.
 
 If you have problems, feature suggestions, piles of unmarked bills to send my way, please [contact me via the issues area](https://github.com/cogdog/splotbox/issues) on this repo.
 
