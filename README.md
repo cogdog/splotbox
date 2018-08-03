@@ -24,6 +24,7 @@ This is an improvement and enhancement of the first generation [TRU Sounder SPLO
 ### See It In Action
 
 * [GEOL 109  The Earth and Life Through Time](http://sites.usask.ca/geol109/) Student-Curated Geology Video Collection from the University of Saskatchewan
+* [OpenMed Video Collection](https://videos.openmedproject.eu/) Audiovisual OER produced for the OpenMed Project
 * [OWLTECH Perspectives](http://perspectives.owlteh.org/) Open Web For Learning & Teaching Expertise Hub -- a series of videos contributed by educators and learners who are actively engaged in using the Open Web within their practice.
 * [SPLOTbox](http://splot.ca/box/) - the demo site
 
