@@ -71,7 +71,14 @@ if ( isset( $wp_query->query_vars['flavor'] ) ) {
 								<?php
 				
 									foreach ( $all_licenses as $abbrev => $title) {
-										echo '<li><a href="' . site_url() . '/licensed/' . $abbrev . '">' . $title . '</a> (' . splotbox_get_license_count( $abbrev ) . ")</li>\n";
+									
+										// get number of items with this license
+										$lcount = splotbox_get_license_count( $abbrev ); 
+										
+										// show if we have some
+										if ( $lcount > 0 ) {
+											echo '<li><a href="' . site_url() . '/licensed/' . $abbrev . '">' . $title . '</a> (' . $lcount . ")</li>\n";
+										}
 									}
 				
 								?>
