@@ -342,14 +342,6 @@ class splotbox_Theme_Options {
 		'std'    =>  splotbox_author_user_check( 'sharer' ),
 		'type'    => 'heading'
 		);	
-
-		$this->settings['pkey'] = array(
-			'title'   => __( 'Author Account Password' ),
-			'desc'    => __( 'When you create the account, we suggest using the generated strong password, make sure you save it so you can add it here.' ),
-			'std'     => '',
-			'type'    => 'password',
-			'section' => 'general'
-		);
 			
 		/* Reset
 		===========================================*/

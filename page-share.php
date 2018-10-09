@@ -51,6 +51,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
  		$wMediaType = 				url_is_media_type($wMediaURL); 	
  		$wCats = 					( isset ($_POST['wCats'] ) ) ? $_POST['wCats'] : array();
  		$wLicense = 				$_POST['wLicense'];
+ 		if ( isset ($_POST['wAuthor'] ) ) $post_id = $_POST['post_id'];
 
  		// let's do some validation, store an error message for each problem found
  		$errors = array();
@@ -129,15 +130,20 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 
 			if ( splotbox_option('new_item_status') == 'publish' ) {
 				// feed back for published item
-				$feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been published!  You can <a href="'. site_url() . '/?p=' . $post_id   . '">view it now</a>. Or you can <a href="' . site_url() . '/share">share another</a>.';
+				$feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been published!  You can <a href="'. get_permalink( $post_id ) . '">view it now</a>.  Or you can <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';
+				// $feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been published!  You can <a href="'. site_url() . '/?p=' . $post_id   . '">view it now</a>. Or you can <a href="' . site_url() . '/share">share another</a>.';
 			
 			} else {
 				// feed back for item left in draft
-				$feedback_msg = 'Your shared media item <strong>' . $wTitle . '</strong> has been submitted as a draft. You can <a href="'.  site_url() . '/?p=' . $post_id   . '">preview it now</a>. Once it has been approved by a moderator, everyone else can see it.';	
+				$feedback_msg = 'Your entry for <strong>' . $wTitle . '</strong> has been submitted as a draft. Once it has been approved by a moderator, everyone can see it at <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';	
+				// $feedback_msg = 'Your shared media item <strong>' . $wTitle . '</strong> has been submitted as a draft. You can <a href="'.  site_url() . '/?p=' . $post_id   . '">preview it now</a>. Once it has been approved by a moderator, everyone else can see it.';	
 			
 			}		
 
-
+			// logout the special user
+			if ( splotbox_check_user()=== true ) wp_logout();
+			
+			
 			if ( splotbox_option( 'notify' ) != '') {
 			// Let's do some EMAIL!
 		

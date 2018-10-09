@@ -133,27 +133,17 @@ Enabling the **Cut and Paste Attribution** adds to the display a field with an a
 
 ## Author Account Setup
 ![](images/author-account-none.jpg)
+ 
+To provide access to the media uploader, this site uses a Wordpress Authoring Role account that is logged into invisibly to your site. So your site needs a user account with a name of **sharer** and a role of **Author**. If this site is on a mulitsite Wordpress install, and the SPLOTBox has been used on another site, the `sharer` account already exists, so you need to add it to the site via the Author tools. 
 
-To provide access to the media uploader this site uses a Wordpress Authoring  account that is logged into invisibly to your site visitors (for anyone logged in with an Editor or Administrator account, like you, this account is not used). So your site needs an active user with a name of **sharer** and a role of **Author**.
-
-If this account does not exist, create it now. If it does, use the instructions below to generate a new password and then add it to the SPLOTbox Options.
+If this account does not exist, create it now.
 
 ![](images/add-author.jpg)
 
-You can follow the link to create an account; for an email you can use a fictitious one on your domain. We suggest using the strong password that Wordpress suggests. Copy that password, and perhaps save it in a safe place. Uncheck the box about sending the new user an email. This user never reads email.
-
-On a stand-alone Wordpress install of the SPLOTbox, you can just paste it into the option for the password field for the Splotbox options (click the **Show** button to reveal the editing field).
-
-![](images/author-add-multisite.jpg)
-
-If this site is on a mulitsite Wordpress install and the SPLOTbox has been used on another internal site, the `sharer` account already exists. So you need to add it to the site via the Authoring tools. However, you still have to enter the password, so make sure you know the passord that was used on another site. If you do not have access to it, you will have to reset the password at the Network Admin level, and then update the password on the options of all sites using the SPLOTbox.
-
+You can follow the link to create an account; for an email you can use a fictitious one on your domain. We suggest using the strong password that Wordpress suggests.
 ![](images/authoring-account.jpg)
 
-When everything is set up correctly, the options will indicate that you have been a good options configurator! 
-
-If the account is incorrectly set up, when trying the SPLOTbox on a site where you are *not* logged in as an Administrator or Editor, when you try to access the collect form, you will see a Wordpress login. This nearly always means the password for the `sharer` user does not match the settings in the options.
-
+** Note: As of version 0.9 of SPLOTBox you no longer need to copy the password into the options page. ** If you are using a version of the theme that has a password field in the options, maybe it's a good time to update? 
 ## Customize the Share form
 
 You can now customize the field labels and the descriptions of the form where people submit new items to a SPLOTbox site. On your site navigate to the share form, and  activate the Wordpress Customizer from the admin bar. 
