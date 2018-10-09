@@ -286,30 +286,38 @@ function login_link( $url ) {
  
  
 // Auto Login
-// create a link that can automatically log in as a specific user, bypass login screen
-// -- h/t  http://www.wpexplorer.com/automatic-wordpress-login-php/
 
-add_action( 'after_setup_theme', 'splotbox_autologin');
+function splot_redirect_url() {
+	// where to send them after login ok
+	return ( site_url('/') . 'share' );
+}
 
-function splotbox_autologin() {
+function splot_user_login( $user_login = 'sharer' ) {
+	// login the special user account to allow authoring
 	
-	// URL Paramter to check for to trigger login
-	if ( isset($_GET['autologin'] ) AND $_GET['autologin'] == 'sharer') {
+	// check for the correct user
+	$autologin_user = get_user_by( 'login', $user_login ); 
 	
-		// ACCOUNT USERNAME TO LOGIN TO
-		$creds['user_login'] = 'sharer';
+	if ( $autologin_user ) {
+	
+		// just in case we have old cookies
+		wp_clear_auth_cookie(); 
 		
-		// ACCOUNT PASSWORD TO USE- stored as option
-		$creds['user_password'] = splotbox_option('pkey');
-			
-		$creds['remember'] = true;
-		$autologin_user = wp_signon( $creds, is_ssl() );
+		// set the user directly
+		wp_set_current_user( $autologin_user->id, $autologin_user->user_login );
 		
-		if ( !is_wp_error($autologin_user) ) {
-				wp_redirect ( site_url() . '/share' );
-		} else {
-				die ('Bad news! login error: ' . $autologin_user->get_error_message() );
-		}
+		// new cookie
+		wp_set_auth_cookie( $autologin_user->id);
+		
+		// do the login
+		do_action( 'wp_login', $autologin_user->user_login );
+		
+		// send 'em on their way
+		wp_redirect( splot_redirect_url() );
+		
+	} else {
+		// uh on, problem
+		die ('Bad news. Looks like there is a missing account for "' . $user_login . '".');
 	}
 }
 
@@ -1096,7 +1104,7 @@ function splot_is_menu_location_used( $location = 'primary' ) {
 function splot_default_menu() {
 
 	// site home with trailing slash
-	$splot_home = home_url('/');
+	$splot_home = site_url('/');
   
  	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . 'share' . '">Share</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
   
