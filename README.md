@@ -27,7 +27,10 @@ This is an improvement and enhancement of the first generation [TRU Sounder SPLO
 * [GEOL 109  The Earth and Life Through Time](http://sites.usask.ca/geol109/) Student-Curated Geology Video Collection from the University of Saskatchewan
 * [OpenMed Video Collection](https://videos.openmedproject.eu/) Audiovisual OER produced for the OpenMed Project
 * [OWLTECH Perspectives](http://perspectives.owlteh.org/) Open Web For Learning & Teaching Expertise Hub -- a series of videos contributed by educators and learners who are actively engaged in using the Open Web within their practice.
+* [MURSDLeads Author Series](http://eduquinn.com/Interviews/) interviews with leading education authors
 * [SPLOTbox](http://splot.ca/box/) - the demo site
+
+[Find more in The Google](https://www.google.ca/search?q="SPLOTbox+theme+is+based+on+Garfunkel"+-site:splot.ca)?
 
 If you make a SPLOTbox site, please please pretty *please* fork this repo to edit this Readme with a link to your new site, submit a pull request to send to this site.
 
