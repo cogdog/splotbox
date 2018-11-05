@@ -70,6 +70,10 @@ In its settings, restrict access to **Editors and Administrators** or just **Adm
 
 (7) You might want to set up in advance some Wordpress Categories for your Items; in the SPLOTbox options you will choose one as default (and for all that is holy, *change the name of the Uncategorized category*!
 
+## Updating the Theme
+
+Download the latest version of the theme, expand the archive, and then replace all files in your server under `wp-content/themes/splotbox` via ftp/sftp. Or if you prefer not to mess around with file transfer, install the plugin [Easy Theme and Plugin Upgrades](https://wordpress.org/plugins/easy-theme-and-plugin-upgrades/) which allows you to update the theme by uploading the zip file again like when you first installed (because wordpress does not provide this capability).
+
 ## Setting Up The Site Via SPLOTbox options
 
 These instructions are a reference for the settings within the SPLOTbox; if you are reading this, you got as far as installing and activating the theme. Below are basic instructions for all of the theme options, which, if this were designed well, you likely do not need me to explain, but #BecauseDocumentation here we go.
