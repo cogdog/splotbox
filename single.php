@@ -38,11 +38,9 @@
 
 								// Use oEmbed for YouTube, et al
 								$embed_code = wp_oembed_get( $media_url ); 
-					
-								echo $embed_code;
 								
 							} else {
-								// then we have a sound file so show it as a player
+								// then we have a video file so show it as a player
 								
 								echo splotbox_get_videoplayer( $media_url );
 								
@@ -280,41 +278,50 @@
 								<div class="tab-post-meta tab">
 								
 									<ul class="post-info-items fright">
+									
+										<?php if ($wAuthor):?>
 										<li>
 											<div class="genericon genericon-user"></div>
-											Shared by: <?php echo $wAuthor ?>
+											<?php echo $wAuthor ?>
 										</li>
+										<?php endif?>
+										
 										<li>
 											<div class="genericon genericon-time"></div>
 											<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>">
-												Published: <?php the_date( get_option('date-format') ); ?>
+												<?php the_date( get_option('date-format') ); ?>
 											</a>
 										</li>
 										
 										<?php 
 											
-											if ( $wCredit ) echo '<li><div class="genericon genericon-home"></div> Source: ' .  make_links_clickable( $wCredit ) . '</li>';
+											if ( $wCredit ) echo '<li><div class="genericon genericon-info"></div> ' .  make_links_clickable( $wCredit ) . '</li>';
 											
 											?>
 
+										<?php if ($media_url):?>
 										<li>
-											<div class="genericon genericon-link"></div>
-											<a href="<?php echo $media_url; ?>" target="blank"><?php echo $media_url; ?></a>
+											<div class="genericon genericon-link"></div><a href="<?php echo $media_url; ?>" target="blank"><?php echo $media_url; ?></a>
 										</li>
-																				
+										<?php endif?>
+										
+										<?php if ($wLicense):?>										
 										<li>
 											<div class="genericon genericon-flag"></div>
 											<?php echo splotbox_the_license( $wLicense ); ?>
 										</li>										
+										<?php endif?>
 										
-										<li>
-											<div class="genericon genericon-category"></div>
-											<?php the_category(', '); ?>
-										</li>
-										
-										<?php if ( has_tag() ) : ?>
+										<?php if ( splotbox_option('show_cats') ):?> 
 											<li>
-												<div class="genericon genericon-tag"></div>
+												<div class="genericon genericon-category"></div> 
+												<?php the_category(', '); ?>
+											</li>
+										<?php endif?>
+										
+										<?php if ( has_tag() AND splotbox_option('show_tags') ) : ?>
+											<li>
+												<div class="genericon genericon-tag"></div>  
 												<?php the_tags('', ', '); ?>
 											</li>									
 											

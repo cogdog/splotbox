@@ -92,8 +92,7 @@ function splotbox_setup () {
 add_action( 'after_setup_theme', 'splotbox_load_theme_options', 9 );
 
 // change the name of admin menu items from "New Posts"
-// -- h/t http://wordpress.stackexchange.com/questions/8427/change-order-of-custom-columns-for-edit-panels
-// and of course the Codex http://codex.wordpress.org/Function_Reference/add_submenu_page
+// -- h/t https://wordpress.stackexchange.com/a/9224/14945
 
 add_action( 'admin_menu', 'splotbox_change_post_label' );
 add_action( 'init', 'splotbox_change_post_object' );
@@ -167,29 +166,6 @@ function splotbox_order_items( $query ) {
 		
 		}
 	}
-}
-
-// Set up oembed for Archive.org videos
-add_action( 'init', function() {
-
-	wp_embed_register_handler( 
-		'archiveorg', 
-		'#https?://archive\.org/details/(.*)#i', 
-		'wp_embed_handler_archiveorg' 
-	);
-
-} );
-
-
-function wp_embed_handler_archiveorg( $matches, $attr, $url, $rawattr ) {
-
-	$embed = sprintf(
-			'<iframe src="https://archive.org/embed/%1$s" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>', 
-			esc_attr( $matches[1] )
-			
-			);
-
-		return apply_filters( 'embed_archiveorg', $embed, $matches, $attr, $url, $rawattr );
 }
 
 // -----  add allowable url parameters
@@ -1060,6 +1036,13 @@ function add_splotbox_scripts() {
         wp_get_theme()->get('Version')
     );
 
+
+	// register and enqueue styles for icons and google fonts because parent theme has it wired wrong
+	wp_register_style( 'splotbox_googleFonts', '//fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,700italic|Playfair+Display:400,900|Crimson+Text:700,400italic,700italic,400' );
+	wp_register_style( 'splotbox_genericons', get_stylesheet_directory_uri() . '/genericons/genericons.css' );
+
+	wp_enqueue_style( 'splotbox_style', get_stylesheet_uri(), array( 'splotbox_googleFonts', 'splotbox_genericons' ) );
+			    
  	// use these scripts just our form page
  	if ( is_page('share') ) { 
     
@@ -1134,7 +1117,35 @@ function splotbox_get_videoplayer( $url ) {
 	
 		$videoplayer = '<iframe src="' . $archiveorg_url . '" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
 	
+	} elseif  ( is_in_url( 'spark.adobe.com/video/', $url ) ) {
+			
+		// get string position right before ID
+		$pos = strpos( $url, 'video/');
+		$spark_id = substr($url, $pos + 6) ;
+		$spark_id = rtrim( $spark_id, '/');
+		
+
+		// spark video iframe code
+		$videoplayer = '<iframe src="https://spark.adobe.com/video/' . $spark_id . '/embed"  width="960" height="540" frameborder="0" allowfullscreen></iframe>';
+
+
+	} elseif  ( is_in_url( 'spark.adobe.com/page/', $url ) ) {
+	
+		// get string position right before ID
+		$pos = strpos( $url, 'page/');
+		$spark_id = substr($url, $pos + 5) ;
+		$spark_id = rtrim( $spark_id, '/');
+		
+
+
+		// spark page embed code
+		$videoplayer = '<script id="asp-embed-script" data-zindex="1000000" type="text/javascript" charset="utf-8" src="https://spark.adobe.com/page-embed.js"></script><a class="asp-embed-link" href="https://spark.adobe.com/page/' . $spark_id . '/" target="_blank"><img src="https://spark.adobe.com/page/' . $spark_id . '/embed.jpg" alt="" style="width:100%" border="0" /></a>';
+
+
+	
 	} else {
+	
+	
 	
 		$videoplayer = '
 <video controls="controls" class="video-player">
@@ -1201,7 +1212,9 @@ function url_is_video ( $url ) {
 					'youtube.com/watch?',
 					'youtu.be',
 					'vimeo.com',
-					'archive.org'
+					'archive.org',
+					'spark.adobe.com/page',
+					'spark.adobe.com/video'
 	);
 
 	// walk the array til we get a match
@@ -1226,7 +1239,7 @@ function is_url_embeddable( $url ) {
 					'youtube.com/watch?',
 					'youtu.be',
 					'vimeo.com', 
-					'soundcloud.com',
+					'soundcloud.com'
 	);
 	
 	// walk the array til we get a match

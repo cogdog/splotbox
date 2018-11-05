@@ -65,22 +65,20 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
  			$errors[] = '<strong>Malformed URL</strong> - <code>' . $wMediaURL . '</code> does not appear to be a full URL; it must begin with <code>http://</code> or <code>https://</code>' ; 
  		
  		} elseif ( !($wMediaType) ) {
- 			$errors[] = '<strong>Wrong Media Type</strong> - <code>' . $wMediaURL . '</code> is not a link to an audio file, a SoundCloud track, or video from YouTube, Vimeo, or Animoto' ; 
+ 			$errors[] = '<strong>Wrong Media Type</strong> - <code>' . $wMediaURL . '</code> is not a link to an audio file, a SoundCloud track, or video from YouTube, Vimeo, the Internet Archive or an Adobe Spark page ot video.' ; 
  		}
  		
- 		if ( $wTitle == '' ) $errors[] = '<strong>Title Missing</strong> - enter an interesting title.'; 
+ 		if ( $wTitle == '' ) $errors[] = '<strong>Title Missing</strong> - enter a descriptive title for this item when published on this site.'; 
 
  		if (  splotbox_option('use_caption') == '2' AND $wText == '' ) $errors[] = '<strong>Description Missing</strong> - please enter a description for this media item.';
  
   		if (  splotbox_option('use_source') == '2' AND $wSource == '' ) $errors[] = '<strong>Source Missing</strong> - please the name or description for the source of this media content.';
   		
   		if (  splotbox_option('use_license') == '2' AND $wLicense == '--' ) $errors[] = '<strong>License Not Selected</strong> - select an appropriate license for this item.'; 
-
-
  		
  		if ( count($errors) > 0 ) {
  			// form errors, build feedback string to display the errors
- 			$feedback_msg = 'Sorry, but there are a few errors in your information. Please correct and try again. We really want to add your item.<ul>';
+ 			$feedback_msg = 'Sorry, but there are a few errors in your information. Please correct and try again. We really want to add your item! <ul>';
  			
  			// Hah, each one is an oops, get it? 
  			foreach ($errors as $oops) {
@@ -136,7 +134,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			} else {
 				// feed back for item left in draft
 				$feedback_msg = 'Your entry for <strong>' . $wTitle . '</strong> has been submitted as a draft. Once it has been approved by a moderator, everyone can see it at <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';	
-				// $feedback_msg = 'Your shared media item <strong>' . $wTitle . '</strong> has been submitted as a draft. You can <a href="'.  site_url() . '/?p=' . $post_id   . '">preview it now</a>. Once it has been approved by a moderator, everyone else can see it.';	
+	
 			
 			}		
 
@@ -245,14 +243,15 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			
 		<form  id="splotboxform" method="post" action="" enctype="multipart/form-data">
 
-				<fieldset>
+				<fieldset id="theUpload">
 					<legend><?php splotbox_form_item_upload() ?></legend>
 					
 					<label for="wMediaURL"><?php _e('Enter Audio or Video URL', 'garfunkel' ) ?> <span class="required">*</span></label><br />
-					<p>Embed a media player for audio or video content that exists at certain external URLs. For audio content this includes any valid web link to a sound file (links to <code>.mp3 .m4a .ogg</code> files). URLs can also be used for content hosted in Soundcloud, YouTube, Vimeo, or the Internet Archive.</p>
+					<p>Embed a media player for audio or video content that is published on Soundcloud, YouTube, Vimeo, the Internet Archive, or Adobe Spark Pages/Videos).  The URL you enter should be the one that displays the content from the service. For audio content you can also use  valid web link to a sound file (links to <code>.mp3 .m4a .ogg</code> files).</p>
 					
-					<p>Enter a full web address for the item (including http:// or https://) <a href="<?php echo $wMediaURL?>" class="pretty-button pretty-button-gray" id="testURL" target="_blank">Test Link</a></p>
-					<input type="text" name="wMediaURL" id="wMediaURL" class="required" value="<?php echo $wMediaURL; ?>" tabindex="1" />
+					<p>Enter a full web address for the item (including http:// or https://)</p>
+					<input type="text" name="wMediaURL" id="wMediaURL" class="required" value="<?php echo $wMediaURL; ?>" tabindex="1" /> 
+					<p>It's a good idea to  <a href="<?php echo $wMediaURL?>" class="pretty-button pretty-button-gray" id="testURL" target="_blank">Test Link</a>  to make sure it works!</p>
 
 
 					<?php if (  splotbox_option('use_upload_media')  == '1') :?>
@@ -269,7 +268,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 						<?php endif?>
 				</fieldset>						
 
-				<fieldset>
+				<fieldset id="theMedia">
 					<legend>Media Info</legend>
 					<label for="wTitle"><?php splotbox_form_item_title() ?> <span class="required">*</span></label><br />
 					<p><?php splotbox_form_item_title_prompt() ?> </p>
@@ -300,36 +299,43 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 
 					<?php endif?>
 
-					<label for="wCats"><?php splotbox_form_item_categories() ?></label>
-					<p><?php splotbox_form_item_categories_prompt() ?></p>
-					<?php 
-					
-					// set up arguments to get all categories 
-					$args = array(
-						'hide_empty'               => 0,
-					); 
-					
-					$article_cats = get_categories( $args );
 
-					foreach ( $article_cats as $acat ) {
+					<?php if (splotbox_option('show_cats') ):?> 
 					
-						$checked = ( in_array( $acat->term_id, $wCats) ) ? ' checked="checked"' : '';
+						<label for="wCats"><?php splotbox_form_item_categories() ?></label>
+						<p><?php splotbox_form_item_categories_prompt() ?></p>
+						<?php 
+					
+						// set up arguments to get all categories 
+						$args = array(
+							'hide_empty'               => 0,
+						); 
+					
+						$article_cats = get_categories( $args );
+
+						foreach ( $article_cats as $acat ) {
+					
+							$checked = ( in_array( $acat->term_id, $wCats) ) ? ' checked="checked"' : '';
 						
-						echo '<br /><input type="checkbox" name="wCats[]" tabindex="4" value="' . $acat->term_id . '"' . $checked . '> ' . $acat->name;
-					}
+							echo '<br /><input type="checkbox" name="wCats[]" tabindex="4" value="' . $acat->term_id . '"' . $checked . '> ' . $acat->name;
+						}
 					
-					?>
+						?>
+					<?php endif?>
 					
-					<label for="wTags"><?php  splotbox_form_item_tags() ?></label>
-					<p><?php  splotbox_form_item_tags_prompt() ?></p>
+					<?php if (splotbox_option('show_tags') ):?> 
+						<label for="wTags"><?php  splotbox_form_item_tags() ?></label>
+						<p><?php  splotbox_form_item_tags_prompt() ?></p>
 					
-					<input type="text" name="wTags" id="wTags" value="<?php echo $wTags; ?>" tabindex="5"  />
+						<input type="text" name="wTags" id="wTags" value="<?php echo $wTags; ?>" tabindex="5"  />
+					
+					<?php endif?>
 				</fieldset>
 				
 
 				<?php if ( splotbox_option('use_source') OR splotbox_option('use_license') ):?>
 
-				<fieldset>
+				<fieldset id="theAttribution">
 					<legend>Media Attribution / License</legend>
 					
 					
@@ -338,9 +344,9 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
   						$required = (splotbox_option('use_source') == 2) ? '<span class="required">*</span>' : '';
   						
   					?>
-					<label for="wSource"><?php splotbox_form_item_media_source() ?>   <?php echo $required?></label><br />
-					<p><?php splotbox_form_item_media_source_prompt() ?></p>
-					<input type="text" name="wSource" id="wSource" class="required" value="<?php echo $wSource; ?>" tabindex="6" />
+						<label for="wSource"><?php splotbox_form_item_media_source() ?>   <?php echo $required?></label><br />
+						<p><?php splotbox_form_item_media_source_prompt() ?></p>
+						<input type="text" name="wSource" id="wSource" class="required" value="<?php echo $wSource; ?>" tabindex="6" />
 					
 					<?php endif?>
 
@@ -349,25 +355,25 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
   						$required = (splotbox_option('use_license') == 2) ? '<span class="required">*</span>' : '';
   					?>
   					
-					<label for="wLicense"><?php splotbox_form_item_license() ?> <?php echo $required?></label><br />
-					<p><?php splotbox_form_item_license_prompt() ?></p>
-					<select name="wLicense" id="wLicense" tabindex="7" />
-					<option value="--">Select a License</option>
-					<?php
-						foreach ($all_licenses as $key => $value) {
-							$selected = ( $key == $wLicense ) ? ' selected' : '';
-							echo '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
-						}
-					?>
+						<label for="wLicense"><?php splotbox_form_item_license() ?> <?php echo $required?></label><br />
+						<p><?php splotbox_form_item_license_prompt() ?></p>
+						<select name="wLicense" id="wLicense" tabindex="7" />
+						<option value="--">Select a License</option>
+						<?php
+							foreach ($all_licenses as $key => $value) {
+								$selected = ( $key == $wLicense ) ? ' selected' : '';
+								echo '<option value="' . $key . '"' . $selected . '>' . $value . '</option>';
+							}
+						?>
 					
-					</select>
+						</select>
 					
 					<?php endif?>
 					
 				</fieldset>	
 				<?php endif?>				
 
-				<fieldset>
+				<fieldset  id="theAuthor">
 					<legend>Your Info</legend>
 					<label for="wAuthor"><?php splotbox_form_item_author()?> <span class="required">*</span></label><br />
 					<p><?php splotbox_form_item_author_prompt()?></p>
@@ -383,7 +389,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			
 				<fieldset>	
 				<legend>Share This Item</legend>
-				<p>Review your information, because once you click the button below, it is sent to the site.</p>
+				<p>Review your information, because once you click the button below it is sent and cannot be edited.</p>
 				<?php  wp_nonce_field( 'splotbox_form_make', 'splotbox_form_make_submitted' ); ?>
 				
 				<input type="submit" value="Submit Media" id="makeit" name="makeit" tabindex="12">

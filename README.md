@@ -169,7 +169,7 @@ As of version 0.4 SPLOTbox provides links that display archives of content that 
 
 ![](images/licensed-options.jpg)
 
-This page (see [example](http://splot.ca/box/licensed/)) provides links to view all content with the licenses available on the share form. The url ending ing `licensed/cc-by` yields all items with a Creative Commons CC By Attribution license [example](http://splot.ca/box/licensed/cc-by).
+This page (see [example](http://splot.ca/box/licensed/)) provides links to view all content with the licenses available on the share form (it only displays options that have media using them). The url ending in `licensed/cc-by` yields all items with a Creative Commons CC By Attribution license [example](http://splot.ca/box/licensed/cc-by).
 
 Use the page to find links to the ones you wish to use and add to your site's menus or widgets. If the links do not work, you may have to go to **Settings** -- **Permalinks** and just click save to regenerate the settings.
 
@@ -206,7 +206,8 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
-
+* (1.0) Support added to allow submission of URLs for Adobe Spark Pages and Videos. Options added to hide form inputs for categories and tags if not needed. Fixed theme to use parent theme fonts and icons.
+* (0.6) Template added to display media by type of open license applied
 * (0.4) Support for Internet Archive audio and video embed from URL. Page genertor of links to all content with the same reuse license
 * (0.3) Edit labels and instructions on the upload form using the Wordpress Customizer
 * (0.2) A rich text editor can now be enabled for the description fields or you can opt to use the simpler plain text input text area for descriptions.

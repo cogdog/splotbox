@@ -1,4 +1,4 @@
-/* Comparator: SPLOTbox Scripts
+/* SPLOTbox Scripts
    code by Alan Levine @cogdog http://cogdog.info
    
    media uploader scripts somewhat lifted from
@@ -27,23 +27,25 @@ function isAllowableUploadLink(url) {
 
 jQuery(document).ready(function() { 
 	// called for via click of upload button in theme options
-	
-	
+
 	// hide the test url button
-    if( !jQuery("#wMediaURL").val() ) { jQuery("#testURL").hide(); }
+    if( !jQuery("#wMediaURL").val() ) { 
+    	jQuery("#testURL").removeAttr('href'); 
+    	jQuery("#testURL").css( 'cursor', 'pointer' );
+    }
 
 	// show test url button if url field changed
 	jQuery("#wMediaURL").blur(function() {
 		if(this.value.replace(/\s/g, "") === "") {
 		   // hide button
-		   jQuery("#testURL").hide();
+		   jQuery("#testURL").removeAttr('href');
 		} else {
 			//show test button, set its href value
 		   jQuery("#testURL").attr("href", jQuery("#wMediaURL").val());
-		   jQuery("#testURL").show();
 		   
 		}
 	});
+
 
 	jQuery(document).on('click', '.upload_image_button', function(e){
 

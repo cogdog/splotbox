@@ -204,6 +204,23 @@ class splotbox_Theme_Options {
 			'type'    => 'heading'
 		);
 
+
+  		// Build array to hold options for select, an array of post categories
+  		
+  		
+		$this->settings['show_cats'] = array(
+			'section' => 'general',
+			'title'   => __( 'Show the categories menu on share form and list on item displays?'),
+			'desc'    => '',
+			'type'    => 'radio',
+			'std'     => '1',
+			'choices' => array (
+							'0' => 'No',
+							'1' => 'Yes'
+					)
+		);
+
+
   		// Build array to hold options for select, an array of post categories
 		// Walk those cats, store as array index=ID 
 		
@@ -220,6 +237,19 @@ class splotbox_Theme_Options {
 			'std'     => get_option('default_category'),
 			'choices' => $cat_options
 		);	
+
+		$this->settings['show_tags'] = array(
+			'section' => 'general',
+			'title'   => __( 'Show the tags entry on collection form and list on item displays?'),
+			'desc'    => '',
+			'type'    => 'radio',
+			'std'     => '1',
+			'choices' => array (
+							'0' => 'No',
+							'1' => 'Yes'
+					)
+		);
+
 
 		$this->settings['allow_comments'] = array(
 			'section' => 'general',
