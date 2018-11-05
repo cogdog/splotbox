@@ -196,7 +196,7 @@ class splotbox_Theme_Options {
 		);
 		
 		// ------- single item display
-		$this->settings['single_heading'] = array(
+		$this->settings['single_item_heading'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
 			'desc'	 => 'Single Item Display',
@@ -352,17 +352,6 @@ class splotbox_Theme_Options {
 				'1' => 'Yes',
 			)
 		);		
-
-
-		// ------- single item display
-		$this->settings['single_heading'] = array(
-			'section' => 'general',
-			'title'   => '', // Not used for headings.
-			'desc'	 => 'Author Account',
-			'std'    => '',
-			'type'    => 'heading'
-		);
-
 
 
 		$this->settings['authorcheck'] = array(
