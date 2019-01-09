@@ -1,6 +1,8 @@
 <?php
 // ------------------------ check vars ------------------------
 
+$page_id = $post->ID;
+
 // all allowable licenses for this theme
 $all_licenses = splotbox_get_licences();
 
@@ -14,6 +16,8 @@ if ( isset( $wp_query->query_vars['flavor'] ) ) {
 	// no license in query string
 	$license_flavor = 'none';
 }
+
+$paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 ?>
 
 <?php get_header(); ?>
@@ -102,17 +106,24 @@ if ( isset( $wp_query->query_vars['flavor'] ) ) {
 						<div class="clear"></div>
 					
 					</div><!-- .post-inner -->
-			</div><!-- .content -->
+			</div><!-- .post -->
 			
 		<?php else:?>
 	
 			<?php
 				$args = array(
 				'meta_key'   => 'license',
-				'meta_value' => $license_flavor
+				'meta_value' => $license_flavor,
+				'paged'         => $paged,
 			);
 	
 			$my_query = new WP_Query( $args );
+
+			// Pagination steps
+			$temp_query = $wp_query;
+			$wp_query   = NULL;
+			$wp_query   = $my_query;		
+
 			?>
 			
 		<div class="page-title">
@@ -125,7 +136,7 @@ if ( isset( $wp_query->query_vars['flavor'] ) ) {
 			
 			if ( "1" < $my_query->max_num_pages ) : ?>
 			
-				<span><?php printf( __('Page %s of %s', 'fukasawa'), $paged, $my_query->max_num_pages ); ?></span>
+				<span><?php printf( __('Page %s of %s', 'garfunkel'), $paged, $my_query->max_num_pages ); ?></span>
 				
 				<div class="clear"></div>
 			
@@ -152,9 +163,19 @@ if ( isset( $wp_query->query_vars['flavor'] ) ) {
 				
 					<div class="archive-nav">
 					
-						<?php echo get_next_posts_link( '&laquo; ' . __( 'Older items', 'garfunkel' ) ); ?>
+						<?php echo get_next_posts_link( '&laquo; ' . __( 'Older Items', 'garfunkel' ) ); ?>
 							
-						<?php echo get_previous_posts_link( __( 'Newer items', 'garfunkel' ) . ' &raquo;' ); ?>
+						<?php echo get_previous_posts_link( __( 'Newer Items', 'garfunkel' ) . ' &raquo;' ); ?>
+						
+						<?php
+						// Reset postdata
+						wp_reset_postdata();
+
+						// Reset main query object
+						$wp_query = NULL;
+						$wp_query = $temp_query;
+						?>
+
 						
 						<div class="clear"></div>
 						
@@ -165,13 +186,19 @@ if ( isset( $wp_query->query_vars['flavor'] ) ) {
 				<?php endif; ?>
 						
 			<?php endif; ?>
+			
+			
 		
-		</div><!-- .content -->
+		</div><!-- .post -->
 	
 	<?php endif; ?>	
+	
+	<?php get_sidebar(); ?>
 		
-	</div><!-- .section-inner -->
+	</div><!-- .content -->
 
-</div><!-- .wrapper -->
+</div><!-- .wrapper-inner -->
+
+</div> <!-- .wrapper -->
 								
 <?php get_footer(); ?>

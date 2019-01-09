@@ -2,20 +2,13 @@
 
 	<div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	
-		<?php if ( $pos = strpos( $post->post_content, '<!--more-->' ) ) : ?>
+		<?php $media_url =  get_post_meta($post->ID, 'media_url', 1);?>
+		
+		<?php if ( isset ( $media_url ) ) : ?>
 
 			<div class="featured-media">
 			
-				<?php
-					
-				// Fetch post content
-				$content = get_post_field( 'post_content', get_the_ID() );
-				
-				// Get content parts
-				$content_parts = get_extended( $content );
-
-				// oEmbed part before <!--more--> tag
-				$media_url = $content_parts['main'];							
+				<?php		
 				
 				// can we embed this audio url?
 				if ( is_url_embeddable( $media_url ) ) {							
@@ -57,8 +50,16 @@
 				</div><!-- .post-header -->
 			
 			<?php endif; 
-			
+
+			// if stuff has a more tag..
 			if ( $pos = strpos( $post->post_content, '<!--more-->' ) ) {
+			
+				// Fetch post content
+				$content = get_post_field( 'post_content', get_the_ID() );
+				
+				// Get content parts
+				$content_parts = get_extended( $content );
+
 				echo '<p class="post-excerpt">' . wp_strip_all_tags( mb_strimwidth( $content_parts['extended'], 0, 200, '...' ), true ) . '</p>';
 				
 				

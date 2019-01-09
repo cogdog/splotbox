@@ -23,21 +23,14 @@
 						<div class="featured-media">
 			
 							<?php
-								
-							// Fetch post content
-							$content = get_post_field( 'post_content', get_the_ID() );
-							
-							// Get content parts
-							$content_parts = get_extended( $content );
-
-							// oEmbed part before <!--more--> tag
-							$media_url = $content_parts['main'];
 							
 							// can we embed this audio url?
 							if ( is_url_embeddable( $media_url ) ) {							
 
 								// Use oEmbed for YouTube, et al
 								$embed_code = wp_oembed_get( $media_url ); 
+								
+								echo $embed_code;
 								
 							} else {
 								// then we have a video file so show it as a player
@@ -55,14 +48,6 @@
 						<div class="featured-media">
 			
 							<?php
-				
-							// Fetch post content
-							$content = get_post_field( 'post_content', get_the_ID() );
-				
-							// Get content parts
-							$content_parts = get_extended( $content );
-							
-							$media_url = $content_parts['main'];  // for reference below
 							
 
 							// can we embed this audio url?
@@ -167,10 +152,14 @@
 						<div class="post-content">
 
 							<?php 
-							if ( $format == 'link' || $format == 'quote' || $format == 'video' ||  $format == 'audio') { 
-								$content = $content_parts['extended'];
-								$content = apply_filters( 'the_content', $content );
-								echo $content;
+							// if stuff has a more tag..
+							if ( $pos = strpos( $post->post_content, '<!--more-->' ) ) {
+							
+								// Fetch post content
+								$content = get_post_field( 'post_content', get_the_ID() );
+								$content_parts = get_extended( $content );
+								$content_show = apply_filters( 'the_content', $content_parts['extended']);
+								echo $content_show;
 							} else {
 								the_content();
 							}
@@ -334,7 +323,7 @@
 										$prev_post = get_previous_post();
 										if ( ! empty( $prev_post ) ) : ?>
 										
-											<a class="post-nav-prev" title="<?php printf( __( 'Previous post: "%s"', 'garfunkel' ), esc_attr( get_the_title( $prev_post ) ) ); ?>" href="<?php echo get_permalink( $prev_post->ID ); ?>">
+											<a class="post-nav-prev" title="<?php printf( __( 'Previous item: "%s"', 'garfunkel' ), esc_attr( get_the_title( $prev_post ) ) ); ?>" href="<?php echo get_permalink( $prev_post->ID ); ?>">
 												<p><?php _e( 'Previous item', 'garfunkel' ); ?></p>
 												<h4><?php echo get_the_title( $prev_post ); ?></h4>
 											</a>
@@ -344,7 +333,7 @@
 										$next_post = get_next_post();
 										if ( ! empty( $next_post ) ) : ?>
 											
-											<a class="post-nav-next" title="<?php printf( __( 'Next post: "%s"', 'garfunkel' ), esc_attr( get_the_title( $next_post ) ) ); ?>" href="<?php echo get_permalink( $next_post->ID ); ?>">
+											<a class="post-nav-next" title="<?php printf( __( 'Next item: "%s"', 'garfunkel' ), esc_attr( get_the_title( $next_post ) ) ); ?>" href="<?php echo get_permalink( $next_post->ID ); ?>">
 												<p><?php _e( 'Next item', 'garfunkel' ); ?></p>
 												<h4><?php echo get_the_title( $next_post ); ?></h4>
 											</a>

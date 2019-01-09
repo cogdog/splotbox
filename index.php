@@ -46,9 +46,9 @@
 			
 			<div class="archive-nav section-inner">
 						
-				<?php echo get_next_posts_link( '&larr; ' . __( 'Older items', 'garfunkel' ) ); ?>
+				<?php echo get_next_posts_link( '&larr; ' . __( 'Older Items', 'garfunkel' ) ); ?>
 							
-				<?php echo get_previous_posts_link( __( 'Newer items', 'garfunkel' ) . ' &rarr;' ); ?>
+				<?php echo get_previous_posts_link( __( 'Newer Items', 'garfunkel' ) . ' &rarr;' ); ?>
 				
 				<div class="clear"></div>
 				

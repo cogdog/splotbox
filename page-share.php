@@ -1,14 +1,14 @@
 <?php
 
 if ( !is_user_logged_in() ) {
-	// already not logged in? go to desk.
+	// not logged in? go directly to desk. do not collect $200
   	wp_redirect ( home_url('/') . 'desk' );
   	exit;
   	
 } elseif ( !current_user_can( 'edit_others_posts' ) ) {
 	// okay user, who are you? we know you are not an admin or editor
 		
-	// if the collector user not found, we send you to the desk
+	// if the collector user not found, we send you to the desk too
 	if ( !splotbox_check_user() ) {
 		// now go to the desk and check in properly
 	  	wp_redirect ( home_url('/') . 'desk'  );
@@ -16,16 +16,13 @@ if ( !is_user_logged_in() ) {
   	}
 }
 
-		
-
 // ------------------------ defaults ------------------------
 
 // default welcome message
 $feedback_msg = splotbox_form_default_prompt() . '. Fields marked  <strong>*</strong> are required.';
+
 $wAuthor = 'Anonymous';
 $wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = '';
-
-			
 $wCats = array( splotbox_option('def_cat')); // preload default category
 $wLicense = '--';
 $all_licenses = splotbox_get_licences();
@@ -34,6 +31,11 @@ $all_licenses = splotbox_get_licences();
 $is_published = false;
 $box_style = '<div class="notify"><span class="symbol icon-info"></span> ';
 
+// initial button states
+$previewBtnState = ' disabled=""';
+$submitBtnState = ' disabled';
+
+$wRandTitles = splotbox_get_two_items();
 
 // ------------------- form processing ------------------------
 
@@ -52,27 +54,24 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
  		$wCats = 					( isset ($_POST['wCats'] ) ) ? $_POST['wCats'] : array();
  		$wLicense = 				$_POST['wLicense'];
  		if ( isset ($_POST['post_id'] ) ) $post_id = $_POST['post_id'];
-
- 		// let's do some validation, store an error message for each problem found
- 		$errors = array();
  		 				
  		// let's do some validation, store an error message for each problem found
  		$errors = array();
 		
  		if ( $wMediaURL == '' ) {
- 			$errors[] = '<strong>URL Missing</strong> - you can either upload an audio file or enter an external URL for where your media can be found'; 
+ 			$errors[] = '<strong>Media Missing</strong> - you can either upload an audio file or enter an external URL for where your media can be found'; 
  		} elseif ( strpos( $wMediaURL, 'http') === false )  {	
- 			$errors[] = '<strong>Malformed URL</strong> - <code>' . $wMediaURL . '</code> does not appear to be a full URL; it must begin with <code>http://</code> or <code>https://</code>' ; 
+ 			$errors[] = '<strong>Malformed Web Address</strong> - <code>' . $wMediaURL . '</code> does not appear to be a full URL; it must begin with <code>http://</code> or <code>https://</code>' ; 
  		
  		} elseif ( !($wMediaType) ) {
- 			$errors[] = '<strong>Wrong Media Type</strong> - <code>' . $wMediaURL . '</code> is not a link to an audio file, a SoundCloud track, or video from YouTube, Vimeo, the Internet Archive or an Adobe Spark page ot video.' ; 
+ 			$errors[] = '<strong>Wrong Media Type</strong> - <code>' . $wMediaURL . '</code> is not a link to an audio file, a SoundCloud track, or video from YouTube, Vimeo, the Internet Archive or an Adobe Spark item.' ; 
  		}
  		
- 		if ( $wTitle == '' ) $errors[] = '<strong>Title Missing</strong> - enter a descriptive title for this item when published on this site.'; 
+ 		if ( $wTitle == '' ) $errors[] = '<strong>Title Missing</strong> - enter a descriptive title for this item.'; 
 
  		if (  splotbox_option('use_caption') == '2' AND $wText == '' ) $errors[] = '<strong>Description Missing</strong> - please enter a description for this media item.';
  
-  		if (  splotbox_option('use_source') == '2' AND $wSource == '' ) $errors[] = '<strong>Source Missing</strong> - please the name or description for the source of this media content.';
+  		if (  splotbox_option('use_source') == '2' AND $wSource == '' ) $errors[] = '<strong>Source Missing</strong> - please provide a name or description for the source of this media item.';
   		
   		if (  splotbox_option('use_license') == '2' AND $wLicense == '--' ) $errors[] = '<strong>License Not Selected</strong> - select an appropriate license for this item.'; 
  		
@@ -87,94 +86,109 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
  			
  			$feedback_msg .= '</ul>';
  			
+ 			// reset button states
+			$previewBtnState = ' disabled=""';
+			$submitBtnState = ' disabled';
+ 			
  			$box_style = '<div class="notify notify-red"><span class="symbol icon-error"></span> ';
  			
  		} else {
+ 		
+ 			// the info is okay, enable preview and submit buttons
+			$previewBtnState = '';
+			$submitBtnState = '';
  			
- 			// good enough, let's make a post! 
+ 			$feedback_msg = 'Your information looks ready to submit to ' . get_bloginfo( 'name' ) . '. You can first <a href="#preview" class="fancybox" title="Preview of your item. Close this overlay, make any changes, than click \'Share It\'" >preview</a> to review your entry or if you are ready, just scroll down and click "Submit Item" to share it.';
+ 			
+ 			$box_style = '<div class="notify"><span class="symbol icon-info"></span> ';
+ 			
+ 			
+ 			// Now process form only if submit button used
+ 			if ( isset ( $_POST['makeit'] ) ) {
+ 				// good enough, let's put this in the box! 
  			 			
-			$w_information = array(
-				'post_title' => $wTitle,
-				'post_content' => $wMediaURL . "\n<!--more-->\n\n" .  $wText,
-				'post_status' => splotbox_option('new_item_status'),
-				'post_category' => $wCats		
-			);
+				$w_information = array(
+					'post_title' => $wTitle,
+					'post_content' => $wText,
+					'post_status' => splotbox_option('new_item_status'),
+					'post_category' => $wCats		
+				);
 
-			// insert as a new post
-			$post_id = wp_insert_post( $w_information );
+				// insert as a new post
+				$post_id = wp_insert_post( $w_information );
 			
 			
-			//sets to 'audio' post-format
-			set_post_format( $post_id, $wMediaType ); 
+				//sets to 'audio' post-format
+				set_post_format( $post_id, $wMediaType ); 
 			
-			// store audio url
-			add_post_meta( $post_id, 'media_url', $wMediaURL);
+				// store audio url
+				add_post_meta( $post_id, 'media_url', $wMediaURL);
 			
-			// store the author as post meta data
-			add_post_meta( $post_id, 'shared_by', $wAuthor );
+				// store the author as post meta data
+				add_post_meta( $post_id, 'shared_by', $wAuthor );
 			
-			// store the name of person to credit
-			add_post_meta( $post_id, 'credit', $wSource );
+				// store the name of person to credit
+				add_post_meta( $post_id, 'credit', $wSource );
 
-			// store the license code
-			add_post_meta( $post_id, 'license', $wLicense );
+				// store the license code
+				add_post_meta( $post_id, 'license', $wLicense );
 
-			// store extra notes
-			if ( $wNotes ) add_post_meta($post_id, 'extra_notes', $wNotes);
+				// store extra notes
+				if ( $wNotes ) add_post_meta($post_id, 'extra_notes', $wNotes);
 			
-			// add the tags
-			wp_set_post_tags( $post_id, $wTags);
+				// add the tags
+				wp_set_post_tags( $post_id, $wTags);
 		
 
-			if ( splotbox_option('new_item_status') == 'publish' ) {
-				// feed back for published item
-				$feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been published!  You can <a href="'. get_permalink( $post_id ) . '">view it now</a>.  Or you can <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';
-				// $feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been published!  You can <a href="'. site_url() . '/?p=' . $post_id   . '">view it now</a>. Or you can <a href="' . site_url() . '/share">share another</a>.';
+				if ( splotbox_option('new_item_status') == 'publish' ) {
+					// feed back for published item
+					$feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been published!  You can <a href="'. get_permalink( $post_id ) . '">view it now</a>.  Or you can <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';
 			
-			} else {
-				// feed back for item left in draft
-				$feedback_msg = 'Your entry for <strong>' . $wTitle . '</strong> has been submitted as a draft. Once it has been approved by a moderator, everyone can see it at <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';	
+				} else {
+					// feed back for item left in draft
+					$feedback_msg = 'Your entry for <strong>' . $wTitle . '</strong> has been submitted as a draft. Once it has been approved by a moderator, everyone can see it at <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';	
 	
 			
-			}		
+				}		
 
-			// logout the special user
-			if ( splotbox_check_user()=== true ) wp_logout();
+				// logout the special user
+				if ( splotbox_check_user()=== true ) wp_logout();
 			
 			
-			if ( splotbox_option( 'notify' ) != '') {
-			// Let's do some EMAIL!
+				if ( splotbox_option( 'notify' ) != '') {
+				// Let's do some EMAIL!
 		
-				// who gets mail? They do.
-				$to_recipients = explode( "," ,  splotbox_option( 'notify' ) );
+					// who gets mail? They do.
+					$to_recipients = explode( "," ,  splotbox_option( 'notify' ) );
 		
-				$subject = 'New Item Dropped into to ' . get_bloginfo();
+					$subject = 'New Item Dropped into to ' . get_bloginfo();
 		
-				if ( splotbox_option('new_item_status') == 'publish' ) {
-					$message = 'A media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been published to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id  . '">see view it now</a>';
+					if ( splotbox_option('new_item_status') == 'publish' ) {
+						$message = 'A media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been published to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id  . '">see view it now</a>';
 				
 
-				} else {
-					$message = 'An media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been submitted to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id . 'preview=true' . '">preview it now</a>.<br /><br /> To  publish it, simply <a href="' . admin_url( 'edit.php?post_status=draft&post_type=post') . '">find it in the drafts</a> and change it\'s status from <strong>Draft</strong> to <strong>Publish</strong>';
-				}
+					} else {
+						$message = 'An media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been submitted to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id . 'preview=true' . '">preview it now</a>.<br /><br /> To  publish it, simply <a href="' . admin_url( 'edit.php?post_status=draft&post_type=post') . '">find it in the drafts</a> and change it\'s status from <strong>Draft</strong> to <strong>Publish</strong>';
+					}
 				
-				if ( $wNotes ) $message .= '<br /><br />There are some extra notes from the author:<blockquote>' . $wNotes . '</blockquote>';
+					if ( $wNotes ) $message .= '<br /><br />There are some extra notes from the author:<blockquote>' . $wNotes . '</blockquote>';
 		
-				// turn on HTML mail
-				add_filter( 'wp_mail_content_type', 'set_html_content_type' );
+					// turn on HTML mail
+					add_filter( 'wp_mail_content_type', 'set_html_content_type' );
 		
-				// mail it!
-				wp_mail( $to_recipients, $subject, $message);
+					// mail it!
+					wp_mail( $to_recipients, $subject, $message);
 		
-				// Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
-				remove_filter( 'wp_mail_content_type', 'set_html_content_type' );	
+					// Reset content-type to avoid conflicts -- http://core.trac.wordpress.org/ticket/23578
+					remove_filter( 'wp_mail_content_type', 'set_html_content_type' );	
 			
-				}
+					}
 											
-			// set the gate	open, we are done.
+				// set the gate	open, we are done.
 			
-			$is_published = true;
-			$box_style = '<div class="notify notify-green"><span class="symbol icon-tick"></span> ';	
+				$is_published = true;
+				$box_style = '<div class="notify notify-green"><span class="symbol icon-tick"></span> ';	
+			} // we are submitting
 			
 		} // count errors		
 		
@@ -266,6 +280,9 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 						<p><?php splotbox_form_item_upload_prompt() ?><br clear="left"></p>
 						
 						<?php endif?>
+						
+						
+					
 				</fieldset>						
 
 				<fieldset id="theMedia">
@@ -286,22 +303,27 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 						<?php if (  splotbox_option('caption_field') == 's'):?>	
 							<textarea name="wText" id="wText" rows="15"  tabindex="4"><?php echo stripslashes( $wText );?></textarea>
 							
+						<input id="wRichText" type="hidden" value="0">
+							
 						<?php else:?>
+						
+						<input id="wRichText" type="hidden" value="1">
 							
 						<?php
 						// set up for inserting the WP post editor
 						$settings = array( 'textarea_name' => 'wText', 'editor_height' => '300',  'tabindex'  => "3", 'media_buttons' => false);
 
-						wp_editor(  stripslashes( $wText ), 'wtext', $settings );
+						wp_editor(  stripslashes( $wText ), 'wTextHTML', $settings );
 						
 						?>	
+						
 						<?php endif?>
 
 					<?php endif?>
 
 
 					<?php if (splotbox_option('show_cats') ):?> 
-					
+						<fieldset id="theCats">
 						<label for="wCats"><?php splotbox_form_item_categories() ?></label>
 						<p><?php splotbox_form_item_categories_prompt() ?></p>
 						<?php 
@@ -317,10 +339,11 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 					
 							$checked = ( in_array( $acat->term_id, $wCats) ) ? ' checked="checked"' : '';
 						
-							echo '<br /><input type="checkbox" name="wCats[]" tabindex="4" value="' . $acat->term_id . '"' . $checked . '> ' . $acat->name;
+							echo '<br /><input type="checkbox" name="wCats[]" tabindex="4" value="' . $acat->term_id . '" data-checkbox-text="' . $acat->name . '" ' .  $checked . '> ' . $acat->name;
 						}
 					
 						?>
+						</fieldset>
 					<?php endif?>
 					
 					<?php if (splotbox_option('show_tags') ):?> 
@@ -351,7 +374,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 					<?php endif?>
 
 
-					<?php if (  splotbox_option('use_license') > '0'):	
+					<?php if ( splotbox_option('use_license') > '0'):	
   						$required = (splotbox_option('use_license') == 2) ? '<span class="required">*</span>' : '';
   					?>
   					
@@ -367,6 +390,10 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 						?>
 					
 						</select>
+						
+				<?php if ( splotbox_option( 'show_attribution' ) == 1 ): ?>
+					<input id="wAttributionPreview" type="hidden" value="1">
+				<?php endif?>						
 					
 					<?php endif?>
 					
@@ -387,12 +414,24 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 				</fieldset>	
 
 			
-				<fieldset>	
-				<legend>Share This Item</legend>
-				<p>Review your information, because once you click the button below it is sent and cannot be edited.</p>
+				<fieldset id="theButtons">	
+				<label for="theButtons"><?php splotbox_form_item_submit_buttons() ?></label>
+				
 				<?php  wp_nonce_field( 'splotbox_form_make', 'splotbox_form_make_submitted' ); ?>
 				
-				<input type="submit" value="Submit Media" id="makeit" name="makeit" tabindex="12">
+				<p><?php splotbox_form_item_submit_buttons_prompt() ?></p>
+				
+				
+				<input type="submit" value="Check Info" id="checkit" name="checkit" tabindex="12">
+				
+				<a href="#preview" class="fancybox" title="Preview of your item. Close this overlay, make any changes, than click 'Share It'"  tabindex="14" <?php echo $previewBtnState?>>Preview</a>
+				
+				<input type="submit" value="Submit Item" id="makeit" name="makeit" tabindex="14" <?php echo $submitBtnState?>>
+				
+				<input type="hidden" id="embedMedia" value="<?php echo htmlentities( get_media_embedded ( $wMediaURL ))?>" />	
+				<input type="hidden" id="wMediaLink" value="<?php echo $wMediaURL?>" />	
+				<input type="hidden" id="wRandTitles" value="<?php echo implode( '|', $wRandTitles)?>" />	
+				
 				</fieldset>
 			
 						

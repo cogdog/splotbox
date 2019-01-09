@@ -56,9 +56,9 @@
 				
 					<div class="archive-nav">
 					
-						<?php echo get_next_posts_link( '&laquo; ' . __( 'Older items', 'garfunkel' ) ); ?>
+						<?php echo get_next_posts_link( '&laquo; ' . __( 'Older Items', 'garfunkel' ) ); ?>
 							
-						<?php echo get_previous_posts_link( __( 'Newer items', 'garfunkel' ) . ' &raquo;' ); ?>
+						<?php echo get_previous_posts_link( __( 'Newer Items', 'garfunkel' ) . ' &raquo;' ); ?>
 						
 						<div class="clear"></div>
 						
