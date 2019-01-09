@@ -21,6 +21,8 @@ The options can allow you to offer a field for add the media by URL (For video, 
 
 This is an improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder).
 
+See also [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
+
 ### See It In Action
 
 * [Coventry University DMLL Video Archive](http://videos.dmllmedia.coventry.domains/)
