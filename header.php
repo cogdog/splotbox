@@ -32,11 +32,12 @@
 																		
 						wp_nav_menu( $nav_menu_args ); 
 					
-					// test uf primary menu location is not set	
+					// test if primary menu location is not set	
 					} elseif ( !splot_is_menu_location_used() ) {
 						echo splot_default_menu();
 					
 					// normal make menus from pages	
+				
 					} else {
 					
 						wp_list_pages( array(
@@ -46,9 +47,15 @@
 					
 						));
 					
-					
 					}
 					?>
+					
+					<li><form method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+	<label for="search-field" class="genericon genericon-search"></label>
+	<input type="search" value="" placeholder="<?php _e( 'Search ', 'garfunkel' ); ?>" name="s" class="search-field" id="search-field" /> 
+</form></li>
+					
+					
 											
 				</ul><!-- .main-menu -->
 				
@@ -65,9 +72,21 @@
 					<?php 
 					if ( has_nav_menu( 'primary' ) ) {					
 						wp_nav_menu( $nav_menu_args); 
+						
+					} elseif ( !splot_is_menu_location_used() ) {
+						echo splot_default_menu();
+					
+					// normal make menus from pages	
 					} else {
 						wp_list_pages( $list_pages_args );
-					} ?>
+					} 
+					?>
+					<li><form method="get" class="search-form" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+	<label for="search-field" class="genericon genericon-search"></label>
+	<input type="search" value="" placeholder="<?php _e( 'Search ', 'garfunkel' ); ?>" name="s" class="search-field" id="search-field" /> 
+</form></li>
+					
+					
 				
 				</ul><!-- .mobile-menu -->
 				

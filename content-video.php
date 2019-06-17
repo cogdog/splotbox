@@ -19,7 +19,7 @@
 					echo $embed_code;
 					
 				} else {
-					// then we have a sound file so show it as a player
+					// then we have a video file so show it as a player
 					
 					echo splotbox_get_videoplayer( $media_url );
 					

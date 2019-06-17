@@ -49,24 +49,6 @@ function splotbox_setup () {
   
   }
 
-  if (! get_page_by_path( 'random' ) ) {
-
-  	// create the Write page if it does not exist
-  	$page_data = array(
-  		'post_title' 	=> 'Random',
-  		'post_content'	=> '(Place holder for random page)',
-  		'post_name'		=> 'random',
-  		'post_status'	=> 'publish',
-  		'post_type'		=> 'page',
-  		'post_author' 	=> 1,
-  		'post_date' 	=> date('Y-m-d H:i:s'),
-  		'page_template'	=> 'page-random.php',
-  	);
-  	
-  	wp_insert_post( $page_data );
-  
-  }
-
   if (! get_page_by_path( 'licensed' ) ) {
   
   	// create index page and archive for licenses.
@@ -85,6 +67,9 @@ function splotbox_setup () {
   	wp_insert_post( $page_data );
   
   }
+  
+  //just in case!
+  flush_rewrite_rules();
    
 }
 
@@ -178,6 +163,8 @@ add_filter('query_vars', 'splotbox_queryvars' );
 
 function splotbox_queryvars( $qvars ) {
 	$qvars[] = 'flavor'; // flag for type of license
+	$qvars[] = 'random'; // flag for random generator
+	$qvars[] = 'elink'; // flag for get edit link
 	
 	return $qvars;
 }  
@@ -187,7 +174,7 @@ function splotbox_queryvars( $qvars ) {
 add_action('init', 'splotbox_rewrite_rules', 10, 0); 
       
 function splotbox_rewrite_rules() {
-	$license_page = get_page_by_path('licensed');
+	$license_page = get_page_by_path( 'licensed' );
 	
 	if ( $license_page ) {
 	
@@ -195,8 +182,45 @@ function splotbox_rewrite_rules() {
 		add_rewrite_rule( '^licensed/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . $license_page->ID . '&flavor=$matches[1]&paged=$matches[2]','top');	
 	
 		add_rewrite_rule( '^licensed/([^/]*)/?',  'index.php?page_id=' . $license_page->ID . '&flavor=$matches[1]','top');	
-	}	
+	}
+	
+	// let's go random
+	add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
+	
+	
 }
+
+/* set up function to handle redirects */
+ 
+ add_action('template_redirect','splotbox_random_template');
+
+ function splotbox_random_template() {
+   if ( get_query_var('random') == 1 ) {
+		 // set arguments for WP_Query on published posts to get 1 at random
+		$args = array(
+			'post_type' => 'post',
+			'post_status' => 'publish',
+			'posts_per_page' => 1,
+			'orderby' => 'rand'
+		);
+
+		// It's time! Go someplace random
+		$my_random_post = new WP_Query ( $args );
+
+		while ( $my_random_post->have_posts () ) {
+		  $my_random_post->the_post ();
+  
+		  // redirect to the random post
+		  wp_redirect ( get_permalink () );
+		  exit;
+		}  
+   }
+ }
+ 
+ 
+
+
+
 
 # -----------------------------------------------------------------
 # Enqueue Scripts and Styles
@@ -233,28 +257,16 @@ function add_splotbox_scripts() {
 		
 		// Build in tag auto complete script
    		wp_enqueue_script( 'suggest' );
-
+   		
+   		// Autoembed functionality in rich text editor
+   		// needs dependency on tiny_mce
+   		// h/t https://wordpress.stackexchange.com/a/287623		
+   		wp_enqueue_script( 'mce-view', '', array('tiny_mce') );		
+   		
+   		
 		// custom jquery for the uploader on the form
 		wp_register_script( 'jquery.splotbox' , get_stylesheet_directory_uri() . '/js/jquery.splotbox.js', null , '1.0', TRUE );
-		wp_enqueue_script( 'jquery.splotbox' );
-		
-		// add scripts for fancybox (used for previews of collected items) 
-		//-- h/t http://code.tutsplus.com/tutorials/add-a-responsive-lightbox-to-your-wordpress-theme--wp-28100
-		wp_register_script( 'fancybox', get_stylesheet_directory_uri() . '/includes/lightbox/js/jquery.fancybox.pack.js', array( 'jquery' ), false, true );
-		wp_enqueue_script( 'fancybox' );
-
-		// Lightbox formatting for preview screated with rich text editor
-		wp_register_script( 'lightbox_preview', get_stylesheet_directory_uri() . '/includes/lightbox/js/lightbox_preview.js', array( 'fancybox' ), '1.1', null , '1.0', TRUE );
-		wp_enqueue_script( 'lightbox_preview' );
-	
-		// fancybox styles
-		wp_register_style( 'lightbox-style', get_stylesheet_directory_uri() . '/includes/lightbox/css/jquery.fancybox.css' );
-		wp_enqueue_style( 'lightbox-style' );	
-		
-		// used to display formatted dates
-		wp_register_script( 'moment' , get_stylesheet_directory_uri() . '/js/moment.js', null, '1.0', TRUE );
-		wp_enqueue_script( 'moment' );		
-		
+		wp_enqueue_script( 'jquery.splotbox' );		
 	}
 
 }

@@ -160,6 +160,113 @@ class splotbox_Theme_Options {
 			)
 		);	
 
+		// ------- media options
+		$this->settings['media_heading'] = array(
+			'section' => 'general',
+			'title'   => '', // Not used for headings.
+			'desc'	 => 'Media Support',
+			'std'    => '',
+			'type'    => 'heading'
+		);
+		
+		$this->settings['m_spark'] = array(
+			'section' => 'general',
+			'title'   => __( 'Media Supported By URL' ),
+			'desc'    => __( 'Adobe Spark Pages/Videos  http://spark.adobe.com' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+		$this->settings['m_flickr'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Flickr photos http://flickr.com' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+		$this->settings['m_giphy'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Giphy gifs http://giphy.com' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+		$this->settings['m_archive'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Internet Archive Audio and Video http://archive.org' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+		$this->settings['m_mixcloud'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Mixcloud Audio http://mixcloud.com/' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+		$this->settings['m_slideshare'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Slideshare Presentations http://slideshare.net/' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+		$this->settings['m_soundcloud'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Soundcloud Audio http://soundcloud.com/' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+		$this->settings['m_speakerdeck'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Speakerdeck Presentations http://speakerdeck.com/' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+		$this->settings['m_ted'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Ted Talk Video http://ted.com/' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+		
+		$this->settings['m_vimeo'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Vimeo video http://vimeo.com' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+		$this->settings['m_youtube'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Youtube video http://youtube.com/' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+
+		$this->settings['use_upload_media'] = array(
+			'section' => 'general',
+			'title'   => __( 'Allow media uploads for audio and images (if "no" then media can only be added by external URL)'),
+			'desc'    => '',
+			'type'    => 'radio',
+			'std'     => '1',
+			'choices' => array (
+							'0' => 'No',
+							'1' => 'Yes'
+					)
+		);
+
+
 
 		// ------- sort options
 		$this->settings['sort_heading'] = array(
@@ -259,17 +366,6 @@ class splotbox_Theme_Options {
 			'std'     => 0 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
-		$this->settings['use_upload_media'] = array(
-			'section' => 'general',
-			'title'   => __( 'Allow media uploads (if "no" then media can only be added by external URL)'),
-			'desc'    => '',
-			'type'    => 'radio',
-			'std'     => '1',
-			'choices' => array (
-							'0' => 'No',
-							'1' => 'Yes'
-					)
-		);
 
 		
 		$this->settings['use_caption'] = array(
@@ -423,7 +519,7 @@ class splotbox_Theme_Options {
 
 			case 'checkbox':
 
-				echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="splotbox_options[' . $id . ']" value="1" ' . checked( $options[$id], 1, false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
+				echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="splotbox_options[' . $id . ']" value="1" ' . checked( $options[$id], "1", false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
 
 				break;
 
@@ -589,12 +685,6 @@ class splotbox_Theme_Options {
 
 	}
 	
-	
-	/* jQuery Tabs */
-	public function scripts() {
-		wp_print_scripts( 'jquery-ui-tabs' );
-	}
-	
 	public function validate_settings( $input ) {
 		
 		if ( ! isset( $input['reset_theme'] ) ) {
@@ -603,19 +693,16 @@ class splotbox_Theme_Options {
 			if ( $input['notify'] != $options['notify'] ) {
 				$input['notify'] = str_replace(' ', '', $input['notify']);
 			}
-
-					
+		
 			foreach ( $this->checkboxes as $id ) {
 				if ( isset( $options[$id] ) && ! isset( $input[$id] ) )
 					unset( $options[$id] );
 			}
 			
-			
 			return $input;
 		}
 		
 		return false;
-		
 		
 	}
  }

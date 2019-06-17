@@ -4,6 +4,45 @@
 # Audio and Video management
 # -----------------------------------------------------------------
 
+
+
+
+
+function splotbox_supports() {
+
+	$supported_sites = array();
+	
+	// all possible supported sites
+	$all_sites = array(
+		'm_spark' => 'Adobe Spark Pages/Videos',
+		'm_flickr' => 'Flickr',
+		'm_giphy' => 'Giphy',
+		'm_archive' => 'Internet Archive', 
+		'm_mixcloud' => 'Mixcloud',
+		'm_slideshare' => 'Slideshare',
+		'm_soundcloud' => 'Soundcloud', 
+		'm_speakerdeck' => 'Speaker Deck',
+		'm_ted' => 'TED Talks',
+		'm_vimeo' => 'Vimeo', 
+		'm_youtube' => 'YouTube', 
+	);	
+	
+	// pull names of ones activated in theme options
+	foreach ($all_sites as $key => $value ) {
+		if ( splotbox_option( $key ) ) $supported_sites[] = $value;
+	}
+	
+	
+	// check for extras from the helper plugin
+	if ( function_exists('splotboxplus_exists') ) {
+		$supported_sites = array_merge( $supported_sites, splotboxplus_supports() );
+	}
+	
+	return implode( ', ', $supported_sites);
+
+}
+
+
 function splotbox_get_audioplayer( $url ) {
 	// output the  audio player
 	
@@ -14,16 +53,31 @@ function splotbox_get_audioplayer( $url ) {
 	return ($audioplayer);
 }
 
+function splotbox_get_imageplayer( $url ) {
+	// output the img code
+				
+		$imageplayer = '<img width="1140" height="760" src="' . $url . '" class="attachment-post-image size-post-image wp-post-image" alt="" />';
+	return ($imageplayer);
+}
+
+
 function splotbox_get_videoplayer( $url ) {
-	// output the  video player
+	// convert the video URL to a site specific iframe / player code
+	
+	
+	$videoplayer = '';
 	
 	if ( is_in_url( 'archive.org', $url ) ) {
+	
+		// Internet Archive
 	
 		$archiveorg_url = str_replace ( 'details' , 'embed' , $url );
 	
 		$videoplayer = '<iframe src="' . $archiveorg_url . '" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
 	
 	} elseif  ( is_in_url( 'spark.adobe.com/video/', $url ) ) {
+	
+		// Adobe Spark Video
 			
 		// get string position right before ID
 		$pos = strpos( $url, 'video/');
@@ -35,6 +89,8 @@ function splotbox_get_videoplayer( $url ) {
 
 	} elseif  ( is_in_url( 'spark.adobe.com/page/', $url ) ) {
 	
+		// Adobe Spark Page
+	
 		// get string position right before ID
 		$pos = strpos( $url, 'page/');
 		$spark_id = substr($url, $pos + 5) ;
@@ -42,17 +98,15 @@ function splotbox_get_videoplayer( $url ) {
 		
 		// spark page embed code
 		$videoplayer = '<script id="asp-embed-script" data-zindex="1000000" type="text/javascript" charset="utf-8" src="https://spark.adobe.com/page-embed.js"></script><a class="asp-embed-link" href="https://spark.adobe.com/page/' . $spark_id . '/" target="_blank"><img src="https://spark.adobe.com/page/' . $spark_id . '/embed.jpg" alt="" style="width:100%" border="0" /></a>';
-	
-	} else {
-		// general videoplayer for mp4 video (does not seem to work, but hey, future coding here
-		$videoplayer = '
-<video controls="controls" class="video-player">
-	<source src="' . $url . '" type="video/mp4" />
-</video>' . "\n";
 
-	}
+	} elseif ( function_exists('splotboxplus_exists') ) {
 	
-	return ($videoplayer);
+		// check for any plugin provided embeds
+		
+		$videoplayer = splotboxplus_get_videoplayer( $url );
+	} 
+	
+	return ( $videoplayer );
 }
 
 
@@ -62,14 +116,43 @@ function url_is_media_type ( $url ) {
  	if ( url_is_video ( $url ) ) return 'video';
 	// check  for audio
 	if ( url_is_audio ( $url ) ) return 'audio';
+	// check  for image
+	if ( url_is_image ( $url ) ) return 'image';
 
 }
 
 
 function url_is_audio ( $url ) {
-// tests urls to see if they point to an audio type
+	// tests urls to see if they point to an audio type
 
-	if ( is_in_url( 'soundcloud.com', $url ) or url_is_audio_link( $url ) ) return true;
+	$allowables = array();
+	
+	// all possible supported sites
+	$all_sites = array(
+		'm_mixcloud' => 'mixcloud.com',
+		'm_soundcloud' => 'soundcloud.com',
+	);	
+	
+	// pull names of ones activated in theme options
+	foreach ($all_sites as $key => $value ) {
+		if ( splotbox_option( $key ) ) $allowables[] = $value;
+	}
+	
+	// check for more videos in extender plugin
+	if ( function_exists('splotboxplus_exists') ) {
+		$allowables = array_merge( $allowables, splotboxplus_audio_allowables() );
+	}	
+	
+	// walk the array til we get a match
+	foreach( $allowables as $fragment ) {
+		if ( is_in_url( $fragment, $url )) return ( true );
+	}	
+	
+	// see if it is a link to a valid  format
+	if  ( url_is_audio_link ( $url ) ) return true;
+	
+	// no matches, not an audio for you
+	return ( false );
 	
 }
 
@@ -77,6 +160,15 @@ function url_is_audio_link ( $url ) {
 
 	$fileExtention 	= pathinfo ( $url, PATHINFO_EXTENSION ); 	// get file extension for url	
 	$allowables 	= 	array( 'mp3', 'm4a', 'ogg'); 	// allowable file extensions
+	
+	// check the url file extension to ones we will allow
+	return ( in_array( strtolower( $fileExtention) ,  $allowables  ) );
+}
+
+function url_is_image_link ( $url ) {
+
+	$fileExtention 	= pathinfo ( $url, PATHINFO_EXTENSION ); 	// get file extension for url	
+	$allowables 	= 	array( 'jpg', 'jpeg', 'png', 'gif'); 	// allowable file extensions
 	
 	// check the url file extension to ones we will allow
 	return ( in_array( strtolower( $fileExtention) ,  $allowables  ) );
@@ -104,45 +196,115 @@ function is_in_url ( $pattern, $url ) {
 
 function url_is_video ( $url ) {
 
-	$allowables = array(
-					'youtube.com/watch?',
-					'youtu.be',
-					'vimeo.com',
-					'archive.org',
-					'spark.adobe.com/page',
-					'spark.adobe.com/video'
-	);
 
+	$allowables = array();
+	
+	// all possible supported sites
+	$all_sites = array(
+		'm_spark' => 'spark.adobe.com/page',
+		'm_giphy' => 'giphy.com',
+		'm_archive' => 'archive.org', 
+		'm_slideshare' => 'slideshare.net',
+		'm_speakerdeck' => 'speakerdeck.com',
+		'm_ted' => 'ted.com/talk',
+ 		'm_youtube' => 'youtube.com/watch?',
+		'm_vimeo' => 'vimeo.com',
+	);	
+	
+	// pull names of ones activated in theme options
+	foreach ($all_sites as $key => $value ) {
+		if ( splotbox_option( $key ) ) $allowables[] = $value;
+		
+		// more than one matching patterns
+		if  (splotbox_option( $key ) == 'm_youtube') $allowables[] = 'youtu.be';
+		if  (splotbox_option( $key ) == 'm_spark') $allowables[] = 'spark.adobe.com/video';
+	}
+	
+	// check for more videos in extender plugin
+	if ( function_exists('splotboxplus_exists') ) {
+		$allowables = array_merge( $allowables, splotboxplus_video_allowables() );
+	}
+	
 	// walk the array til we get a match
 	foreach( $allowables as $fragment ) {
-  		if  (strpos( $url, $fragment ) !== false ) {
-			return ( true );
-		}
-	}	
-	
-	// see if it is a link to a valid video format
-	if  ( url_is_video_link ( $url ) ) return true;
+		if ( is_in_url( $fragment, $url ) ) return ( true );
+	}
 	
 	// no matches, not a video for you
 	return ( false );
 }
 
+
+function url_is_image ( $url ) {
+
+
+	$allowables = array();
+	
+	// all possible supported sites
+	$all_sites = array(
+		'm_flickr' => 'flickr.com/photos',
+	);	
+	
+	// pull names of ones activated in theme options
+	foreach ($all_sites as $key => $value ) {
+		if ( splotbox_option( $key ) ) $allowables[] = $value;
+	}
+
+	// check for more videos in extender plugin
+	if ( function_exists('splotboxplus_exists') ) {
+		$allowables = array_merge( $allowables, splotboxplus_image_allowables() );
+	}
+	
+	// walk the array til we get a match
+	foreach( $allowables as $fragment ) {
+		if ( is_in_url( $fragment, $url ) ) return ( true );
+	}	
+	
+	// see if it is a link to a valid  format
+	if  ( url_is_image_link ( $url ) ) return true;
+	
+	// no matches, not an image for you
+	return ( false );
+}
+
+
 function is_url_embeddable( $url ) {
 // test if URL matches the ones that Wordpress can do oembed on
 // test by by string matching
+
+
+	$all_sites = array(
+		'm_giphy' => 'giphy.com', 
+		'm_slideshare' => 'slideshare.net',
+		'm_speakerdeck' => 'speakerdeck.com',
+		'm_ted' => 'ted.com/talk',
+ 		'm_youtube' => 'youtube.com/watch?',
+		'm_vimeo' => 'vimeo.com',
+		'm_soundcloud' => 'soundcloud.com',
+		'm_flickr' => 'flickr.com/photos',
+		'm_mixcloud' => 'mixcloud.com',
+	);	
 	
-	$allowed_embeds = array(
-					'youtube.com/watch?',
-					'youtu.be',
-					'vimeo.com', 
-					'soundcloud.com'
-	);
+	$allowed_embeds = array();
+	
+	
+	// pull names of ones activated in theme options
+	foreach ($all_sites as $key => $value ) {
+	
+		if ( splotbox_option( $key ) ) $allowed_embeds[] = $value;
+		// more than one matching patterns
+		if  (splotbox_option( $key ) == 'm_youtube') $allowables[] = 'youtu.be';
+	}
+
+	
+	if ( function_exists('splotboxplus_exists') ) {
+		$allowed_embeds = array_merge( $allowed_embeds, splotboxplus_embed_allowables() );
+	}
+
 	
 	// walk the array til we get a match
 	foreach( $allowed_embeds as $fragment ) {
-  		if  (strpos( $url, $fragment ) !== false ) {
-			return ( true );
-		}
+		if ( is_in_url( $fragment, $url ) ) return ( true );
 	}	
 	
 	// no matches, no embeds for you
@@ -170,6 +332,15 @@ function get_media_embedded ( $url ) {
 			return (wp_oembed_get( $url )); 
 		} else {
 			return splotbox_get_audioplayer( $url );
+		}
+		
+	} elseif ( url_is_media_type ( $url ) == 'image' ) {
+	
+		if ( is_url_embeddable( $url ) ) {	
+			// Use oEmbed for flickr
+			return (wp_oembed_get( $url )); 
+		} else {
+			return splotbox_get_imageplayer( $url );
 		}
 		
 	} else {

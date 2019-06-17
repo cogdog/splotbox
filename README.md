@@ -58,8 +58,6 @@ Then install the splotbox theme to Wordpress directly by ftping or using the dow
 
 ## Setting Up a New SPLOTbox site
 
-
-
 In this theme Wordpress `Posts` are renamed `Items` but have all the attributes of garden variety blog posts.
 
 (1) Create a fresh new Wordpress site. 
@@ -103,6 +101,21 @@ Enter a decent **Access Hint** that will be displayed if someone does not enter 
 
 The Status for New Items lets you set up moderation for  submissions (by choosing `Set to draft`) whereas `Publish immediately` provides instant gratification to your visitors, though leaves open the problems of a site where anyone can publish (the latter option thus works for sites where you set up an **Access Code** as described above).
 
+
+## Media Support
+
+The checkboxes here allow you to control the types of sites that are able to add content directly to a SPLOTbox site by URL only (using WordPress embed or built in support for Internet Archive and Adobe Spark).
+
+This would allow you to maintain a site for only certain sources, say only video from YouTube or vimeo.
+
+These checkboxes **should** be enabled, but you may have to manually set them.
+
+![](images/media-support.jpg)
+
+Also, if you only want visitors adding media by URL, you can hide the uploader:
+
+![](images/media-uploads.jpg)
+
 ## Item Sorting 
 
 The default settings for the display of itms are for typical blogs where newest content is displayed first. The sort options allow you to change that across the site- the home page, category/tag archives, and search results.
@@ -124,7 +137,6 @@ Set this option to provide a field for visitors to enter a caption for their sha
 
 Check **Enable Comments on Items**  to add a standard blog comment field at the bottom of all published items.
 
-Set **Allow Media Uploads** to `no` to remove the form field for uploading media (if you prefer all media items to come from external URLs).
 
 ![](images/description-settings.jpg)
 
@@ -151,19 +163,18 @@ Enabling the **Cut and Paste Attribution** adds to the display a field with an a
 
 
 ## Author Account Setup
-![](images/author-account-none.jpg)
  
 To provide access to the media uploader, this site uses a Wordpress Authoring Role account that is logged into invisibly to your site. So your site needs a user account with a name of **sharer** and a role of **Author**. If this site is on a mulitsite Wordpress install, and the SPLOTBox has been used on another site, the `sharer` account already exists, so you need to add it to the site via the Author tools. 
 
-If this account does not exist, create it now.
+If this account does not exist, the options page will provide a link to create it now.
 
 ![](images/add-author.jpg)
 
-You can follow the link to create an account; for an email you can use a fictitious one on your domain. We suggest using the strong password that Wordpress suggests.
+For an email you can use a fictitious one on your domain. We suggest using the strong password that Wordpress suggests.
 ![](images/authoring-account.jpg)
 
-** Note: As of version 0.9 of SPLOTBox you no longer need to copy the password into the options page. ** If you are using a version of the theme that has a password field in the options, maybe it's a good time to update? 
-## Customize the Share form
+
+## Customize the Share Form
 
 You can now customize the field labels and the descriptions of the form where people submit new items to a SPLOTbox site. On your site navigate to the share form, and  activate the Wordpress Customizer from the admin bar. 
 
@@ -211,7 +222,6 @@ The theme creates three Pages for you with custom templates. You can edit their 
 
 * **Desk** The screen where users must enter an access code
 * **Share** The page that includes the form people use to upload content
-* **Random** No content needed, it just performs a redirect to a random collectable. Just leave it alone.
 
 Set up your own menus as needed; make sure that you click the **Location** tab to tell Wordpress to use the menu you create as the **Primary** menu.
 
@@ -225,6 +235,8 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+* (1.9) Support included now for Giphy, Mixcloud, Flickr, Speakerdeck, and Slideshare, plus uploads now include ability to add images. The theme options can be used to limit the sites enabled. Also, the theme no longer needs a separate page for the random link generator (it's done all with code).
+* (1.6-1.8) ! Yikes, someone forgot to list the new features. We are sure they were awesome.
 * (1.5) Previews of submissions added to share form (displays as lightbox overlay). Pagination fixed for view by license template, shortcode added for license. Changed post format to not use content above more tag to find media URLs (Gunteberg comment tag danger), but reference media url stored in custom field (older formats still work). Tested to work with WordPress 5, Gutenberg, and newest version of parent theme. And, because the file got so long, `functions.php` has now been divided up into component files stored inside `/includes/'
 * (1.0) Support added to allow submission of URLs for Adobe Spark Pages and Videos. Options added to hide form inputs for categories and tags if not needed. Fixed theme to use parent theme fonts and icons.
 * (0.6) Template added to display media by type of open license applied

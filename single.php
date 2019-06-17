@@ -7,12 +7,14 @@
 		<div class="content">
 												        
 			<?php if ( have_posts() ) : while( have_posts() ) : the_post(); 
-			
+						
 				$format = get_post_format();
 				$wAuthor =  get_post_meta( $post->ID, 'shared_by', 1 );
 				$wCredit = get_post_meta( $post->ID, 'credit', 1 );
 				$wLicense = get_post_meta( $post->ID, 'license', 1 );
 				$media_url = get_post_meta($post->ID, 'media_url', 1);
+				$wMediaType = url_is_media_type($media_url); 
+				$attributions = ['',''];
 				
 				?>
 						
@@ -24,9 +26,11 @@
 			
 							<?php
 							
-							// can we embed this audio url?
+							
+							// can we embed this  url?
 							if ( is_url_embeddable( $media_url ) ) {							
 
+								echo '<!-- embeddabble -->';
 								// Use oEmbed for YouTube, et al
 								$embed_code = wp_oembed_get( $media_url ); 
 								
@@ -34,7 +38,7 @@
 								
 							} else {
 								// then we have a video file so show it as a player
-								
+								echo '<!-- not embeddabble -->';
 								echo splotbox_get_videoplayer( $media_url );
 								
 							}
@@ -118,20 +122,60 @@
 							<?php garfunkel_flexslider( 'post-image' ); ?>
 											
 						</div><!-- .featured-media -->
+						
+					<?php elseif ( $wMediaType == 'image' ) : ?> 	
+					
+						<div class="featured-media">
+							<?php
+							
+
+							// can we embed this audio url?
+							if ( is_url_embeddable( $media_url ) ) {
+
+								// then do it
+								// oEmbed part before <!--more--> tag
+								$embed_code = wp_oembed_get( $media_url ); 
+				
+								echo $embed_code;
+								
+								echo '<div class="media-caption-container">
+								<p class="media-caption">' . $media_url . ' </p>
+								</div>';
+			
+							} else {
+								// then we have an image file so get it's code
+								
+								echo splotbox_get_imageplayer( $media_url );
+								
+							}
+							
+															
+
+
+							?>
+						
+						
+						</div>
+						
 				
 					<?php elseif ( has_post_thumbnail() ) : ?>
 					
 						<div class="featured-media">
 						
-							<?php the_post_thumbnail( 'post-image' ); ?>
+							<?php 
+								
+							the_post_thumbnail( 'post-image' );
+
+							$image_caption = get_post( get_post_thumbnail_id() )->post_excerpt;
 							
-							<?php if ( ! empty( get_post( get_post_thumbnail_id() )->post_excerpt ) ) : ?>
+							if ( $image_caption ) : ?>
 											
 								<div class="media-caption-container">
 								
-									<p class="media-caption"><?php echo get_post( get_post_thumbnail_id() )->post_excerpt; ?></p>
+									<p class="media-caption"><?php echo $image_caption; ?></p>
 									
 								</div>
+							
 								
 							<?php endif; ?>
 									
@@ -150,6 +194,16 @@
 						</div><!-- .post-header -->
 														                                    	    
 						<div class="post-content">
+						
+							<?php  if ( is_preview() ):?>
+								<div class="notify"><span class="symbol icon-info"></span>
+This is a preview of your entry that shows how it will look when published. <a href="#" onclick="self.close();return false;">Close this window/tab</a> when done to return to the submission form. Make any changes and check the info again or if it is ready, click <strong>Submit Item</strong>
+
+							
+								</div>
+							
+							
+							<?php endif?>
 
 							<?php 
 							// if stuff has a more tag..
@@ -176,7 +230,7 @@
 			    		if ( ( splotbox_option('use_source') > 0 )  AND $wCredit ) echo '<p><strong>Item Credit:</strong> ' .  make_links_clickable($wCredit)  . '</p>';
 			    		
 			    		
-			    		if  ( splotbox_option('use_license') > 0 ) {
+			    		if  ( splotbox_option('use_license') > 0  AND $wLicense) {
 			    			echo '<p><strong>Reuse License:</strong> ';
 			    			splotbox_the_license( $wLicense );
 			    			echo '</p>';
@@ -184,7 +238,7 @@
 			    			// display attribution?
 			    			if  ( splotbox_option( 'show_attribution' ) == 1 ) {
 			    				$attributions = splotbox_attributor( $wLicense, get_the_title(), get_permalink(), $wCredit);?>
-						
+			    				
 								<h4>Copy/Paste Text Attribution</h4>
 								<textarea rows="2" onClick="this.select()" style="height:80px;"><?php echo $attributions[0]?></textarea>
 
@@ -198,6 +252,13 @@
 			    		
 			    	?>
 
+
+							<?php  if ( is_preview() ):?>
+								<div class="notify"><span class="symbol icon-info"></span> Once done reviewing your entry, <a href="#" onclick="self.close();return false;">Close this window/tab</a> to return to the editing form.
+							
+								</div>
+							<?php endif?>
+							
 							<div class="clear"></div>
 										        
 						</div><!-- .post-content -->
@@ -319,27 +380,29 @@
 								
 									<div class="post-nav fleft">
 									
-										<?php
-										$prev_post = get_previous_post();
-										if ( ! empty( $prev_post ) ) : ?>
-										
-											<a class="post-nav-prev" title="<?php printf( __( 'Previous item: "%s"', 'garfunkel' ), esc_attr( get_the_title( $prev_post ) ) ); ?>" href="<?php echo get_permalink( $prev_post->ID ); ?>">
-												<p><?php _e( 'Previous item', 'garfunkel' ); ?></p>
-												<h4><?php echo get_the_title( $prev_post ); ?></h4>
-											</a>
 									
-										<?php endif;
+										<?php if ( !is_preview() ):?>
+											<?php
+											$prev_post = get_previous_post();
+											if ( ! empty( $prev_post ) ) : ?>
 										
-										$next_post = get_next_post();
-										if ( ! empty( $next_post ) ) : ?>
+												<a class="post-nav-prev" title="<?php printf( __( 'Previous item: "%s"', 'garfunkel' ), esc_attr( get_the_title( $prev_post ) ) ); ?>" href="<?php echo get_permalink( $prev_post->ID ); ?>">
+													<p><?php _e( 'Previous item', 'garfunkel' ); ?></p>
+													<h4><?php echo get_the_title( $prev_post ); ?></h4>
+												</a>
+									
+											<?php endif;
+										
+											$next_post = get_next_post();
+											if ( ! empty( $next_post ) ) : ?>
 											
-											<a class="post-nav-next" title="<?php printf( __( 'Next item: "%s"', 'garfunkel' ), esc_attr( get_the_title( $next_post ) ) ); ?>" href="<?php echo get_permalink( $next_post->ID ); ?>">
-												<p><?php _e( 'Next item', 'garfunkel' ); ?></p>
-												<h4><?php echo get_the_title( $next_post ); ?></h4>
-											</a>
+												<a class="post-nav-next" title="<?php printf( __( 'Next item: "%s"', 'garfunkel' ), esc_attr( get_the_title( $next_post ) ) ); ?>" href="<?php echo get_permalink( $next_post->ID ); ?>">
+													<p><?php _e( 'Next item', 'garfunkel' ); ?></p>
+													<h4><?php echo get_the_title( $next_post ); ?></h4>
+												</a>
 									
+											<?php endif; ?>
 										<?php endif; ?>
-									
 									</div>
 									
 									<div class="clear"></div>

@@ -25,14 +25,21 @@ function splotbox_get_licences() {
 }
 
 
-function splotbox_the_license( $lcode ) {
+function splotbox_the_license( ) {
 	// output the title of a license
+	
+	// passed by form with no menu selected
+	if ($lcode == '--') return '';
+	
 	$all_licenses = splotbox_get_licences();
 	
 	echo $all_licenses[$lcode];
 }
 
 function splotbox_attributor( $license, $work_title, $work_link, $work_creator='') {
+
+	// passed by form with no menu selected
+	if ($license == '--') return (['','']);
 
 	$all_licenses = splotbox_get_licences();
 		

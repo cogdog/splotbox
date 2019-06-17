@@ -6,7 +6,7 @@
 */
 
 // valid file extensions
-var allowables = ['mp3' , 'm4a', 'ogg'];
+var allowables = ['mp3' , 'm4a', 'ogg', 'jpg' , 'png' ,'gif'];
 
 
 function getAbsolutePath() {
@@ -16,32 +16,52 @@ function getAbsolutePath() {
 }
 
 function isAllowableUploadLink(url) {
-
 	// get extension -- h/t https://stackoverflow.com/a/12900504/2418186
 	 var ext = url.slice((url.lastIndexOf(".") - 1 >>> 0) + 2);
 	 
 	 // check in array
 	 return allowables.includes(ext.toLowerCase());
-
 }
 
+var image_exts = ['jpg' , 'png' ,'gif'];
+
+function isImageLink(url) {
+	// get extension -- h/t https://stackoverflow.com/a/12900504/2418186
+	 var ext = url.slice((url.lastIndexOf(".") - 1 >>> 0) + 2);
+	 
+	 // check in array
+	 return image_exts.includes(ext.toLowerCase());
+}
+
+
+
+
 jQuery(document).ready(function() { 
-	// called for via click of upload button in theme options
 
 	// hide the test url button
     if( !jQuery("#wMediaURL").val() ) { 
     	jQuery("#testURL").removeAttr('href'); 
-    	jQuery("#testURL").css( 'cursor', 'pointer' );
+    	jQuery("#testURL").addClass('disabled');
     }
+    
+    jQuery("input" ).change(function() {
+    	jQuery("#wPreview").addClass('disabled');
+	});
 
+
+    
 	// show test url button if url field changed
-	jQuery("#wMediaURL").blur(function() {
+	jQuery("#wMediaURL").change(function() {
+
 		if(this.value.replace(/\s/g, "") === "") {
 		   // hide button
 		   jQuery("#testURL").removeAttr('href');
+		   jQuery("#testURL").addClass('disabled');
 		} else {
 			//show test button, set its href value
-		   jQuery("#testURL").attr("href", jQuery("#wMediaURL").val());
+			jQuery("#testURL").removeClass('disabled');
+			jQuery("#testURL").css( 'cursor', 'pointer' );
+		    jQuery("#testURL").attr("href", jQuery("#wMediaURL").val());
 		   
 		}
 	});
@@ -86,6 +106,17 @@ jQuery(document).ready(function() {
 			// set link of url test button and show it
 			jQuery("#testURL").attr("href", attachment.url);
 			jQuery("#testURL").show();
+			
+			  // insert the base url into the hidden field for the option value
+			  jQuery("#wFeatureImage").val(attachment.id);  
+		  		    		  
+			  // update the thumbnail preview
+			  if ( isImageLink(attachment.url) ) {
+			  	jQuery("#featurethumb").attr("src", attachment.sizes.thumbnail.url); 
+			  } else {
+			  	jQuery("#featurethumb").attr("src", 'https://placehold.it/150x150?text=Media+holder'); 
+			  } 
+			
 		
 		} else {
 		

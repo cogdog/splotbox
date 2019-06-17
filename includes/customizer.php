@@ -114,7 +114,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 	// setting for image upload prompt
 	$wp_customize->add_setting( 'item_upload_prompt', array(
-		 'default'           => __( 'Upload your file by dragging its icon to the window that opens when clicking  <strong>Upload Media</strong> button. The uploader will automatically enter it\'s URL in the entry field above and will populate title and caption fields below if it finds appropriate metadata in the file.', 'garfunkel'),
+		 'default'           => __( 'Upload your file by dragging its icon to the window that opens when clicking  Upload Media button. The uploader will automatically enter its URL in the entry field above and will populate title and caption fields below if it finds appropriate metadata in the file.', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -202,7 +202,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 	// setting for description  label prompt
 	$wp_customize->add_setting( 'item_description_prompt', array(
-		 'default'           => __( 'Enter a descriptive caption to include with the item.', 'garfunkel'),
+		 'default'           => __( 'Enter a description to include with the item.', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -444,7 +444,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 	// setting for editor notes  prompt
 	$wp_customize->add_setting( 'item_submit_buttons_prompt', array(
-		 'default'           => __( 'First, verify the information for your media item by clicking "Check info." Once this is done, you can use the "Preview" button to see how it will look. When ready, click "Submit" to add it to this site.', 'garfunkel'),
+		 'default'           => __( 'First, verify the information for your media item by clicking "Check info." Once this is done, you can use the "Preview" button to see how it will look - this will open in a new window/tab. Make and changes, and click "Check Info" again to update. When everything looks ready, click "Submit" to add it to this site.', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -510,7 +510,7 @@ function splotbox_form_item_upload_prompt() {
 	 if ( get_theme_mod( 'item_upload_prompt') != "" ) {
 	 	echo get_theme_mod( 'item_upload_prompt');
 	 }	else {
-	 	echo 'Upload your file by dragging its icon to the window that opens when clicking  <strong>Upload Media</strong> button. The uploader will automatically enter it\'s URL in the entry field above and will populate title and caption fields below if it finds appropriate metadata in the file.';
+	 	echo 'Upload your file by dragging its icon to the window that opens when clicking  <strong>Upload Media</strong> button. The uploader will automatically enter its URL in the entry field above and will populate title and caption fields below if it finds appropriate metadata in the file.';
 	 }
 }
 
@@ -542,7 +542,7 @@ function splotbox_form_item_description_prompt() {
 	 if ( get_theme_mod( 'item_description_prompt') != "" ) {
 	 	echo get_theme_mod( 'item_description_prompt');
 	 }	else {
-	 	echo 'Enter a descriptive caption to include with the item.';
+	 	echo 'Enter a description to include with the item.';
 	 }
 }
 
@@ -639,7 +639,7 @@ function splotbox_form_item_submit_buttons_prompt() {
 	 if ( get_theme_mod( 'item_submit_buttons_prompt') != "" ) {
 	 	echo get_theme_mod( 'item_submit_buttons_prompt');
 	 }	else {
-	 	echo 'First, verify the information for your media item by clicking "Check info." Once this is done, you can use the "Preview" button to see how it will look. When ready, click "Submit" to add it to this site.';
+	 	echo 'First, verify the information for your media item by clicking "Check info." Once this is done, you can use the "Preview" button to see how it will look - this will open in a new window/tab. Make and changes, and click "Check Info" again to update. When everything looks ready, click "Submit" to add it to this site.';
 	 }
 }
 
