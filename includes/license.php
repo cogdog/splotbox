@@ -25,7 +25,7 @@ function splotbox_get_licences() {
 }
 
 
-function splotbox_the_license( ) {
+function splotbox_the_license( $lcode = '--' ) {
 	// output the title of a license
 	
 	// passed by form with no menu selected

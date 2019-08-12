@@ -38,6 +38,7 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 * [Coventry University DMLL Video Archive](http://videos.dmllmedia.coventry.domains/)
 * [GEOL 109  The Earth and Life Through Time](http://sites.usask.ca/geol109/) Student-Curated Geology Video Collection from the University of Saskatchewan
 * [OpenMed Video Collection](https://videos.openmedproject.eu/) Audiovisual OER produced for the OpenMed Project
+* [Open Pedagogy Playlist](http://openpedagogyplaylist.com/) by Chad Flinn
 * [OWLTECH Perspectives](http://perspectives.owlteh.org/) Open Web For Learning & Teaching Expertise Hub -- a series of videos contributed by educators and learners who are actively engaged in using the Open Web within their practice.
 * [MURSDLeads Author Series](http://eduquinn.com/Interviews/) interviews with leading education authors
 * [SPLOTbox](http://splot.ca/box/) - the demo site

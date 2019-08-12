@@ -694,10 +694,12 @@ class splotbox_Theme_Options {
 				$input['notify'] = str_replace(' ', '', $input['notify']);
 			}
 		
+			/*
 			foreach ( $this->checkboxes as $id ) {
 				if ( isset( $options[$id] ) && ! isset( $input[$id] ) )
 					unset( $options[$id] );
 			}
+			*/
 			
 			return $input;
 		}
