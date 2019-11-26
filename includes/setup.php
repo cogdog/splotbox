@@ -24,7 +24,7 @@ function splotbox_setup () {
   		'post_type'		=> 'page',
   		'post_author' 	=> 1,
   		'post_date' 	=> date('Y-m-d H:i:s'),
-  		'page_template'	=> 'page-collect.php',
+  		'page_template'	=> 'page-share.php',
   	);
   	
   	wp_insert_post( $page_data );
