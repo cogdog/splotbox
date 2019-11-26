@@ -2,7 +2,7 @@
 Theme Name: 	Splotbox
 Theme URI: 		http://github.com/cogdog/splotbox
 Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		1.92
+Version: 		2.0
 Template:       garfunkel
 Author: 		CogDog
 Author URI: 	https://cog.dog/
@@ -193,8 +193,16 @@ a.download-link:hover {
 }
 
 #splotboxform .supports {
-    background-color: #eeeeee;
+    background-color: #eee;
     font-weight: 600;
+    line-height: 100%;
+}
+
+#splotboxform .descrip {
+	font-size:0.8em;
+	display: block;
+	margin-left:2em;
+
 }
 
 
@@ -263,6 +271,60 @@ a.download-link:hover {
 .mobile-menu .search-field:hover, .mobile-menu .search-field:focus {
 		background: #ca2017; 
 		color: #fff;
+}
+
+/* -------------------------------  image drop zone ----------------------------------*/
+
+
+#footlocker, #idlocker {
+	display: none;
+}
+
+#uploadresponse {
+    color: #673ab7;
+}
+
+img#mediathumb {
+    float: left;
+    margin: 0 1em 0 0;
+    cursor: pointer;
+    object-fit: cover;
+    width: 150px;
+    height: 150px;
+}
+
+#splotdropzone {
+    position: relative;
+    top: 0;
+    left: 0;
+    margin: 0 0 1em 0;
+    width: 100%;
+    height: 200px;
+    border: 3px dashed #999;
+    background: url(images/upload-icon.png) no-repeat center 20%, url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAkAAAAJCAYAAADgkQYQAAAAH0lEQVQoU2NkIAIwEqGGgfaK/jMwIGyhvXUonibKOgCoygEKFVx9rwAAAABJRU5ErkJggg==) repeat !important;
+    cursor: pointer;
+}
+
+#splotdropzone input {
+  position: absolute;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  outline: none;
+  opacity: 0;
+}
+
+#dropmessage {
+	width: 100%;
+	height: 100%;
+	padding-top: 70px;
+	text-align: center;
+	word-break: break-word;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 1em;
+	font-weight:bold;  
+	color: #333;
 }
 
 

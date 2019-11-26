@@ -1,28 +1,29 @@
 <?php
 
 # -----------------------------------------------------------------
-# Theme activation, let's go!
+# Setup and intitialization
 # -----------------------------------------------------------------
 
+
 // run when this theme is activated
-add_action('after_switch_theme', 'trucollector_setup');
+add_action('after_switch_theme', 'splotbox_setup');
 
-function trucollector_setup () {
+function splotbox_setup () {
+  // make sure our categories are present
   
-	// create special pages if they do not exist
-	// backdate creation date 2 days just to make sure they do not end up future dated
-	// which causes all kinds of disturbances in the force
-
-  if (! page_with_template_exists( 'page-collect.php' ) ) {
-  	// create the Collect form page if it does not exist
+  // create pages if they do not exist
+  
+  if (! get_page_by_path( 'share' ) ) {
+  
+  	// create the Write page if it does not exist
   	$page_data = array(
-  		'post_title' 	=> 'Collect',
-  		'post_content'	=> 'Here is the place to add a new photo to this collection. If you are building this site, maybe edit this page to make it special.',
-  		'post_name'		=> 'collect',
+  		'post_title' 	=> 'Share',
+  		'post_content'	=> 'Share some media into the box',
+  		'post_name'		=> 'share',
   		'post_status'	=> 'publish',
   		'post_type'		=> 'page',
   		'post_author' 	=> 1,
-  		'post_date' 	=> date('Y-m-d H:i:s', time() - 172800),
+  		'post_date' 	=> date('Y-m-d H:i:s'),
   		'page_template'	=> 'page-collect.php',
   	);
   	
@@ -30,31 +31,14 @@ function trucollector_setup () {
   
   }
 
- if (! page_with_template_exists( 'page-desk.php' ) ) {
 
-  	// create the welcome desk page if it does not exist
-  	$page_data = array(
-  		'post_title' 	=> 'Welcome Desk',
-  		'post_content'	=> 'You are but one special key word away from being able to add images to this collection. Hopefully the kind owner of this site has provided you the key phrase. Spelling and capitalization do count. If you are said owner, editing this page will let you personalize this bit.',
-  		'post_name'		=> 'desk',
-  		'post_status'	=> 'publish',
-  		'post_type'		=> 'page',
-  		'post_author' 	=> 1,
-  		'post_date' 	=> date('Y-m-d H:i:s', time() - 172800),
-  		'page_template'	=> 'page-desk.php',
-  	);
-  	
-  	wp_insert_post( $page_data );
-  
-  }
-
-	if (! page_with_template_exists( 'page-licensed.php' ) ) {
+  if (! get_page_by_path( 'licensed' ) ) {
   
   	// create index page and archive for licenses.
   	
   	$page_data = array(
   		'post_title' 	=> 'Items by License',
-  		'post_content'	=> 'Browse the items in this collection by license for reuse',
+  		'post_content'	=> 'Browse the items in this SPLOTbox by license for reuse',
   		'post_name'		=> 'licensed',
   		'post_status'	=> 'publish',
   		'post_type'		=> 'page',
@@ -67,8 +51,9 @@ function trucollector_setup () {
   
   }
   
-  flush_rewrite_rules();
-   
+	// add rewrite rules, then flush to make sure they stick.
+	splotbox_rewrite_rules();
+	flush_rewrite_rules();
 }
 
 
@@ -77,36 +62,37 @@ function trucollector_setup () {
 # -----------------------------------------------------------------
 
 // we need to load the options this before the auto login so we can use the pass
-add_action( 'after_setup_theme', 'trucollector_load_theme_options', 9 );
+add_action( 'after_setup_theme', 'splotbox_load_theme_options', 9 );
+
+/* add audio post format to the mix */
+
+add_action( 'after_setup_theme', 'splotbox_formats', 11 );
+
+function splotbox_formats(){
+     add_theme_support( 'post-formats', array( 'audio', 'video', 'aside', 'gallery', 'image', 'link', 'quote' ) );
+}
 
 // change the name of admin menu items from "New Posts"
 // -- h/t https://wordpress.stackexchange.com/a/9224/14945
-// and of course the Codex http://codex.wordpress.org/Function_Reference/add_submenu_page
 
-add_action( 'admin_menu', 'trucollector_change_post_label' );
-add_action( 'init', 'trucollector_change_post_object' );
+add_action( 'admin_menu', 'splotbox_change_post_label' );
+add_action( 'init', 'splotbox_change_post_object' );
 
-// turn 'em from Posts to Collectables
-function trucollector_change_post_label() {
+function splotbox_change_post_label() {
     global $menu;
     global $submenu;
     
-    $thing_name = 'Collectable';
+    $thing_name = 'Item';
     
     $menu[5][0] = $thing_name . 's';
     $submenu['edit.php'][5][0] = 'All ' . $thing_name . 's';
     $submenu['edit.php'][15][0] = $thing_name .' Categories';
     $submenu['edit.php'][16][0] = $thing_name .' Tags';
     echo '';
-    
-    
-    add_submenu_page('edit.php', 'Collectable for Review', 'Collectable for Review', 'edit_pages', 'edit.php?post_status=draft&post_type=post' ); 
 }
+function splotbox_change_post_object() {
 
-// change the prompts and stuff for posts to be relevant to collectables
-function trucollector_change_post_object() {
-
-    $thing_name = 'Collectable';
+    $thing_name = 'Item';
 
     global $wp_post_types;
     $labels = &$wp_post_types['post']->labels;
@@ -125,196 +111,76 @@ function trucollector_change_post_object() {
     $labels->name_admin_bar =  $thing_name;
 }
 
-// edit the post editing admin messages to reflect use of Collectables
-// h/t http://www.joanmiquelviade.com/how-to-change-the-wordpress-post-updated-messages-of-the-edit-screen/
+add_filter('comment_form_defaults', 'splotbox_comment_mod');
 
-function trucollector_post_updated_messages ( $msg ) {
-    $msg[ 'post' ] = array (
-         0 => '', // Unused. Messages start at index 1.
-	 1 => "Collectable updated.",
-	 2 => 'Custom field updated.',  // Probably better do not touch
-	 3 => 'Custom field deleted.',  // Probably better do not touch
+# -----------------------------------------------------------------
+# Comments
+# -----------------------------------------------------------------
 
-	 4 => "Collectable updated.",
-	 5 => "Collectable restored to revision",
-	 6 => "Collectable published.",
-
-	 7 => "Collectable saved.",
-	 8 => "Collectable submitted.",
-	 9 => "Collectable scheduled.",
-	10 => "Collectable draft updated.",
-    );
-    return $msg;
-}
-
-add_filter( 'post_updated_messages', 'trucollector_post_updated_messages', 10, 1 );
-
-// modify the comment form
-add_filter('comment_form_defaults', 'trucollector_comment_mod');
-
-function trucollector_comment_mod( $defaults ) {
+function splotbox_comment_mod( $defaults ) {
 	$defaults['title_reply'] = 'Provide Feedback';
 	$defaults['logged_in_as'] = '';
 	$defaults['title_reply_to'] = 'Provide Feedback for %s';
 	return $defaults;
 }
 
-// -----  add allowable url parameters
-add_filter('query_vars', 'trucollector_queryvars' );
 
-function trucollector_queryvars( $qvars ) {
-	$qvars[] = 'flavor'; // flag for type of license
-	$qvars[] = 'random'; // random flag
-	$qvars[] = 'tk'; // flag for edit key
-	$qvars[] = 'elink'; // for edit link requests
-	$qvars[] = 'wid'; // id for sending email edit link
-	return $qvars;
-}   
+
 
 // options for post order on front page
-add_action( 'pre_get_posts', 'trucollector_order_items' );
+add_action( 'pre_get_posts', 'splotbox_order_items' );
 
-function trucollector_order_items( $query ) {
+function splotbox_order_items( $query ) {
 
-	if ( ( $query->is_home() && $query->is_main_query()) OR $query->is_archive() OR $query->is_search() ) {
+	// just the main, please
+	if ( $query->is_main_query() ) {
+
+		// change sort order on home, archives, or search results
+		if (  $query->is_home()  OR $query->is_archive() OR $query->is_search() ) {
 	
-		$query->set( 'orderby', trucollector_option('sort_by')  );
-		$query->set( 'order', trucollector_option('sort_direction') );
+			$query->set( 'orderby', splotbox_option('sort_by')  );
+			$query->set( 'order', splotbox_option('sort_direction') );
 		
-	}
-}
-
-# -----------------------------------------------------------------
-# Remove the New Post buttons, links from dashboard
-# -----------------------------------------------------------------
-
-// remove sub menu from Posts menu
-add_action( 'admin_menu', 'trucollector_remove_admin_submenus', 999 );
-
-function trucollector_remove_admin_submenus() {
-	remove_submenu_page( 'edit.php', 'post-new.php' );
-}
-
-
-// remove from admin bar too
-add_action( 'admin_bar_menu', 'trucollector_remove_admin_menus', 999 );
-
-function trucollector_remove_admin_menus() {
-    global $wp_admin_bar;   
-    $wp_admin_bar->remove_node( 'new-post' );
-}
-
-
-// use CSS to hide the one on the posts listing
-function trucollector_custom_admin_styles(){
-    wp_enqueue_style( 'admin_css',  get_stylesheet_directory_uri() . '/includes/admin.css');
-}
-
-add_action('admin_enqueue_scripts', 'trucollector_custom_admin_styles');
-
-
-# -----------------------------------------------------------------
-# Make URLs by rewrites
-# -----------------------------------------------------------------
-
-
-
-/* set up rewrite rules */
-add_action('init','trucollector_rewrite_rules');
-
-
-function trucollector_rewrite_rules() {
-	// for sending to random item
-   add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
-
-   // for edit link requests
-   add_rewrite_rule( '^get-edit-link/([^/]+)/?',  'index.php?elink=1&wid=$matches[1]','top');	 
-   
-   
-   $license_page_id = trucollector_get_license_page_id();
-   
-   add_rewrite_rule( '^licensed/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . $license_page_id . '&flavor=$matches[1]&paged=$matches[2]','top');
-	
-	add_rewrite_rule( '^licensed/([^/]*)/?',  'index.php?page_id=' . $license_page_id . '&flavor=$matches[1]','top');
-
-}
-
- 
-/* handle redirects */
- 
-add_action( 'template_redirect', 'trucollector_write_director' );
-
-function trucollector_write_director() {
-
-	if ( is_page( trucollector_get_collect_page() ) and !isset( $_POST['trucollector_form_make_submitted'] ) ) {
-	
-		// check for query vars that indicate this is a edit request/ build qstring
-		$tk  = get_query_var( 'tk', 0 );    // magic token to check
-
-		$args = ( $tk )  ? '?tk=' . $tk : '';
-		
-			// normal entry check for author
-		if ( !is_user_logged_in() ) {
-			// not already logged in? go to desk.
-			wp_redirect ( home_url('/') . trucollector_get_desk_page()  . $args );
-			exit;
-	
-		} elseif ( !current_user_can( 'edit_others_posts' ) ) {
-			// okay user, who are you? we know you are not an admin or editor
-		
-			// if the writer user not found, we send you to the desk
-			if ( !trucollector_check_user() ) {
-				// now go to the desk and check in properly
-				wp_redirect ( home_url('/') . trucollector_get_desk_page() . $args  );
-				exit;
-			} 
 		}
-
 	}
-	
-	if ( is_page(trucollector_get_desk_page()) ) {
-	
-	
-		// check for query vars that indicate this is a edit request/ build qstring
-		$tk  = get_query_var( 'tk', 0 );    // magic token to check
+}
 
-		$args = ( $tk )  ? '?tk=' . $tk : '';
+// -----  add allowable url parameters
+add_filter('query_vars', 'splotbox_queryvars' );
 
+function splotbox_queryvars( $qvars ) {
+	$qvars[] = 'flavor'; // flag for type of license
+	$qvars[] = 'random'; // flag for random generator
+	$qvars[] = 'elink'; // flag for get edit link
+	$qvars[] = 'ispre'; // flag for preview when not logged in
 	
-		// already logged in? go directly to the tool
-		if ( is_user_logged_in() ) {
+	return $qvars;
+}  
 
-			if ( current_user_can( 'edit_others_posts' ) ) {
-				// If user has edit/admin role, send them to the tool
-				wp_redirect( splot_redirect_url() . $args );
-				exit;
+# -----------------------------------------------------------------
+# Query vars and Redirects
+# -----------------------------------------------------------------
 
-			} else {
-
-				// if the correct user already logged in, go directly to the tool
-				if ( trucollector_check_user() ) {			
-					wp_redirect( splot_redirect_url()  . $args );
-					exit;
-				} 
-			}	
+      
+function splotbox_rewrite_rules() {
 	
-		} elseif ( trucollector_option('accesscode') == '')  {
-			splot_user_login('collector', true, $args );
-			exit;
-		} elseif ( isset( $_POST['trucollector_form_access_submitted'] ) 
-		&& wp_verify_nonce( $_POST['trucollector_form_access_submitted'], 'trucollector_form_access' ) ) {
+	// first rule for paged results of licenses
+	add_rewrite_rule( '^licensed/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . $license_page->ID . '&flavor=$matches[1]&paged=$matches[2]','top');	
+
+	add_rewrite_rule( '^licensed/([^/]*)/?',  'index.php?page_id=' . $license_page->ID . '&flavor=$matches[1]','top');	
+
+	// let's go random
+	add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
+}
+
+/* set up function to handle redirects */
  
-			// access code from the form
-			if ( stripslashes( $_POST['wAccess'] ) == trucollector_option('accesscode') ) {
-				splot_user_login('collector', true, $args );
-				exit;
-			}
-			
-		}
-			
-	}
-	
-  if ( get_query_var('random') == 1 ) {
+ add_action('template_redirect','splotbox_random_template');
+
+ function splotbox_random_template() {
+ 
+ 	// manage redirect for /random
+   if ( get_query_var('random') == 1 ) {
 		 // set arguments for WP_Query on published posts to get 1 at random
 		$args = array(
 			'post_type' => 'post',
@@ -333,30 +199,76 @@ function trucollector_write_director() {
 		  wp_redirect ( get_permalink () );
 		  exit;
 		}  
-   } elseif ( get_query_var('elink') == 1 and get_query_var('wid')  ) {
-   
-   		// get the id parameter from URL
-		$wid = get_query_var( 'wid' , 0 );   // id of post
+   }
+ }
+ 
+ 
+# -----------------------------------------------------------------
+# Enqueue Scripts and Styles
+# -----------------------------------------------------------------
 
-		trucollector_mail_edit_link ($wid);
-   		exit;
-   		
-   	/*
-   } elseif ( get_query_var('tk') ) {
-   		// catch all if the collect page URL has changed, capture and redirect
-   
-   
-   		$tk  = get_query_var( 'tk', 0 );    // magic token to check
-		$args = ( $tk )  ? '?tk=' . $tk : '';
-		wp_redirect( splot_redirect_url()  . $args );
-		exit;
-	*/	
-	}
-	
+
+add_action('wp_enqueue_scripts', 'add_splotbox_scripts');
+
+function add_splotbox_scripts() {
+	// hello parents!	 
+    $parent_style = 'garfunkel_style'; 
+    
+    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
+    
+    wp_enqueue_style( 'child-style',
+        get_stylesheet_directory_uri() . '/style.css',
+        array( $parent_style ),
+        wp_get_theme()->get('Version')
+    );
+
+
+	// register and enqueue styles for icons and google fonts because parent theme has it wired wrong
+	wp_register_style( 'splotbox_googleFonts', '//fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,700italic|Playfair+Display:400,900|Crimson+Text:700,400italic,700italic,400' );
+	wp_register_style( 'splotbox_genericons', get_stylesheet_directory_uri() . '/genericons/genericons.css' );
+
+	wp_enqueue_style( 'splotbox_style', get_stylesheet_uri(), array( 'splotbox_googleFonts', 'splotbox_genericons' ) );
+			    
+ 	// use these scripts just our sharing form page
+ 	 	if ( is_page( splotbox_get_share_page() ) ) { // use on just our form page
+
+		 // add media scripts if we are on our share page and not an admin
+		 // after http://wordpress.stackexchange.com/a/116489/14945
+    	 
+		if (! is_admin() ) wp_enqueue_media();
 		
+		// Build in tag auto complete script
+   		wp_enqueue_script( 'suggest' );
+   		
+   		// Autoembed functionality in rich text editor
+   		// needs dependency on tiny_mce
+   		// h/t https://wordpress.stackexchange.com/a/287623		
+   		wp_enqueue_script( 'mce-view', '', array('tiny_mce') );		
+   		
+ 		// tinymce mods
+		add_filter("mce_external_plugins", "splotbox_register_buttons");
+		add_filter('mce_buttons','splotbox_tinymce_buttons');
+		add_filter('mce_buttons_2','splotbox_tinymce_2_buttons');
+
+  		
+		// custom jquery for the uploader on the form
+		wp_register_script( 'jquery.splotbox' , get_stylesheet_directory_uri() . '/js/jquery.splotbox.js', null , '1.0', TRUE );
+
+		// add a local variable for the site's home url
+		wp_localize_script(
+		  'jquery.splotbox',
+		  'boxObject',
+		  array(
+		  	'ajaxUrl' => admin_url('admin-ajax.php'),
+			'siteUrl' => esc_url(home_url()),
+			'uploadMax' => splotbox_option('upload_max' )
+		  )
+		);
+
+		wp_enqueue_script( 'jquery.splotbox' );		
+	}
 
 }
-
 
 # -----------------------------------------------------------------
 # Menu Setup
@@ -370,8 +282,7 @@ function splot_is_menu_location_used( $location = 'primary' ) {
 	
 	// get all nav menus
 	$navmenus = wp_get_nav_menus();
-	
-	
+
 	// if either is empty we have no menus to use
 	if ( empty( $menulocations ) OR empty( $navmenus ) ) return false;
 	
@@ -385,82 +296,157 @@ function splot_default_menu() {
 	// site home with trailing slash
 	$splot_home = site_url('/');
   
- 	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . 'collect' . '">Collect</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
-  
+ 	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . 'share' . '">Share</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
 }
 
 # -----------------------------------------------------------------
-# For the Collection Form
+# Allow Previews
 # -----------------------------------------------------------------
 
-add_action('wp_enqueue_scripts', 'add_trucollector_scripts');
 
-function add_trucollector_scripts() {	 
- 
- 
- 	// do your parents have style?
-    $parent_style = 'fukasawa_style'; 
-    
-    // load 'em
-    wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
-    
-    // kids are next
-    wp_enqueue_style( 'child-style',
-        get_stylesheet_directory_uri() . '/style.css',
-        array( $parent_style ),
-        wp_get_theme()->get('Version')
-    );
+function  splotbox_show_drafts( $query ) {
+
+    if ( is_user_logged_in() || is_feed() )
+        return;
+
+    $query->set( 'post_status', array( 'publish', 'draft' ) );
+}
+
+add_action( 'pre_get_posts', 'splotbox_show_drafts' );
+
+// enable previews of posts for non-logged in users
+// ----- h/t https://wordpress.stackexchange.com/a/164088/14945
+
+add_filter( 'the_posts', 'splotbox_reveal_previews', 10, 2 );
+
+function splotbox_reveal_previews( $posts, $wp_query ) {
+
+    //making sure the post is a preview to avoid showing published private posts
+    if ( !is_preview() )        
+        return $posts;
+        
+    if ( is_user_logged_in() )
+    	 return $posts;
+
+    if ( count( $posts ) )
+        return $posts;
+
+    if ( !empty( $wp_query->query['p'] ) ) {
+        return array ( get_post( $wp_query->query['p'] ) );
+    }
+}
+
+function splotbox_is_preview() {
+	return ( get_query_var( 'ispre', 0 ) == 1);
+}
+
+# -----------------------------------------------------------------
+# Tiny-MCE mods
+# -----------------------------------------------------------------
+
+add_filter( 'tiny_mce_before_init', 'splotbox_tinymce_settings' );
+
+function splotbox_tinymce_settings( $settings ) {
+
+	// $settings['file_picker_types'] = 'image';
+	$settings['images_upload_handler'] = 'function (blobInfo, success, failure) {
+    var xhr, formData;
+
+    xhr = new XMLHttpRequest();
+    xhr.withCredentials = false;
+    xhr.open(\'POST\', \'' . admin_url('admin-ajax.php') . '\');
+
+    xhr.onload = function() {
+      var json;
+
+      if (xhr.status != 200) {
+        failure(\'HTTP Error: \' + xhr.status);
+        return;
+      }
+
+      json = JSON.parse(xhr.responseText);
+
+      if (!json || typeof json.location != \'string\') {
+        failure(\'Invalid JSON: \' + xhr.responseText);
+        return;
+      }
+
+      success(json.location);
+    };
+
+    formData = new FormData();
+    formData.append(\'file\', blobInfo.blob(), blobInfo.filename());
+	formData.append(\'action\', \'splotbox_upload_action\');
+    xhr.send(formData);
+  }';
+  
+
+	return $settings;
+}
 
 
- 	if ( is_page( trucollector_get_collect_page() ) ) { // use on just our form page
-    
-		 // add media scripts if we are on our maker page and not an admin
-		 // after http://wordpress.stackexchange.com/a/116489/14945
-    	 
-		if (! is_admin() ) wp_enqueue_media();
-		
-		// Build in tag auto complete script
-   		wp_enqueue_script( 'suggest' );
 
-   		
-   		// Autoembed functionality in rich text editor
-   		// needs dependency on tiny_mce
-   		// h/t https://wordpress.stackexchange.com/a/287623
-   		
-   		wp_enqueue_script( 'mce-view', '', array('tiny_mce') );		
-   		
+function splotbox_register_buttons( $plugin_array ) {
+	$plugin_array['imgbutton'] = get_stylesheet_directory_uri() . '/js/image-button.js';
+	return $plugin_array;
+}
 
-		// custom jquery for the uploader on the form
-		wp_register_script( 'jquery.collector' , get_stylesheet_directory_uri() . '/js/jquery.collector.js', null , '1.0', TRUE );
-		wp_enqueue_script( 'jquery.collector' );
-		
-		
-		
-		// add scripts for fancybox (used for previews of collected items) 
-		//-- h/t http://code.tutsplus.com/tutorials/add-a-responsive-lightbox-to-your-wordpress-theme--wp-28100
-		wp_register_script( 'fancybox', get_stylesheet_directory_uri() . '/includes/lightbox/js/jquery.fancybox.pack.js', array( 'jquery' ), false, true );
-		wp_enqueue_script( 'fancybox' );
+// remove  buttons from the visual editor
 
-		// Lightbox formatting for preview screated with rich text editor
-		wp_register_script( 'lightbox_preview', get_stylesheet_directory_uri() . '/includes/lightbox/js/lightbox_preview.js', array( 'fancybox' ), '1.1', null , '1.0', TRUE );
-		wp_enqueue_script( 'lightbox_preview' );
+function splotbox_tinymce_buttons($buttons) {
+	//Remove the more button
+	$remove = 'wp_more';
+
+	// Find the array key and then unset
+	if ( ( $key = array_search($remove,$buttons) ) !== false )
+		unset($buttons[$key]);
+
+	// now add the image button in, and the second one that acts like a label
+	$buttons[] = 'image';
+	$buttons[] = 'imgbutton';
+
+	return $buttons;
+ }
+
+// remove  more buttons from the visual editor
+
+
+function splotbox_tinymce_2_buttons( $buttons)  {
+	//Remove the keybord shortcut and paste text buttons
+	$remove = array('wp_help','pastetext');
+
+	return array_diff($buttons,$remove);
+ }
+
+
+// this is the handler used in the tiny_mce editor to manage iage upload
+add_action( 'wp_ajax_nopriv_splotbox_upload_action', 'splotbox_upload_action' ); //allow on front-end
+add_action( 'wp_ajax_splotbox_upload_action', 'splotbox_upload_action' );
+
+function splotbox_upload_action() {	
+
+    $newupload = 0;
+
+    if ( !empty($_FILES) ) {
+        $files = $_FILES;
+        foreach($files as $file) {
+            $newfile = array (
+                    'name' => $file['name'],
+                    'type' => $file['type'],
+                    'tmp_name' => $file['tmp_name'],
+                    'error' => $file['error'],
+                    'size' => $file['size']
+            );
+
+            $_FILES = array('upload'=>$newfile);
+            foreach($_FILES as $file => $array) {
+                $newupload = media_handle_upload( $file, 0);
+            }
+        }
+    }
+    echo json_encode( array('id'=> $newupload, 'location' => wp_get_attachment_image_src( $newupload, 'large' )[0], 'caption' => get_attachment_caption_by_id( $newupload ) ) );
+    die();	
 	
-		// fancybox styles
-		wp_register_style( 'lightbox-style', get_stylesheet_directory_uri() . '/includes/lightbox/css/jquery.fancybox.css' );
-		wp_enqueue_style( 'lightbox-style' );	
-		
-		// used to display formatted dates
-		wp_register_script( 'moment' , get_stylesheet_directory_uri() . '/js/moment.js', null, '1.0', TRUE );
-		wp_enqueue_script( 'moment' );
-	
-	}  elseif ( is_single() ) {
-		// on single pages, enable the editlink capability
-		
-		wp_register_script( 'jquery.editlink' , get_stylesheet_directory_uri() . '/js/jquery.editlink.js', array( 'jquery' ) , '0.3', TRUE );
-		wp_enqueue_script( 'jquery.editlink' );
-	}
-
-
 }
 
 ?>

@@ -1,15 +1,21 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>docs</title>
   <style>
       code{white-space: pre-wrap;}
       span.smallcaps{font-variant: small-caps;}
       span.underline{text-decoration: underline;}
       div.column{display: inline-block; vertical-align: top; width: 50%;}
-      img {max-width:90%; }
   </style>
-
-
-
-<p><em>For complete setup documentation that includes suggestions for setup, etc <a href="https://github.com/cogdog/splotbox"  target="_blank">see the theme repository on GitHub</a>. That is also <a href="https://github.com/cogdog/splotbox/issues"  target="_blank">a good place to ask question or toss accolades</a>.</em></p>
-
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
 <h2 id="setting-up-the-site-via-splotbox-options">Setting Up The Site Via SPLOTbox options</h2>
 <p>These instructions are a reference for the settings within the SPLOTbox; if you are reading this, you got as far as installing and activating the theme. Below are basic instructions for all of the theme options, which, if this were designed well, you likely do not need me to explain, but #BecauseDocumentation here we go.</p>
 <h2 id="browse-by-licenses">Browse by Licenses</h2>
@@ -20,7 +26,7 @@
 <h3 id="theme-options-and-settings">Theme Options and Settings</h3>
 <p>Upon activation the theme will set up a <strong>SPLOTbox Options</strong> link that appears in the black admin bar at the top of your Wordpress Dashboard interface (when logged in), and in the “Appearance” tab on your Wordpress Dashboard.</p>
 <h2 id="access-and-publishing-controls">Access and Publishing Controls</h2>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/access-publishing.jpg" /></p>
+<p><img src="images/access-publishing.jpg" /></p>
 <p>Leave the <strong>Access Code</strong> field blank if you want any visitor to be able to see and use the submission form on your site.</p>
 <p>If you want to provide an access code (a very weak password), just enter it in this field. Visitors mist enter the correct code to see the full upload form.</p>
 <p>Enter a decent <strong>Access Hint</strong> that will be displayed if someone does not enter the correct code.</p>
@@ -28,57 +34,57 @@
 <p>Use this area to assign the two WordPress Pages used in the SPLOTbox. One to create the Sharing form and the other to display the content by reuse license applied (this can be ignored if this feature is not used).</p>
 <p>You can now use any name you want for the URL (previously these were forced to be <code>/share</code> and <code>/licensed</code> – this is no longer required).</p>
 <p>If no Page is found with the correct template, you will see a prompt to create one. If the Page is found (and there might even be more than one, you can select the one you want used for each special page.</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/special-pages.jpg" /></p>
+<p><img src="images/special-pages.jpg" /></p>
 <h2 id="status-for-new-items">Status for New Items</h2>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/publish-settings.jpg" /></p>
+<p><img src="images/publish-settings.jpg" /></p>
 <p>Ser the status for submitted content to your SPLOTbox. The Status for New Items lets you set up moderation for submissions (by choosing <code>draft</code> or <code>pending</code>) whereas <code>Publish immediately</code> provides instant gratification to your visitors, though leaves open the problems of a site where anyone can publish (the latter option thus works for sites where you set up an <strong>Access Code</strong> as described above).</p>
 <p>There is no real difference between using <code>draft</code> or <code>pending</code> both are not public until their status is changed by a site admin; they are just organized differently in the dashboard.</p>
 <p>Check <strong>Enable Comments on Items</strong> to add a standard blog comment field at the bottom of all published items.</p>
 <h2 id="media-support">Media Support</h2>
 <p>The checkboxes here allow you to control the types of sites that are able to add content directly to a SPLOTbox site by URL only (using WordPress embed or built in support for Internet Archive and Adobe Spark). This would allow you to maintain a site for only certain sources, say only video from YouTube or vimeo.</p>
 <p>These checkboxes <strong>should</strong> be enabled, but you may have to manually set them.</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/media-support.jpg" /></p>
+<p><img src="images/media-support.jpg" /></p>
 <p>Also, if you only want visitors adding media by URL, you can hide the uploader. And you can set a limit for upload size.</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/media-uploads.jpg" /></p>
+<p><img src="images/media-uploads.jpg" /></p>
 <h2 id="item-sorting">Item Sorting</h2>
 <p>The default settings for the display of itms are for typical blogs where newest content is displayed first. The sort options allow you to change that across the site- the home page, category/tag archives, and search results.</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/item-sorting.jpg" /></p>
+<p><img src="images/item-sorting.jpg" /></p>
 <p><strong>Date Published</strong> is the default option, the order is <strong>Descending</strong>, or newest first, change to <strong>Ascending</strong> to have oldest items appear first.</p>
 <p>Change the sort otder to <strong>Title</strong> to… yes… sort items alphabetically by each item’s title. Use <strong>Ascending</strong> for alphabetical order (A-Z) or <strong>Descending</strong> to reverse (Z-A).</p>
 <h2 id="single-item-display">Single Item Display</h2>
 <p>You can control many of the other options to make your upload form simpler.,</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/single-items.jpg" /></p>
+<p><img src="images/single-items.jpg" /></p>
 <p>You can choose to not ask visitors to set a category for their items and thus not have categories displayed on views. If you do use categories.. create them first! You can then select the default category that should be used for new items.</p>
 <p>Like categories, you can choose to offer or hide a form field for entering tags.</p>
 <p>You can choose to suppress the description field (if you want media shared only), or if making the description field available, you can require that it has something written in it. The editor can either be simple text (no formatting) or the full visual editor, which also allows uploads of images to be used in the body text. Use the rich text editor when asking for longer amounts of description.</p>
 <p>You can also choose to use a field if you want contributors to provide a source to credit for the media item.</p>
 <h2 id="admin-settings">Admin Settings</h2>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/notification-settings.jpg" /></p>
+<p><img src="images/notification-settings.jpg" /></p>
 <p>Enter email addresses for people who should be notified of new submissions.</p>
 <h2 id="license-and-attribution">License and Attribution</h2>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/license-settings.jpg" /></p>
+<p><img src="images/license-settings.jpg" /></p>
 <p>The <strong>Use License Settings</strong> enables a drop down menu offering a variety of options to indicate Creative Commons licenses as well as <code>All Rights Reserved</code> (boo!), <code>Usage Rights Unknown</code>, and <code>YouTube Standard License</code> which really just lets you embed videos..</p>
 <p>Enabling the <strong>Cut and Paste Attribution</strong> adds to the display a field with an automatically formed attribution statement (based on the items’s rights license choice) that can be copied after clicking on the text. Neat, eh? Attribution is a good thing.</p>
 <h2 id="customize-the-share-form">Customize the Share Form</h2>
 <p>You can now customize the field labels and the descriptions of the form where people submit new items to a SPLOTbox site. On your site navigate to the share form, and activate the Wordpress Customizer from the admin bar.</p>
 <p>There is a special section at the bottom to open:</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/customizer-section.jpg" /></p>
+<p><img src="images/customizer-section.jpg" /></p>
 <p>Then from this pane, open “Share Form” (eventually the theme options will live here too)</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/customizer-share-form.jpg" /></p>
+<p><img src="images/customizer-share-form.jpg" /></p>
 <p>And then you will see a series of fields to edit for all form field elements. For each, you can edit the title/label of the field and the prompt that appears below. As you type in the customizer fields on the left, you will see a live preview on the right:</p>
-<p><img src="<?php echo get_stylesheet_directory_uri()?>/images/customizer-edit.jpg" /></p>
+<p><img src="images/customizer-edit.jpg" /></p>
 <h2 id="other-wordpressy-things-you-might-want-to-do">Other Wordpressy Things You Might Want to Do</h2>
 <p>I like short links, so I typically use a Custom Permalink setting (under <code>Settings -- Permalinks</code>) of `/%post_id%/’</p>
 <figure>
-<img src="<?php echo get_stylesheet_directory_uri()?>/images/permalink.jpg" title="custom permalink" alt="" /><figcaption>Simplest Permalink</figcaption>
+<img src="images/permalink.jpg" title="custom permalink" alt="" /><figcaption>Simplest Permalink</figcaption>
 </figure>
 <p>Set up your own menus as needed; make sure that you click the <strong>Location</strong> tab to tell Wordpress to use the menu you create as the <strong>Primary</strong> menu.</p>
 <figure>
-<img src="<?php echo get_stylesheet_directory_uri()?>/images/menu.jpg" title="menu options" alt="" /><figcaption>Menu Configuration</figcaption>
+<img src="images/menu.jpg" title="menu options" alt="" /><figcaption>Menu Configuration</figcaption>
 </figure>
 <p>Get rid of the default widgets on the site; make ’em your own.</p>
 <figure>
-<img src="<?php echo get_stylesheet_directory_uri()?>/images/widgets.jpg" title="suggested widget set up" alt="" /><figcaption>Widgets</figcaption>
+<img src="images/widgets.jpg" title="suggested widget set up" alt="" /><figcaption>Widgets</figcaption>
 </figure>
 <p>Go build collections of media!</p>
 <h2 id="relatively-cool-new-features-updates">Relatively Cool New Features &amp; Updates</h2>
@@ -94,3 +100,5 @@
 <li>(0.2) A rich text editor can now be enabled for the description fields or you can opt to use the simpler plain text input text area for descriptions.</li>
 <li>(0.15) On new installs where no menus are defined, the theme generates a simple menu rather than listing all pages</li>
 </ul>
+</body>
+</html>

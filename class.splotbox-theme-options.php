@@ -116,6 +116,11 @@ class splotbox_Theme_Options {
 
 	/* Define all settings and their defaults */
 	public function get_settings() {
+
+
+		// for file upload checks
+		$max_upload_size = round(wp_max_upload_size() / 1000000);
+
 	
 		/* General Settings
 		===========================================*/
@@ -133,7 +138,7 @@ class splotbox_Theme_Options {
 
 		$this->settings['accesscode'] = array(
 			'title'   => __( 'Access Code' ),
-			'desc'    => __( 'Set code to access the sharing tool; leave blank to allow open access (we recommend setting the <strong>Status for New Items</strong> below to <code>draft</code>' ),
+			'desc'    => __( 'Set code to access the sharing tool; leave blank to allow open access (if you are worried about unwanted content being uploaded to your site, we recommend setting the <strong>Status for New Items</strong> below to <code>draft</code> or <code>Pending</code> so you can moderate submissions)' ),
 			'std'     => '',
 			'type'    => 'text',
 			'section' => 'general'
@@ -148,17 +153,107 @@ class splotbox_Theme_Options {
 			'section' => 'general'
 		);		
 
+
+		$this->settings['pages_heading'] = array(
+			'section' => 'general',
+			'title'   => '', // Not used for headings.
+			'desc'	 => 'Special Pages Setup',
+			'std'    => 'Choose the pages for special purposes in the SPLOTbox',
+			'type'    => 'heading'
+		);
+
+		// get all pages on site with template for the Sharing Form
+		$found_pages = get_pages_with_template('page-share.php');
+		$page_desc = 'Set the Page that should be used for the Sharing form.';
+		
+		// the function returns an array of id => page title, first item is the menu selection item
+		if ( count( $found_pages ) > 1 ) {
+			$page_std =  array_keys( $found_pages)[1];
+		} else {
+	
+			$trypage = get_page_by_path('share');
+		
+			if ( $trypage ) {
+				$page_std = $trypage->ID;
+				$found_pages = array( 0 => 'Select Page', $page_std => $trypage->post_title );
+		
+			} else {
+				$page_desc = 'No pages have been created with the Sharing Form template. This is required to enable access to the writing form. <a href="' . admin_url( 'post-new.php?post_type=page') . '">Create a new Page</a> and under <strong>Page Attributes</strong> select <code>Sharing Form</code> for the Template.'; 
+				$page_std = '';
+			}
+	
+		}
+
+		$this->settings['share_page'] = array(
+			'section' => 'general',
+			'title'   => __( 'Page For Sharing Form'),
+			'desc'    => $page_desc,
+			'type'    => 'select',
+			'std'     =>  $page_std,
+			'choices' => $found_pages
+		);
+		
+		// get all pages on site with template for the View by Licebse
+		$found_pages = get_pages_with_template('page-licensed.php');
+		$page_desc = 'Set the Page that should be used for viewing content by Rights/Licensing.';
+		
+		// the function returns an array of id => page title, first item is the menu selection item
+		if ( count( $found_pages ) > 1 ) {
+			$page_std =  array_keys( $found_pages)[1];
+		} else {
+	
+			$trypage = get_page_by_path('licensed');
+		
+			if ( $trypage ) {
+				$page_std = $trypage->ID;
+				$found_pages = array( 0 => 'Select Page', $page_std => $trypage->post_title );
+		
+			} else {
+				$page_desc = 'No pages have been created with the Licenses/Rights template. This is required to show a view of items bu the type of reuse licensed applied. <a href="' . admin_url( 'post-new.php?post_type=page') . '">Create a new Page</a> and under <strong>Page Attributes</strong> select <code>Licenses/Rights</code> for the Template.'; 
+				$page_std = '';
+			}
+	
+		}
+
+		$this->settings['licensed_page'] = array(
+			'section' => 'general',
+			'title'   => __( 'Page For View by License/Rights'),
+			'desc'    => $page_desc,
+			'type'    => 'select',
+			'std'     =>  $page_std,
+			'choices' => $found_pages
+		);
+		// ------- publish options
+		$this->settings['publish_heading'] = array(
+			'section' => 'general',
+			'title'   => '', // Not used for headings.
+			'desc'	 => 'Publish Settings',
+			'std'    => '',
+			'type'    => 'heading'
+		);
+
 		$this->settings['new_item_status'] = array(
 			'section' => 'general',
 			'title'   => __( 'Status For New Items' ),
-			'desc'    => __( 'Set to draft to moderate submissions.' ),
+			'desc'    => __( 'Set to draft or pending to moderate submissions (depending what review flow you prefer.' ),
 			'type'    => 'radio',
 			'std'     => 'publish',
 			'choices' => array(
 				'publish' => 'Publish immediately',
-				'draft' => 'Set to draft',
+				'pending' => 'Set as pending',
+				'draft' => 'Keep as draft',
 			)
 		);	
+
+		$this->settings['allow_comments'] = array(
+			'section' => 'general',
+			'title'   => __( 'Allow Comments?' ),
+			'desc'    => __( 'Enable comments on items.' ),
+			'type'    => 'checkbox',
+			'std'     => 0 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+
 
 		// ------- media options
 		$this->settings['media_heading'] = array(
@@ -266,6 +361,13 @@ class splotbox_Theme_Options {
 					)
 		);
 
+		$this->settings['upload_max'] = array(
+			'title'   => __( 'Maximum Upload File Size' ),
+			'desc'    => __( 'Set limit for file uploads in Mb (maximum possible for this site is ' . $max_upload_size . ' Mb).' ),
+			'std'     => $max_upload_size,
+			'type'    => 'text',
+			'section' => 'general'
+		);
 
 
 		// ------- sort options
@@ -358,19 +460,11 @@ class splotbox_Theme_Options {
 		);
 
 
-		$this->settings['allow_comments'] = array(
-			'section' => 'general',
-			'title'   => __( 'Allow Comments?' ),
-			'desc'    => __( 'Enable comments on items.' ),
-			'type'    => 'checkbox',
-			'std'     => 0 // Set to 1 to be checked by default, 0 to be unchecked by default.
-		);
-
 
 		
 		$this->settings['use_caption'] = array(
 			'section' => 'general',
-			'title'   => __( 'Use rich text description field on submission form and item display?'),
+			'title'   => __( 'Use description field on submission form and item display?'),
 			'desc'    => '',
 			'type'    => 'radio',
 			'std'     => '1',
@@ -406,6 +500,24 @@ class splotbox_Theme_Options {
 					)
 		);
 
+		// ------- single item display
+		$this->settings['single_item_heading'] = array(
+			'section' => 'general',
+			'title'   => '', // Not used for headings.
+			'desc'	 => 'Single Item Display',
+			'std'    => '',
+			'type'    => 'heading'
+		);
+
+
+		$this->settings['admin_heading'] = array(
+			'section' => 'general',
+			'title'   => '', // Not used for headings.
+			'desc'	 => 'Admin Settings',
+			'std'    => '',
+			'type'    => 'heading'
+		);
+
 
 		$this->settings['notify'] = array(
 			'title'   => __( 'Notification Emails' ),
@@ -415,7 +527,7 @@ class splotbox_Theme_Options {
 			'section' => 'general'
 		);
 
-		// ------- sort options
+		// ------- licenseing
 		$this->settings['License and Attribution'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
@@ -448,15 +560,6 @@ class splotbox_Theme_Options {
 				'1' => 'Yes',
 			)
 		);		
-
-
-		$this->settings['authorcheck'] = array(
-		'section' => 'general',
-		'title' 	=> '' ,// Not used for headings.
-		'desc'   => 'Author Account', 
-		'std'    =>  splotbox_author_user_check( 'sharer' ),
-		'type'    => 'heading'
-		);	
 			
 		/* Reset
 		===========================================*/
@@ -484,7 +587,8 @@ class splotbox_Theme_Options {
 	
 	public function display_general() {
 		// section heading for general setttings
-		echo '<p>These settings manaage the behavior and appearance of your Splotbox site. There are quite a few of them!</p>';		
+	
+		echo '<p>These settings manage the behavior and appearance of your SPLOTbox site. See <a href="' . admin_url( 'themes.php?page=splotbox-docs') . '">the documentation</a> for help or visit the <a href="https://github.com/cogdog/splotbox" target="_blank">theme source on GitHub</a>.</p><p>If this kind of stuff has any value to you, please consider supporting me so I can do more!</p><p style="text-align:center"><a href="https://patreon.com/cogdog" target="_blank"><img src="https://cogdog.github.io/images/badge-patreon.png" alt="donate on patreon"></a> &nbsp; <a href="https://paypal.me/cogdog" target="_blank"><img src="https://cogdog.github.io/images/badge-paypal.png" alt="donate on paypal"></a></p> ';		
 	}
 
 
@@ -694,13 +798,15 @@ class splotbox_Theme_Options {
 				$input['notify'] = str_replace(' ', '', $input['notify']);
 			}
 		
-			/*
 			foreach ( $this->checkboxes as $id ) {
 				if ( isset( $options[$id] ) && ! isset( $input[$id] ) )
 					unset( $options[$id] );
 			}
-			*/
-			
+
+			// make sure the max file upload is integer and less than max possible
+			$max_upload_size = round(wp_max_upload_size() / 1000000);
+			$input['upload_max'] = min( intval( $input['upload_max'] ), $max_upload_size  );
+		
 			return $input;
 		}
 		

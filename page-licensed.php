@@ -1,4 +1,8 @@
 <?php
+/*
+Template Name: Licenses/Rights
+*/
+
 // ------------------------ check vars ------------------------
 
 $page_id = $post->ID;
