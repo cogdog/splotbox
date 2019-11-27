@@ -35,7 +35,6 @@
 					// test if primary menu location is not set	
 					} elseif ( !splot_is_menu_location_used() ) {
 						echo splot_default_menu();
-					
 					// normal make menus from pages	
 				
 					} else {

@@ -26,7 +26,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 	
 	// Add setting for default prompt
 	$wp_customize->add_setting( 'default_prompt', array(
-		 'default'           => __( 'Complete the form below to add an audio or video item to this collection', 'garfunkel'),
+		 'default'           => __( 'Complete the form below to add a media item to this collection', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -70,7 +70,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 	
 	// setting for title description
 	$wp_customize->add_setting( 'item_title_prompt', array(
-		 'default'           => __( 'Enter a descriptive title that works well as a headline for this item when listed on this site.', 'garfunkel'),
+		 'default'           => __( 'Enter a title that works well as a headline for this item when listed on this site.', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -114,7 +114,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 	// setting for image upload prompt
 	$wp_customize->add_setting( 'item_upload_prompt', array(
-		 'default'           => __( 'Upload your file by dragging its icon to the window that opens when clicking  Upload Media button. The uploader will automatically enter its URL in the entry field above and will populate title and caption fields below if it finds appropriate metadata in the file.', 'garfunkel'),
+		 'default'           => __( 'Drag and drop your file to add to your item (or click to use a file selector). When you first check the information, it will be uploaded to this site.', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -494,7 +494,7 @@ function splotbox_form_item_title_prompt() {
 	 if ( get_theme_mod( 'item_title_prompt') != "" ) {
 	 	echo get_theme_mod( 'item_title_prompt');
 	 }	else {
-	 	echo 'Enter a descriptive title that works well as a headline for this item when listed on this site.';
+	 	echo 'Enter a title that works well as a headline for this item when listed on this site.';
 	 }
 }
 
@@ -510,7 +510,7 @@ function splotbox_form_item_upload_prompt() {
 	 if ( get_theme_mod( 'item_upload_prompt') != "" ) {
 	 	echo get_theme_mod( 'item_upload_prompt');
 	 }	else {
-	 	echo 'Upload your file by dragging its icon to the window that opens when clicking  <strong>Upload Media</strong> button. The uploader will automatically enter its URL in the entry field above and will populate title and caption fields below if it finds appropriate metadata in the file.';
+	 	echo 'Drag and drop your file to add to your item (or click to use a file selector). When you first check the information, it will be uploaded to this site.';
 	 }
 }
 

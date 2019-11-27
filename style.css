@@ -2,7 +2,7 @@
 Theme Name: 	Splotbox
 Theme URI: 		http://github.com/cogdog/splotbox
 Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		2.0
+Version: 		2.01
 Template:       garfunkel
 Author: 		CogDog
 Author URI: 	https://cog.dog/
@@ -20,19 +20,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
 	font-style: normal;
 }
 
-
-/* show the info tab first */
-
-.post-meta-tabs .tab-comments { display: none; }
-.post-meta-tabs .tab-post-meta { display: block; }
-
-/* full player */
-.audio-player {
-    width: 100%;
-	background-color: #282828;
-}
-
-
+/* ----------------------------------- front page --------------------------------------*/
 .blog-description {
 	font-weight: 800;
 	color: #FFF;
@@ -44,11 +32,50 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
 }
 
 
+/* --------------------------------------  menus --------------------------------------*/
 
-/* media uploader */
-.upload-instructions, .max-upload-size {
-    text-align: center;
+.navigation .search-field {
+    background: none;
+    border: none;
+    font-size: 0.9em;
+    padding: 9px 0 9px 52px;
+    margin-top: 16px;
 }
+
+.navigation .search-field:hover, .navigation .search-field:focus {
+	background-color: #ededed;
+	color: #222;
+}
+
+.navigation .search-form .genericon {
+    font-size: 24px;
+    margin-top: -6px;
+}
+
+.mobile-menu .search-form {
+    padding: 12px 8%;
+    width: 80%;
+    color: #fff;
+}
+
+.mobile-menu .genericon-search {
+    position: left:20%;
+    left: 12%;
+}
+
+.mobile-menu .search-field:hover, .mobile-menu .search-field:focus {
+		background: #ca2017; 
+		color: #fff;
+}
+
+/* -----------------------------------  single-item ------------------------------------*/
+
+/* full player */
+.audio-player {
+    width: 100%;
+	background-color: #282828;
+}
+
 
 .post-info-items, .post-content {
 	word-wrap: break-word;
@@ -57,7 +84,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
 .post-info-items li + li {
     word-break: break-all;
 }
-
 
 .single .post-meta p.post-download { background-image: url(images/icons/1x/download-g.png); }
 .single .post-meta p.post-download:hover { background-image: url(images/icons/1x/download-c.png); }
@@ -68,11 +94,35 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
 	line-height: 1.0em;
 }
 
+
+a.download-link {
+	padding-right: 40px;
+	background-image: url(images/icons/1x/download-g.png);
+	background-repeat: no-repeat;
+	background-position: 95% center;
+}
+
+a.download-link:hover { 
+	padding-right: 40px;
+	background-image: url(images/icons/1x/download-c.png); 
+	background-repeat: no-repeat;
+	background-position: 95% center;
+}
+
+/* show the info tab first */
+
+.post-meta-tabs .tab-comments { display: none; }
+.post-meta-tabs .tab-post-meta { display: block; }
+
+
+
+/* ---------------------------------  pretty-buttons -----------------------------------*/
+
+
 /* some pretty buttons all done in CSS
    h/t http://www.graemeboy.com/modern-css-buttons */
    
     .pretty-button, .post-content input.pretty-button {
-    
 		padding: 12px 16px;
 		margin: 0;
 		border: none;
@@ -108,26 +158,9 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
         background: #ca2017;
         text-decoration: none;
     }
-
-
-a.download-link {
-	padding-right: 40px;
-	background-image: url(images/icons/1x/download-g.png);
-	background-repeat: no-repeat;
-	background-position: 95% center;
-}
-
-a.download-link:hover { 
-	padding-right: 40px;
-	background-image: url(images/icons/1x/download-c.png); 
-	background-repeat: no-repeat;
-	background-position: 95% center;
-}
-
    
-
-/* alert/message boxes 100% CSS
-   h/t http://aviaryan.github.io/blog/css-notification-bubble-box.html */
+/* ------------------------------  alert/message boxes --------------------------------*/
+/* h/t http://aviaryan.github.io/blog/css-notification-bubble-box.html */
 
 .symbol {
     font-size: 0.9em;
@@ -166,6 +199,9 @@ a.download-link:hover {
 .notify-red { background: #ffecec; border-color: #fad9d7; }
 .notify-green { background: #e9ffd9; border-color: #D1FAB6; }
 
+
+/* ----------------------------------  splot forms ------------------------------------*/
+
 #splotboxform .uploader {
 	float:left;
 	margin: 0 1.3em 1.3em 0;
@@ -202,9 +238,7 @@ a.download-link:hover {
 	font-size:0.8em;
 	display: block;
 	margin-left:2em;
-
 }
-
 
 #splotboxform a.fbutton {
     padding: 11px 16px;
@@ -219,7 +253,6 @@ a.download-link:hover {
     border-radius: 3px;
     text-decoration: none;
 }
-
 
 #splotboxform a.fbutton:hover {
 	cursor: pointer;
@@ -238,39 +271,11 @@ a.download-link:hover {
 	opacity:0.4;
 }
 
-.navigation .search-field {
-    background: none;
-    border: none;
-    font-size: 0.9em;
-    padding: 9px 0 9px 52px;
-    margin-top: 16px;
-}
-
-.navigation .search-field:hover, .navigation .search-field:focus {
-	background-color: #ededed;
-	color: #222;
-}
-
-.navigation .search-form .genericon {
-    font-size: 24px;
-    margin-top: -6px;
-}
-
-.mobile-menu .search-form {
-    padding: 12px 8%;
-    width: 80%;
-    color: #fff;
-}
-
-.mobile-menu .genericon-search {
-    position: left:20%;
-    left: 12%;
-}
 
 
-.mobile-menu .search-field:hover, .mobile-menu .search-field:focus {
-		background: #ca2017; 
-		color: #fff;
+/* -------------------------------  tiny-mce editor -----------------------------------*/
+div.mce-panel, .wp-editor-tabs {
+    font-family: 'Fira Sans', sans-serif;
 }
 
 /* -------------------------------  image drop zone ----------------------------------*/
