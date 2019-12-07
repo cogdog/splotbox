@@ -31,7 +31,6 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
     background-color: #fff;
 }
 
-
 /* --------------------------------------  menus --------------------------------------*/
 
 .navigation .search-field {
@@ -240,7 +239,7 @@ a.download-link:hover {
 	margin-left:2em;
 }
 
-#splotboxform a.fbutton {
+#splotboxform a.fbutton, a.splotbutton {
     padding: 11px 16px;
     margin: 0;
     border: none;
@@ -254,7 +253,7 @@ a.download-link:hover {
     text-decoration: none;
 }
 
-#splotboxform a.fbutton:hover {
+#splotboxform a.fbutton:hover, a.splotbutton:hover {
 	cursor: pointer;
 	background: #ca2017;
 	color: #fff;

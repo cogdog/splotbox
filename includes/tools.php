@@ -159,6 +159,7 @@ function make_links_clickable( $text ) {
     return preg_replace('!(((f|ht)tp(s)?://)[-a-zA-Zа-яА-Я()0-9@:%_+.~#?&;//=]+)!i', '<a href="$1">$1</a>', $text);
 }
 
+
 # -----------------------------------------------------------------
 # API
 # -----------------------------------------------------------------
@@ -191,6 +192,15 @@ function splotbox_get_splot_meta_for_api( $object ) {
 	 }
 	 
 	 return ($splot_meta);
+}
+
+
+// shortcode for spitting out an RSS feed icon (ie for category dscriptions)
+
+add_shortcode("feedicon", "splotbox_feed_icon");
+
+function splotbox_feed_icon()  {
+	return '<img src="' . get_stylesheet_directory_uri() . '/images/feed.png" alt=""> ';
 }
 
 ?>

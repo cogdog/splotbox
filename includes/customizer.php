@@ -11,7 +11,7 @@ add_action( 'customize_register', 'splotbox_register_theme_customizer' );
 function splotbox_register_theme_customizer( $wp_customize ) {
 	// Create custom panel.
 	$wp_customize->add_panel( 'customize_collector', array(
-		'priority'       => 500,
+		'priority'       => 25,
 		'theme_supports' => '',
 		'title'          => __( 'SPLOTbox', 'garfunkel'),
 		'description'    => __( 'Customizer Stuff', 'garfunkel'),
@@ -19,7 +19,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 	// Add section for the collect form
 	$wp_customize->add_section( 'share_form' , array(
-		'title'    => __('Share Form','garfunkel'),
+		'title'    => __('Share Form Labels &amp; Prompts','garfunkel'),
 		'panel'    => 'customize_collector',
 		'priority' => 10
 	) );

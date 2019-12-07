@@ -164,10 +164,12 @@ function splotbox_queryvars( $qvars ) {
       
 function splotbox_rewrite_rules() {
 	
+	$licensed_page_slug = splotbox_get_licensed_page();
+	
 	// first rule for paged results of licenses
-	add_rewrite_rule( '^licensed/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . $license_page->ID . '&flavor=$matches[1]&paged=$matches[2]','top');	
+	add_rewrite_rule( '^'. $licensed_page_slug . '/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]&paged=$matches[2]','top');	
 
-	add_rewrite_rule( '^licensed/([^/]*)/?',  'index.php?page_id=' . $license_page->ID . '&flavor=$matches[1]','top');	
+	add_rewrite_rule( '^' . $licensed_page_slug . '/([^/]*)/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]','top');	
 
 	// let's go random
 	add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
@@ -296,8 +298,11 @@ function splot_default_menu() {
 	// site home with trailing slash
 	$splot_home = site_url('/');
   
- 	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . 'share' . '">Share</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
+ 	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . splotbox_get_share_page() . '">Share</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
 }
+
+
+
 
 # -----------------------------------------------------------------
 # Allow Previews
@@ -446,7 +451,6 @@ function splotbox_upload_action() {
     }
     echo json_encode( array('id'=> $newupload, 'location' => wp_get_attachment_image_src( $newupload, 'large' )[0], 'caption' => get_attachment_caption_by_id( $newupload ) ) );
     die();	
-	
 }
 
 ?>

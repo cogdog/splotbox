@@ -6,10 +6,12 @@ Template Name: Sharing Page
 // set blanks
 $wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = '';
 $wAccessCodeOk = $is_published = false; 
+$audio_file_size = 0;
 $errors = array();
 
 $wCats = array( splotbox_option('def_cat')); // preload default category
 $all_licenses = splotbox_get_licences(); // licenses
+$splotbox_supports = splotbox_supports(); // sites supported by external URL
 
 // see if we have an incoming clear the code form variable only on writing form
 // ignored if options are not to use it
@@ -55,7 +57,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 	$wMediaURL = 				trim($_POST['wMediaURL']);
 	$wCats = 					( isset ($_POST['wCats'] ) ) ? $_POST['wCats'] : array();
 	$wLicense = 				( isset ($_POST['wLicense'] ) ) ? $_POST['wLicense'] : '--'; 
-	$wFeatureImageID =			$_POST['wFeatureImage'];
+	$wUploadMediaID =			$_POST['wUploadMedia'];
 	$wMediaMethod = 			$_POST['wMediaMethod'];
 
 	if ( isset ($_POST['post_id'] ) ) $post_id = $_POST['post_id'];
@@ -65,15 +67,14 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 		foreach ( $_FILES as $file => $array ) {
 			$newupload = splotbox_insert_attachment( $file, $post->ID );
 			if ( $newupload ) {
-				$wFeatureImageID = $newupload;
+				$wUploadMediaID = $newupload;
 				$w_upload_status = 'Media file uploaded. Choose another to replace it.';
-				$wMediaURL	= wp_get_attachment_url($wFeatureImageID);	
+				$wMediaURL	= wp_get_attachment_url($wUploadMediaID);	
 			}
 		}
 	}	
 	
 	$wMediaType = 				url_is_media_type($wMediaURL); 	
-
 					
 	// let's do some validation, store an error message for each problem found
 	
@@ -83,7 +84,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 		$errors[] = '<strong>Malformed Web Address</strong> - <code>' . $wMediaURL . '</code> does not appear to be a full URL; it must begin with <code>http://</code> or <code>https://</code>' ; 
 	
 	} elseif ( !($wMediaType) ) {
-		$errors[] = '<strong>Unsupported Media URL</strong> - <code>' . $wMediaURL . '</code> is not a link to an audio file, image file, or a link to its entry on accepted sites: ' . splotbox_supports(); 
+		$errors[] = '<strong>Unsupported Media URL</strong> - <code>' . $wMediaURL . '</code> is not a link to an audio file, image file, or a link to its entry on accepted sites: ' . $splotbox_supports; 
 	}
 	
 	if ( $wTitle == '' ) $errors[] = '<strong>Title Missing</strong> - enter a descriptive title for this item.'; 
@@ -194,14 +195,13 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			if ( $wNotes ) add_post_meta($post_id, 'extra_notes', $wNotes);
 			
 			// set featured image
-			if ( $wFeatureImageID ) set_post_thumbnail( $post_id, $wFeatureImageID);
+			if ( $wUploadMediaID ) set_post_thumbnail( $post_id, $wUploadMediaID);
 		
 			// add the tags
 			wp_set_post_tags( $post_id, $wTags);
 			
 			// feedback for first check of item
 			$feedback_msg = 'A draft of your item has been saved. You can <a href="'. site_url() . '/?p=' . $post_id . '&preview=true&ispre=1' . '" target="_blank">preview it now</a>. This will open in a new tab/window. Or make any changes below,  check your information again and/or <a href="#theButtons">just scroll down</a> to submit it to ' . get_bloginfo() . '.';
-			
 			
 		 } else {
 			// the post exists, let's update and process the post
@@ -231,10 +231,16 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 				} // notifications for emailing
 			
 			} // isset( $_POST['makeit'] 
-			
+
 									
 			// add the id to our array of post information so we can issue an update		
 			$w_information['ID'] = $post_id;
+			
+			// check for possible podcast links for URL in audio items
+			if ( $wMediaType == 'audio' and url_is_audio_link( $wMediaURL ) ) {
+				// insert audio shortcode to make a link and force it into the podcast feed
+				$w_information['post_content'].= "\n" . '[audio src="' . $wMediaURL . '"]' . "\n";
+			}			
 
 			// update the post
 			wp_update_post( $w_information );
@@ -258,7 +264,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			if ( $wNotes ) update_post_meta($post_id, 'extra_notes', $wNotes);
 
 			// tags
-			wp_set_post_tags( $post_id, $wTags);				
+			wp_set_post_tags( $post_id, $wTags);			
 		
 		} // post_id = 0
 	
@@ -276,7 +282,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 	$wLicense = '--';
 	
 	
-	$wFeatureImageID = $post_id = 0;
+	$wUploadMediaID = $post_id = 0;
 	
 	$wMediaMethod = "by_url";
 
@@ -372,7 +378,7 @@ get_header();
 					<?php if ( splotbox_option('use_upload_media')  == '1') :?>
 						<label for="wMediaMethod"><?php _e('Method of Sharing', 'garfunkel' ) ?> </label><br />
 						
-						<input type="radio" name="wMediaMethod" value="by_url" <?php if ( $wMediaMethod == "by_url" ) echo " checked"?>> <strong>By URL</strong> <span class="descrip"> for audio, video, or image content that is published on sites including <span class="supports"><?php echo splotbox_supports() ?></span></span><br />
+						<input type="radio" name="wMediaMethod" value="by_url" <?php if ( $wMediaMethod == "by_url" ) echo " checked"?>> <strong>By URL</strong> <span class="descrip"> for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.</span><br />
 						<input type="radio" name="wMediaMethod" value="by_upload" <?php if ( $wMediaMethod == "by_upload" ) echo " checked"?>> <strong>By Upload</strong> <span class="descrip">audio or image file</span>
 					
 					
@@ -382,7 +388,7 @@ get_header();
 					<div id="media_by_url" <?php if ( $wMediaMethod == "by_upload" ) echo ' style="display:none;"'?>>
 					
 						<label for="wMediaURL"><?php _e('Enter Media URL', 'garfunkel' ) ?> <span class="required">*</span></label><br />
-						<p>Embed a media player for audio, video, or image content that is published on sites including <span class="supports"><?php echo splotbox_supports() ?></span>.  The URL you enter should be the one that displays the content from the service. For audio and image content you can also use a direct web address to a media file -- one that links directly to <code>.mp3 .m4a .ogg .jpg .png .gif</code> files).</p>
+						<p>Embed a media player for audio, video, or image content for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The URL you enter should be the one that displays the content from the service. For audio and image content you can also use a direct web address to a media file -- one that links directly to <code>.mp3 .m4a .ogg .jpg .png .gif</code> files).</p>
 					
 						<p>Enter a full web address for the item (including http:// or https://)</p>
 						<input type="text" name="wMediaURL" id="wMediaURL" class="required pstate" value="<?php echo $wMediaURL; ?>"/> 
@@ -403,11 +409,11 @@ get_header();
 						<p>Audio files of type <code>.mp3 .m4a .ogg</code> or image files of type <code>.jpg .png .gif</code> less than <?php echo splotbox_max_upload(); ?> can be uploaded to this site. </p>
 						<div class="uploader">
 						
-							<input id="wFeatureImage" name="wFeatureImage" type="hidden" value="<?php echo $wFeatureImageID?>" />
+							<input id="wUploadMedia" name="wUploadMedia" type="hidden" value="<?php echo $wUploadMediaID?>" />
 						
 							<?php
-								if ($wFeatureImageID) {
-									$defthumb = wp_get_attachment_image( $wFeatureImageID, 'thumbnail', true, array( "id" => "mediathumb" ) );
+								if ($wUploadMediaID) {
+									$defthumb = wp_get_attachment_image( $wUploadMediaID, 'thumbnail', true, array( "id" => "mediathumb" ) );
 								} else {
 									$defthumb = '<img src="https://placehold.it/150x150?text=Media+holder" alt="" width="150" height="150" id="mediathumb">';
 				

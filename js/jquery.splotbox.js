@@ -5,7 +5,7 @@
 */
 
 // valid file extensions
-var allowables = ['mp3' , 'm4a', 'ogg', 'jpg' , 'png' ,'gif'];
+var allowables = ['mp3' , 'm4a', 'ogg', 'jpg' , 'png', 'jpeg','gif'];
 
 function isAllowableUploadLink(url) {
 	// get extension -- h/t https://stackoverflow.com/a/12900504/2418186
@@ -15,12 +15,13 @@ function isAllowableUploadLink(url) {
 	 return allowables.includes(ext.toLowerCase());
 }
 
-var image_exts = ['jpg' , 'png' ,'gif'];
+
+var image_exts = ['jpg' ,'jpeg', 'png' ,'gif'];
 
 function isImageFile(fname) {
 	// get extension -- h/t https://stackoverflow.com/a/190878/2418186
 	 var ext = fname.split('.').pop();
-	 
+	 	 
 	 // check in array
 	 return image_exts.includes(ext.toLowerCase());
 }
@@ -132,9 +133,9 @@ jQuery(document).ready(function() {
 	});
 	
 	
-	jQuery("input[type=radio][name=wMediaMethod]" ).click(function() {
-		jQuery("#media_by_url").toggle();
-		jQuery("#media_by_upload").toggle();
+	jQuery("input[type=radio][name=wMediaMethod]" ).change(function() {
+		jQuery("#media_by_url").toggle("slow");
+		jQuery("#media_by_upload").toggle("slow");
 	});
 	
 
