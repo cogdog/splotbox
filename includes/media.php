@@ -31,11 +31,12 @@ function splotbox_supports() {
 		if ( splotbox_option( $key ) ) $supported_sites[] = $value;
 	}
 	
-	
 	// check for extras from the helper plugin
 	if ( function_exists('splotboxplus_exists') ) {
 		$supported_sites = array_merge( $supported_sites, splotboxplus_supports() );
 	}
+	
+	sort($supported_sites);
 	
 	return implode( ', ', $supported_sites);
 

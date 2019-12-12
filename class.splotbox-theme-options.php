@@ -252,21 +252,22 @@ class splotbox_Theme_Options {
 			'type'    => 'checkbox',
 			'std'     => 0 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
-
-
-
+		
 		// ------- media options
+		
+		$extender_support =   ( function_exists('splotboxplus_exists') ) ? 'In addition, via the SplotBox Extender plugin, this site also supports <strong>' .  implode( ', ', splotboxplus_supports()) . '</strong>.' : '';
+		
 		$this->settings['media_heading'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
 			'desc'	 => 'Media Support',
-			'std'    => '',
+			'std'    => 'The following services are supported by SPLOTbox. Check the ones to make available on the share form. ' . $extender_support,
 			'type'    => 'heading'
 		);
 		
 		$this->settings['m_spark'] = array(
 			'section' => 'general',
-			'title'   => __( 'Media Supported By URL' ),
+			'title'   => __( 'Media Support By URL' ),
 			'desc'    => __( 'Adobe Spark Pages/Videos  http://spark.adobe.com' ),
 			'type'    => 'checkbox',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
