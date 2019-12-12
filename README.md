@@ -17,7 +17,27 @@ by Alan Levine https://cog.dog or http://cogdogblog.com/
 
 This Wordpress Theme powers [SPLOTbox](http://splot.ca/splotbox/) a site to allow collections of media content (termed "items") where contributions can be made without requiring logins or providing personally identifying information. 
 
-The options can allow you to offer a field for add the media by URL (For video, from YouTube,Vimeo, Internet Archive,  for audio content from SoundCloud, MixCloud or any link to an mp3, ogg, or m4a sound, and images from flickr or Giphy. A site owner can also enable an upload button for image and sound files in those same  formats. Other features are to provide fields for (and require or not), descriptions, a credit source name and a selection of a reuse licenses.
+The options can allow you to offer a field for add the media by URL from the following services,  [a subset of ones WordPress supports by Embed](https://wordpress.org/support/article/embeds/#okay-so-what-sites-can-i-embed-from): 
+
+* Flickr photos
+* Giphy animated GIFs 
+* Mixcloud audio 
+* Slideshare presentations
+* Soundcloud audio 
+* SpeakerDeck presentations
+* TED Talks video 
+* Vimeo video 
+* YouTube video
+
+In addition, special code has been added to support similarly for:
+
+* Adobe Spark Pages
+* Adobe Spark Videos
+* Internet Archive audio or video
+
+Media can also be added by any direct URL to audio in mp3, ogg, or m4a formats or  jpg, png, or gif images. Site owners can also enable an upload button for image and sound files in mp3, ogg, or m4a (audi0) or jpg, png, gif (image). 
+
+Other features that can be activated  to entry provide fields for (and require or not), descriptions, a credit source name and a selection of a reuse licenses.
 
 This is an improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder). For blogged history, see  [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
 
