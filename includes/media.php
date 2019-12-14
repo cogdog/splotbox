@@ -36,8 +36,10 @@ function splotbox_supports() {
 		$supported_sites = array_merge( $supported_sites, splotboxplus_supports() );
 	}
 	
+	// alphabetize it
 	sort($supported_sites);
 	
+	// return text string, separated by commas
 	return implode( ', ', $supported_sites);
 
 }
@@ -286,7 +288,7 @@ function splotbox_get_audioplayer( $url ) {
 	</audio>' . "\n");
 	
 	} elseif ( function_exists('splotboxplus_exists') ) {
-		return splotboxplus_get_audioplayer( $url );
+		return splotboxplus_get_mediaplayer( $url );
 	} else {
 		return '';
 	}
@@ -314,9 +316,18 @@ function splotbox_get_videoplayer( $url ) {
 	
 		// Internet Archive
 	
+		// use function to get media type via API
+		$iamediatype =  splotbox_get_iarchive_type ( $url );
+
 		$archiveorg_url = str_replace ( 'details' , 'embed' , $url );
 	
-		$videoplayer = '<iframe src="' . $archiveorg_url . '" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen></iframe>';
+		// use smaller player for audio
+		if ($iamediatype == 'audio') {
+			$videoplayer = '<iframe src="' . $archiveorg_url . '" width="100%" height="40" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" class="ia-audio" allowfullscreen></iframe>';
+			
+		} else {
+			$videoplayer = '<iframe src="' . $archiveorg_url . '" width="100%" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen class="ia-video"></iframe>';
+		}
 	
 	} elseif  ( is_in_url( 'spark.adobe.com/video/', $url ) ) {
 	
@@ -346,7 +357,7 @@ function splotbox_get_videoplayer( $url ) {
 	
 		// check for any plugin provided embeds
 		
-		$videoplayer = splotboxplus_get_videoplayer( $url );
+		$videoplayer = splotboxplus_get_mediaplayer( $url );
 	} 
 	
 	return ( $videoplayer );
@@ -361,4 +372,49 @@ function is_in_url ( $pattern, $url ) {
 		return (true);
 	}
 }
+
+function splotbox_get_iarchive_type ( $url )  {
+
+
+	global $post;
+	
+	// get post status
+	$post_status = get_post_status($post->ID);
+	
+	// look for post meta saved
+	$ia_media_type = get_post_meta($post->ID, 'ia_media_type', 1);
+	
+	// If this item is published and we have a value, then return it. Cheap cache.
+	if ( $post_status=='publish' AND $ia_media_type ) return  $ia_media_type;
+
+	// strip any trailing '/'
+	$url = rtrim( $url, '/');
+	
+	// find char position of id in URL after "details/"
+	$pos = strpos( $url, 'details/');
+	
+	// extract ID
+	$iaid = substr($url, $pos + 8);
+	
+	// construct URL for Internet Archive metadata API URL
+	// see http://blog.archive.org/2013/07/04/metadata-api/
+	$json_url = 'https://archive.org/metadata/' . $iaid . '/metadata';
+	
+	// get some json, jason!
+	$json = file_get_contents( $json_url );
+	
+	if ( $json ) {
+		$data = json_decode( $json, TRUE );
+		// return the results from one item result, media type 
+		
+		// set post meta
+		update_post_meta( $post->ID, 'ia_media_type', $data['result']['mediatype']);
+		return ($data['result']['mediatype']);
+
+	} else {
+		// error, error, Jason
+		return( false );
+	}
+}
+
 ?>
