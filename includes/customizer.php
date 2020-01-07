@@ -45,10 +45,32 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		    )
 	    )
 	);
+
+	// setting for media section
+	$wp_customize->add_setting( 'media_section', array(
+		 'default'           => __( 'Media Info', 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
 	
+	// Control fortitle label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'media_section',
+		    array(
+		        'label'    => __( 'Media Section Label', 'garfunkel'),
+		        'priority' => 13,
+		        'description' => __( 'Label for the group of settings with Media info' ),
+		        'section'  => 'share_form',
+		        'settings' => 'media_section',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
 	// setting for title label
 	$wp_customize->add_setting( 'item_title', array(
-		 'default'           => __( 'Media Info', 'garfunkel'),
+		 'default'           => __( 'Media Title', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
@@ -221,6 +243,34 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		    )
 	    )
 	);
+
+
+	// setting for image source  label
+	$wp_customize->add_setting( 'item_attrbution_section', array(
+		 'default'           => __( splotbox_media_section_default(), 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
+	
+	// Control for image source  label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'item_attrbution_section',
+		    array(
+		        'label'    => __( 'Attribution Section Label', 'garfunkel'),
+		        'priority' => 31,
+		        'description' => __( '' ),
+		        'section'  => 'share_form',
+		        'settings' => 'item_attrbution_section',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
+
+
+
+
 
 	// setting for image source  label
 	$wp_customize->add_setting( 'item_media_source', array(
@@ -482,6 +532,14 @@ function splotbox_form_default_prompt() {
 	 }
 }
 
+function splotbox_media_section_title() {
+	 if ( get_theme_mod( 'media_section') != "" ) {
+	 	echo get_theme_mod( 'media_section');
+	 }	else {
+	 	echo 'Media Info';
+	 }
+}
+
 function splotbox_form_item_title() {
 	 if ( get_theme_mod( 'item_title') != "" ) {
 	 	echo get_theme_mod( 'item_title');
@@ -544,6 +602,26 @@ function splotbox_form_item_description_prompt() {
 	 }	else {
 	 	echo 'Enter a description to include with the item.';
 	 }
+}
+
+
+function splotbox_form_item_attrbution_section() {
+	 if ( get_theme_mod( 'item_attrbution_section') != "" ) {
+	 	echo get_theme_mod( 'item_attrbution_section');
+	 }	else {
+	 	echo splotbox_media_section_default();
+	 }
+}
+
+
+function splotbox_media_section_default() {
+	if ( splotbox_option('use_source') AND splotbox_option('use_license') ) {
+		return 'Media Attribution / License';
+	} elseif ( splotbox_option('use_source') ) {
+		return 'Media Attribution';
+	} elseif ( splotbox_option('use_license') ) {
+		return 'Media Attribution License';
+	}
 }
 
 function splotbox_form_item_media_source() {

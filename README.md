@@ -214,13 +214,13 @@ Enabling the **Cut and Paste Attribution** adds to the display a field with an a
 
 ## Customize the Share Form
 
-You can now customize the field labels and the descriptions of the form where people submit new items to a SPLOTbox site. On your site navigate to the share form, and  activate the Wordpress Customizer from the admin bar. 
+Using the WordPress Customizer, you can now edit the field labels and the descriptions of the form where people submit new items to a SPLOTbox site. When logged into and viewing your site, look under the **Customize** menu in the admin bar for **Sharing Form** (this opens the Customizer with the sharing form in view).
 
-There is a special section at the bottom to open:
+There is a special SPLOTbox pane to open:
 
 ![](images/customizer-section.jpg)
 
-Then from this pane, open "Share Form" (eventually the theme options will live here too)
+Then from this pane, open "Share Form"
 
 ![](images/customizer-share-form.jpg)
 
@@ -244,9 +244,13 @@ Get rid of the default widgets on the site; make 'em your own.
 
 Go build collections of media!
 
+## Extending the Media Capabilities
+
+With a bit of coding elbow grease, this theme is set up to expand the services you can use in a SPLOTbox via the [SPLOTbox Extender Plugin](https://github.com/cogdog/splotbox-extender).
+
 ## Relatively Cool New Features & Updates
 
-
+* (2.1) Better formatting for Internet Archive audio, and new checking for supported media types from the archive, added missing Customizer editing for all form labels, made new admin bar link to open Customizer to Sharing Form
 * (2.0) A big revamp, removing the need for special user accounts and secret logins. No logins are used to add content. The theme us much simpler, there is no special desk page for routing the access code. And the sharing form now has radio buttons that toggle the two different means of upload (by URL or by Upload)
 * (1.9) Support included now for Giphy, Mixcloud, Flickr, Speakerdeck, and Slideshare, plus uploads now include ability to add images. The theme options can be used to limit the sites enabled. Also, the theme no longer needs a separate page for the random link generator (it's done all with code).
 * (1.6-1.8) ! Yikes, someone forgot to list the new features. We are sure they were awesome.

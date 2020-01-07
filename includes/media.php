@@ -321,12 +321,17 @@ function splotbox_get_videoplayer( $url ) {
 
 		$archiveorg_url = str_replace ( 'details' , 'embed' , $url );
 	
-		// use smaller player for audio
-		if ($iamediatype == 'audio') {
+		
+		if ( splotbox_is_ia_supported_audio( $iamediatype ) ) {
+			// use smaller player for audio
 			$videoplayer = '<iframe src="' . $archiveorg_url . '" width="100%" height="40" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" class="ia-audio" allowfullscreen></iframe>';
 			
-		} else {
+		} elseif ( splotbox_is_ia_supported_video( $iamediatype ) ) {
+			// regular player size for video
 			$videoplayer = '<iframe src="' . $archiveorg_url . '" width="100%" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen class="ia-video"></iframe>';
+			
+		} else {
+			$videoplayer = '<code>' . $iamediatype . '</code> is not a supported Internet Archive media type';
 		}
 	
 	} elseif  ( is_in_url( 'spark.adobe.com/video/', $url ) ) {
@@ -373,8 +378,40 @@ function is_in_url ( $pattern, $url ) {
 	}
 }
 
-function splotbox_get_iarchive_type ( $url )  {
 
+# -----------------------------------------------------------------
+# Internet Archive support
+# -----------------------------------------------------------------
+
+
+function splotbox_is_ia_supported ( $mtype ) {
+	// types of Internet Archive Media allowed in splotbox
+	$allowables = array( 'audio', 'video', 'movies', 'etree');
+	
+	// check the mediat types to ones we will allow
+	return ( in_array( $mtype,  $allowables  ) );
+}
+
+function splotbox_is_ia_supported_video ( $mtype ) {
+	// types of Internet Archive video allowed
+	$allowables = array( 'video', 'movies');
+	
+	// check the video types to ones we will allow
+	return ( in_array( $mtype,  $allowables  ) );
+}
+
+function splotbox_is_ia_supported_audio ( $mtype ) {
+
+	// types of Internet Archive video allowed
+	$allowables = array( 'audio', 'etree');
+	
+	// check the audio types to ones we will allow
+	return ( in_array( $mtype,  $allowables  ) );
+}
+
+function splotbox_get_iarchive_type ( $url )  {
+	// Return the media type for a published Internet Archive item 
+	// using stored post meta data or fetching it fresh
 
 	global $post;
 	
@@ -385,16 +422,28 @@ function splotbox_get_iarchive_type ( $url )  {
 	$ia_media_type = get_post_meta($post->ID, 'ia_media_type', 1);
 	
 	// If this item is published and we have a value, then return it. Cheap cache.
-	if ( $post_status=='publish' AND $ia_media_type ) return  $ia_media_type;
+	if ( $post_status=='publish' AND !empty( $ia_media_type ) ) {
+	
+		return  $ia_media_type;
+		
+	} else {
+		$ia_media_type = splotbox_fetch_iarchive_type ( $url );
+		
+		// set post meta
+		update_post_meta( $post->ID, 'ia_media_type', $ia_media_type);
+		return  $ia_media_type;	
+	}
+}
 
-	// strip any trailing '/'
-	$url = rtrim( $url, '/');
+
+function splotbox_fetch_iarchive_type ( $url )  {
+	// use Internet Archive API to get the media type for a given URL 
+
+	// split url by "/"
+	$url_array = explode('/', $url);
 	
-	// find char position of id in URL after "details/"
-	$pos = strpos( $url, 'details/');
-	
-	// extract ID
-	$iaid = substr($url, $pos + 8);
+	// extract id as fourth element
+	$iaid = $url_array[4];
 	
 	// construct URL for Internet Archive metadata API URL
 	// see http://blog.archive.org/2013/07/04/metadata-api/
@@ -406,15 +455,10 @@ function splotbox_get_iarchive_type ( $url )  {
 	if ( $json ) {
 		$data = json_decode( $json, TRUE );
 		// return the results from one item result, media type 
-		
-		// set post meta
-		update_post_meta( $post->ID, 'ia_media_type', $data['result']['mediatype']);
 		return ($data['result']['mediatype']);
-
 	} else {
-		// error, error, Jason
+		// error, error, Jason, maybe a bad URL, Earl
 		return( false );
 	}
 }
-
 ?>

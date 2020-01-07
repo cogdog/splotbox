@@ -349,16 +349,31 @@ class splotbox_Theme_Options {
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
-
-		$this->settings['use_upload_media'] = array(
+		$this->settings['use_linked_media'] = array(
 			'section' => 'general',
-			'title'   => __( 'Allow media uploads for audio and images (if "no" then media can only be added by external URL)'),
+			'title'   => __( 'Allow linking to audio/image files by URL  (direct links to <code>.png .jpg .gif</code> for images; <code>.mp3 .m4a .ogg</code> for audio)'),
 			'desc'    => '',
 			'type'    => 'radio',
 			'std'     => '1',
 			'choices' => array (
 							'0' => 'No',
-							'1' => 'Yes'
+							'1' => 'Yes for audio and image URLs',
+							'2' => 'Yes for image URLs only',
+							'3' => 'Yes for audio URLs only',
+					)
+		);
+
+		$this->settings['use_upload_media'] = array(
+			'section' => 'general',
+			'title'   => __( 'Allow  uploads for audio/image files (<code>.png .jpg .gif</code>  for images; <code>.mp3 .m4a .ogg</code>  for audio'),
+			'desc'    => '',
+			'type'    => 'radio',
+			'std'     => '1',
+			'choices' => array (
+							'0' => 'No',
+							'1' => 'Yes, allow upload of both audio and image files',
+							'2' => 'Yes, allow upload of image files only',
+							'3' => 'Yes, allow upload of audio files only',			
 					)
 		);
 

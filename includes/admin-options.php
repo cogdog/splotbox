@@ -17,6 +17,15 @@ function splotbox_options_to_admin() {
         'title' => __('Splotbox Options'),
         'href' => admin_url( 'themes.php?page=splotbox-options')
     ) );
+
+	// add a customizer link that opens the sharing form
+    $wp_admin_bar->add_menu( array(
+        'parent' => 'customize',
+        'id' => 'splotbox-customize',
+        'title' => __('Sharing Form'),
+        'href' => admin_url( 'customize.php?url='. splot_redirect_url())
+    ) );
+ 
 }
 
 function splotbox_enqueue_options_scripts() {

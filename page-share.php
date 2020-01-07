@@ -4,7 +4,7 @@ Template Name: Sharing Page
 */
 
 // set blanks
-$wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = '';
+$wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = $ia_media_type = '';
 $wAccessCodeOk = $is_published = false; 
 $audio_file_size = 0;
 $errors = array();
@@ -74,17 +74,30 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 		}
 	}	
 	
-	$wMediaType = 				url_is_media_type($wMediaURL); 	
+	$wMediaType = url_is_media_type( $wMediaURL ); 	
 					
 	// let's do some validation, store an error message for each problem found
 	
 	if ( $wMediaURL == '' ) {
+		// no media URL at all
 		$errors[] = '<strong>Media Missing</strong> - you can either upload an audio file or enter an external URL for where your media can be found'; 
-	} elseif ( strpos( $wMediaURL, 'http') === false )  {	
+	} elseif ( strpos( $wMediaURL, 'http') === false )  {
+		// not a full URL, Earl	
 		$errors[] = '<strong>Malformed Web Address</strong> - <code>' . $wMediaURL . '</code> does not appear to be a full URL; it must begin with <code>http://</code> or <code>https://</code>' ; 
 	
 	} elseif ( !($wMediaType) ) {
+		// a URL not accepted
 		$errors[] = '<strong>Unsupported Media URL</strong> - <code>' . $wMediaURL . '</code> is not a link to an audio file, image file, or a link to its entry on accepted sites: ' . $splotbox_supports; 
+		
+	} elseif ( is_in_url( 'archive.org', $wMediaURL ) ) {
+		// internet archive content, check media type
+		
+		$ia_media_type = splotbox_fetch_iarchive_type ( $wMediaURL );
+		
+		// check if we have either audio or video
+		if ( !splotbox_is_ia_supported( $ia_media_type ) ) {
+			$errors[] = '<strong>Unsupported Internet Archive Format</strong> - You can only add audio or video content to this site; <code>' . $ia_media_type . '</code> content will not work.';
+		}
 	}
 	
 	if ( $wTitle == '' ) $errors[] = '<strong>Title Missing</strong> - enter a descriptive title for this item.'; 
@@ -237,7 +250,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			$w_information['ID'] = $post_id;
 			
 			// check for possible podcast links for URL in audio items
-			if ( $wMediaType == 'audio' and url_is_audio_link( $wMediaURL ) ) {
+			if ( url_is_audio_link( $wMediaURL ) ) {
 				// insert audio shortcode to make a link and force it into the podcast feed
 				$w_information['post_content'].= "\n" . '[audio src="' . $wMediaURL . '"]' . "\n";
 			}			
@@ -369,9 +382,6 @@ get_header();
 			
 		<form  id="splotboxform" method="post" action="" enctype="multipart/form-data">
 		
-				
-			
-
 				<fieldset id="theUpload">
 					<legend><?php splotbox_form_item_upload() ?></legend>
 					
@@ -388,7 +398,7 @@ get_header();
 					<div id="media_by_url" <?php if ( $wMediaMethod == "by_upload" ) echo ' style="display:none;"'?>>
 					
 						<label for="wMediaURL"><?php _e('Enter Media URL', 'garfunkel' ) ?> <span class="required">*</span></label><br />
-						<p>Embed a media player for audio, video, or image content for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The URL you enter should be the one that displays the content from the service. For audio and image content you can also use a direct web address to a media file -- one that links directly to <code>.mp3 .m4a .ogg .jpg .png .gif</code> files).</p>
+						<p>Embed a media player for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The web address entered is one that displays the content from the service. For audio and image content you can also use a direct web address to a media file -- one that links to <code>.mp3 .m4a .ogg .jpg .png .gif</code> files).</p>
 					
 						<p>Enter a full web address for the item (including http:// or https://)</p>
 						<input type="text" name="wMediaURL" id="wMediaURL" class="required pstate" value="<?php echo $wMediaURL; ?>"/> 
@@ -432,17 +442,12 @@ get_header();
 								<input type="file" accept="image/*,audio/*" name="wUploadFile" id="wUploadFile">
 								<p id="dropmessage">Drag file or click to select file to upload</p>
 							</div>
-						</div>
-						
-						
+						</div>						
 						<?php endif?>
-						
-						
-					
 				</fieldset>						
 
 				<fieldset id="theMedia">
-					<legend>Media Info</legend>
+					<legend><?php splotbox_media_section_title()?></legend>
 					<label for="wTitle"><?php splotbox_form_item_title() ?> <span class="required">*</span></label><br />
 					<p><?php splotbox_form_item_title_prompt() ?> </p>
 					<input type="text" name="wTitle" id="wTitle" class="required pstate" value="<?php echo $wTitle; ?>" />
@@ -517,7 +522,7 @@ get_header();
 				<?php if ( splotbox_option('use_source') OR splotbox_option('use_license') ):?>
 
 				<fieldset id="theAttribution">
-					<legend>Media Attribution / License</legend>
+					<legend><?php splotbox_form_item_attrbution_section()?></legend>
 					
 					
 					
