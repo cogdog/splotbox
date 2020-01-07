@@ -80,6 +80,12 @@ iframe.ia-audio {
     background: #000;
 }
 
+/* captures embeds with stuff after iframe, e.g. slideshare */
+
+.featured-media iframe + div {
+    display: none;
+}
+
 .post-info-items, .post-content {
 	word-wrap: break-word;
 }
