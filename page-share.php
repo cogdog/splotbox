@@ -288,15 +288,10 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 	// first time entry
 	
 	// default welcome message
-	$feedback_msg = splotbox_form_default_prompt() . '. Fields marked  <strong>*</strong> are required.';
-
-	
+	$feedback_msg = splotbox_form_default_prompt() . '. Fields marked  <strong>*</strong> are required.';	
 	$wAuthor = 'Anonymous';
-	$wLicense = '--';
-	
-	
-	$wUploadMediaID = $post_id = 0;
-	
+	$wLicense = '--';	
+	$wUploadMediaID = $post_id = 0;	
 	$wMediaMethod = "by_url";
 
 	// not yet saved
@@ -385,12 +380,12 @@ get_header();
 				<fieldset id="theUpload">
 					<legend><?php splotbox_form_item_upload() ?></legend>
 					
-					<?php if ( splotbox_option('use_upload_media')  == '1') :?>
+					<?php if ( splotbox_option('use_upload_media') ) :?>
 						<label for="wMediaMethod"><?php _e('Method of Sharing', 'garfunkel' ) ?> </label><br />
 						
 						<input type="radio" name="wMediaMethod" value="by_url" <?php if ( $wMediaMethod == "by_url" ) echo " checked"?>> <strong>By URL</strong> <span class="descrip"> for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.</span><br />
-						<input type="radio" name="wMediaMethod" value="by_upload" <?php if ( $wMediaMethod == "by_upload" ) echo " checked"?>> <strong>By Upload</strong> <span class="descrip">audio or image file</span>
-					
+						<input type="radio" name="wMediaMethod" value="by_upload" <?php if ( $wMediaMethod == "by_upload" ) echo " checked"?>> <strong>By Upload</strong> <span class="descrip"> <?php echo splotbox_supports_by_upload()?></span>
+						
 					
 					<?php endif?>
 					
@@ -398,7 +393,7 @@ get_header();
 					<div id="media_by_url" <?php if ( $wMediaMethod == "by_upload" ) echo ' style="display:none;"'?>>
 					
 						<label for="wMediaURL"><?php _e('Enter Media URL', 'garfunkel' ) ?> <span class="required">*</span></label><br />
-						<p>Embed a media player for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The web address entered is one that displays the content from the service. For audio and image content you can also use a direct web address to a media file -- one that links to <code>.mp3 .m4a .ogg .jpg .png .gif</code> files).</p>
+						<p>Embed a media player for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The web address entered is one that displays the content from the service. <?php echo splotbox_supports_by_link();?></p>
 					
 						<p>Enter a full web address for the item (including http:// or https://)</p>
 						<input type="text" name="wMediaURL" id="wMediaURL" class="required pstate" value="<?php echo $wMediaURL; ?>"/> 
@@ -409,14 +404,14 @@ get_header();
 					</div>
 
 
-					<?php if ( splotbox_option('use_upload_media')  == '1') :?>
+					<?php if ( splotbox_option('use_upload_media') ) :?>
 					
 					
 					<div id="media_by_upload" <?php if ( $wMediaMethod == "by_url" ) echo ' style="display:none;"'?>>
 					
 						<label for="headerImage"><?php _e('Upload a File', 'garfunkel') ?></label>
 
-						<p>Audio files of type <code>.mp3 .m4a .ogg</code> or image files of type <code>.jpg .png .gif</code> less than <?php echo splotbox_max_upload(); ?> can be uploaded to this site. </p>
+						<p><?php echo splotbox_supports_by_upload()?> less than <?php echo splotbox_max_upload(); ?> can be uploaded to this site. </p>
 						<div class="uploader">
 						
 							<input id="wUploadMedia" name="wUploadMedia" type="hidden" value="<?php echo $wUploadMediaID?>" />
@@ -428,6 +423,25 @@ get_header();
 									$defthumb = '<img src="https://placehold.it/150x150?text=Media+holder" alt="" width="150" height="150" id="mediathumb">';
 				
 								}
+								
+								// set the types of accept attribute for the input 
+								switch ( splotbox_option('use_upload_media') ) {
+									case 1:
+										// accept image and audio
+										$mediUploadExt = 'accept=".jpg,.jpeg,.png,.gif,.mp3,.m4a,.ogg"';
+										break;
+									case 2:
+										// accept image only
+										$mediUploadExt = 'accept=".jpg,.jpeg,.png,.gif"';
+										break;
+									case 3:
+										// accept audio only
+										$mediUploadExt = 'accept=".mp3,.m4a,.ogg"';
+										break;
+									default:
+										$mediUploadExt = '';
+								}
+
 							?>
 						
 							<?php echo $defthumb?>
@@ -439,7 +453,7 @@ get_header();
 							<p id="idlocker"></p>
 					
 							<div id="splotdropzone">
-								<input type="file" accept="image/*,audio/*" name="wUploadFile" id="wUploadFile">
+								<input type="file" <?php echo $mediUploadExt?> name="wUploadFile" id="wUploadFile">
 								<p id="dropmessage">Drag file or click to select file to upload</p>
 							</div>
 						</div>						

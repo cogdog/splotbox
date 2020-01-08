@@ -44,6 +44,54 @@ function splotbox_supports() {
 
 }
 
+
+function splotbox_supports_by_upload() {
+
+	switch ( splotbox_option('use_upload_media') ) {
+    
+    	case 0:
+    		// no linked media
+    		return '';
+    		break;
+    	case 1:
+    		// audio and image media 
+    		return 'Audio files of type <code>.mp3 .m4a .ogg</code> or image files of type <code>.jpg .jpeg .png .gif</code>';
+    		break;
+    	case 2:
+    		//image media only
+     		return 'Image files of type <code>.jpg .jpeg .png .gif</code>';
+    		break;
+    	case 3:
+    		//audio media only
+     		return 'Audio files of type <code>.mp3 .m4a .ogg</code>';
+    		break;
+    }
+}
+
+
+function splotbox_supports_by_link() {
+
+	switch ( splotbox_option('use_linked_media') ) {
+    
+    	case 0:
+    		// no linked media
+    		return '';
+    		break;
+    	case 1:
+    		// audio and image media 
+    		return 'You can also use a web address to audio or image content -- ones that link diretly to <code>.mp3 .m4a .ogg .jpg .jpeg .png .gif</code> files.';
+    		break;
+    	case 2:
+    		//image media only
+     		return 'You can also use a web address to image content -- ones that link diretly to <code>jpg .png .gif</code> files.';
+    		break;
+    	case 3:
+    		//audio media only
+     		return 'You can also use a web address to audio content -- ones that link diretly to <code>.mp3 .m4a .ogg</code> files.';
+    		break;
+    }
+}
+
 function url_is_media_type ( $url ) {
 	// via URL checks, identify the media types
 
@@ -187,6 +235,7 @@ function url_is_image_link ( $url ) {
 }
 
 function url_is_video_link ( $url ) {
+	// not really used, well maybe one day
 
 	$fileExtention 	= pathinfo ( $url, PATHINFO_EXTENSION ); 	// get file extension for url	
 	$allowables 	= 	array( 'mp4'); 	// allowable file extensions

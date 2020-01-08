@@ -263,7 +263,8 @@ function add_splotbox_scripts() {
 		  array(
 		  	'ajaxUrl' => admin_url('admin-ajax.php'),
 			'siteUrl' => esc_url(home_url()),
-			'uploadMax' => splotbox_option('upload_max' )
+			'uploadMax' => splotbox_option('upload_max' ),
+			'allowedMedia' => splotbox_option('use_upload_media'),
 		  )
 		);
 

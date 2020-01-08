@@ -4,19 +4,20 @@
 	upload for input field style by CSS to be a drop zone
 */
 
-// valid file extensions
-var allowables = ['mp3' , 'm4a', 'ogg', 'jpg' , 'png', 'jpeg','gif'];
+// valid file extensions for image and audio
+var image_exts = ['jpg' ,'jpeg', 'png' ,'gif'];
+var audio_exts = ['mp3' , 'm4a', 'ogg'];
 
-function isAllowableUploadLink(url) {
-	// get extension -- h/t https://stackoverflow.com/a/12900504/2418186
-	 var ext = url.slice((url.lastIndexOf(".") - 1 >>> 0) + 2);
-	 
+// all allowed extensions, combine above
+var allowables = image_exts.concat(audio_exts);
+
+function isAllowedFile(fname) {
+	// get extension -- h/t https://stackoverflow.com/a/190878/2418186
+	 var ext = fname.split('.').pop();
+	 	 
 	 // check in array
 	 return allowables.includes(ext.toLowerCase());
 }
-
-
-var image_exts = ['jpg' ,'jpeg', 'png' ,'gif'];
 
 function isImageFile(fname) {
 	// get extension -- h/t https://stackoverflow.com/a/190878/2418186
@@ -26,6 +27,13 @@ function isImageFile(fname) {
 	 return image_exts.includes(ext.toLowerCase());
 }
 
+function isAudioFile(fname) {
+	// get extension -- h/t https://stackoverflow.com/a/190878/2418186
+	 var ext = fname.split('.').pop();
+	 	 
+	 // check in array
+	 return audio_exts.includes(ext.toLowerCase());
+}
 
 	jQuery('#wTags').suggest( boxObject.siteURL + "wp-admin/admin-ajax.php?action=ajax-tag-search&tax=post_tag", {multiple:true, multipleSep: ","});
 
@@ -35,15 +43,34 @@ jQuery(document).ready(function() {
 	jQuery('#splotdropzone input').change(function () {
 
 		if (this.value) {
-			// prompt for drop area
+			// check for errors
+			var error_str = '';
+			
+			console.log('accepted? ' + boxObject.allowedMedia);
+			console.log('value? ' + this.value);
+			console.log('is image? ' + isImageFile(this.value.substring(12)));
+			
+			
+			// image files only allowed
+			if ( boxObject.allowedMedia == 2 &&  !isImageFile(this.value.substring(12)) ) {
+				 error_str = 'The selected file "' + this.value.substring(12) + '" is not an image file. Try again?';
+			} 
+
+			// audio files only allowed
+			if ( boxObject.allowedMedia == 3 &&  !isAudioFile(this.value.substring(12)) ) {
+				 error_str = 'The selected file "' + this.value.substring(12) + '" is not an audio file. Try again?';
+			} 
 		
-			// get the file size
+		
+			// check the file size
 			let file_size_MB = (this.files[0].size / 1000000.0).toFixed(2);
 		
 			if ( file_size_MB >  parseFloat(boxObject.uploadMax)) { 
-				alert('Error: The size of your file, ' + file_size_MB + ' Mb, is greater than the maximum allowed for this site (' + boxObject.uploadMax + ' Mb). Try a different file or see if you can shrink the size of this one.');
-				jQuery('#wUploadMedia').val("");
-			} else {
+				error_str = 'The size of your file, ' + file_size_MB + ' Mb, is greater than the maximum allowed for this site (' + boxObject.uploadMax + ' Mb). Try a different file or see if you can shrink the size of this one.';		
+			}
+			
+			// we have no errors
+			if (!error_str) {
 			
 				// store the last media URL  in hidden field
 				jQuery("#footlocker").text(jQuery("#wMediaURL").val());
@@ -72,7 +99,7 @@ jQuery(document).ready(function() {
 						freader.readAsDataURL(this.files[0]);			
 					
 						 // update status 
-						jQuery("#uploadresponse").html('Image selected. When you <strong>Save/Update</strong> below this file will be uploaded (' + file_size_MB + ' Mb).');
+						jQuery("#uploadresponse").html('File selected. When you <strong>Save/Update</strong> below this file will be uploaded (' + file_size_MB + ' Mb).');
 
 					} else {
 						// no image files received?
@@ -90,7 +117,15 @@ jQuery(document).ready(function() {
 						 reset_dropzone();
 					}				
 				} // is image
-			} // file size check
+				
+			} else {
+				// errors!
+				
+				jQuery('#wUploadMedia').val("");
+				alert('Error!' + error_str);
+				reset_dropzone();
+			
+			} // !error_str
 
 			
 		} else {
@@ -127,18 +162,19 @@ jQuery(document).ready(function() {
     	jQuery("#testURL").removeAttr('href'); 
     	jQuery("#testURL").addClass('disabled');
     }
-    
+
+
+    // disable preview button if anything changes, forces a re-check
     jQuery("input" ).change(function() {
     	jQuery("#wPreview").addClass('disabled');
 	});
-	
-	
+
+	// toggle input modes	
 	jQuery("input[type=radio][name=wMediaMethod]" ).change(function() {
 		jQuery("#media_by_url").toggle("slow");
 		jQuery("#media_by_upload").toggle("slow");
 	});
 	
-
 
 	// show test url button if url field changed
 	jQuery("#wMediaURL").change(function() {
