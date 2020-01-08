@@ -319,6 +319,7 @@ function splotbox_get_videoplayer( $url ) {
 		// use function to get media type via API
 		$iamediatype =  splotbox_get_iarchive_type ( $url );
 
+		// use a substitution to turn the public link to it's embed one
 		$archiveorg_url = str_replace ( 'details' , 'embed' , $url );
 	
 		
@@ -328,7 +329,7 @@ function splotbox_get_videoplayer( $url ) {
 			
 		} elseif ( splotbox_is_ia_supported_video( $iamediatype ) ) {
 			// regular player size for video
-			$videoplayer = '<iframe src="' . $archiveorg_url . '" width="100%" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen class="ia-video"></iframe>';
+			$videoplayer = '<iframe src="' . $archiveorg_url . '" width="640" height="480" frameborder="0" webkitallowfullscreen="true" mozallowfullscreen="true" allowfullscreen class="ia-video"></iframe>';
 			
 		} else {
 			$videoplayer = '<code>' . $iamediatype . '</code> is not a supported Internet Archive media type';
