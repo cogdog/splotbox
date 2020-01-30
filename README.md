@@ -35,9 +35,12 @@ In addition, special code has been added to support similarly for:
 * Adobe Spark Videos
 * Internet Archive audio or video
 
+And in this new version, we are offering a third, cool option:
+* record audio directly
+
 Media can also be added by any direct URL to audio in mp3, ogg, or m4a formats or  jpg, png, or gif images. Site owners can also enable an upload button for image and sound files in mp3, ogg, or m4a (audi0) or jpg, png, gif (image). 
 
-Other features that can be activated  to entry provide fields for (and require or not), descriptions, a credit source name and a selection of a reuse licenses.
+Other features that can be activated to entry provide fields for (and require or not), descriptions, a credit source name and a selection of a reuse licenses.
 
 This is an improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder). For blogged history, see  [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
 

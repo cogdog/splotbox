@@ -320,16 +320,16 @@ function add_splotbox_scripts() {
 		if ( splotbox_option('use_media_recorder') ) {
 			// enqueues for the Media Recorder https://github.com/collab-project/videojs-record/
 			// styles
-			wp_enqueue_style( 'video-js', '//vjs.zencdn.net/7.6.6/video-js.min.css' );
-			wp_enqueue_style( 'video-wavesurfer', '//unpkg.com/videojs-wavesurfer/dist/css/videojs.wavesurfer.min.css' );
+			wp_enqueue_style( 'video-js', get_stylesheet_directory_uri() . '/css/video-js.min.css' );
+			wp_enqueue_style( 'video-wavesurfer', get_stylesheet_directory_uri() . '/css/videojs.wavesurfer.min.css' );
 			wp_enqueue_style( 'videojs-record', get_stylesheet_directory_uri() . '/css/videojs.record.min.css' );
 
 			//scripts
-			wp_register_script( 'video-min', '//vjs.zencdn.net/7.6.6/video.min.js' );
-			wp_register_script( 'webrtc-adapter', '//unpkg.com/webrtc-adapter/out/adapter.js' );
-			wp_register_script( 'wavesurfer', '//unpkg.com/wavesurfer.js/dist/wavesurfer.min.js' );
-			wp_register_script( 'wavesurfer-microphone', '//unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.microphone.min.js', array('wavesurfer') );
-			wp_register_script( 'videojs-wavesurfer', '//unpkg.com/videojs-wavesurfer/dist/videojs.wavesurfer.min.js' , array('wavesurfer'));
+			wp_register_script( 'video-min', get_stylesheet_directory_uri() . '/js/video.min.js' );
+			wp_register_script( 'webrtc-adapter', get_stylesheet_directory_uri() . '/js/webrtc-adapter/out/adapter.js' );
+			wp_register_script( 'wavesurfer', get_stylesheet_directory_uri() . '/js/wavesurfer.min.js' );
+			wp_register_script( 'wavesurfer-microphone', get_stylesheet_directory_uri() . '/js/wavesurfer.microphone.min.js', array('wavesurfer') );
+			wp_register_script( 'videojs-wavesurfer', get_stylesheet_directory_uri() . '/js/videojs.wavesurfer.min.js' , array('wavesurfer'));
 			wp_register_script( 'videojs-record', get_stylesheet_directory_uri() . '/js/videojs.record.min.js' );
 			wp_register_script( 'videojs-lame', get_stylesheet_directory_uri() . '/js/videojs.record.lamejs.min.js' );
 
@@ -395,6 +395,7 @@ function splot_default_menu() {
 # -----------------------------------------------------------------
 # Allow Previews
 # -----------------------------------------------------------------
+
 
 function  splotbox_show_drafts( $query ) {
 // show drafts only for single previews
