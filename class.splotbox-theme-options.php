@@ -17,7 +17,7 @@ class splotbox_Theme_Options {
 		$this->checkboxes = array();
 		$this->settings = array();
 		$this->get_settings();
-		
+
 		$this->sections['general'] = __( 'All Settings' );
 
 
@@ -25,14 +25,14 @@ class splotbox_Theme_Options {
 		foreach ( $this->sections as $slug => $title ) {
 			$this->section_callbacks[$slug] = 'display_' . $slug;
 		}
-		
+
 
 		// enqueue scripts for media uploader
         add_action( 'admin_enqueue_scripts', 'splotbox_enqueue_options_scripts' );
-		
+
 		add_action( 'admin_menu', array( &$this, 'add_pages' ) );
 		add_action( 'admin_init', array( &$this, 'register_settings' ) );
-		
+
 		if ( ! get_option( 'splotbox_options' ) )
 			$this->initialize_settings();
 	}
@@ -40,8 +40,8 @@ class splotbox_Theme_Options {
 	/* Add page(s) to the admin menu */
 	public function add_pages() {
 		$admin_page = add_theme_page( 'Splotbox Options', 'Splotbox Options', 'manage_options', 'splotbox-options', array( &$this, 'display_page' ) );
-		
-		// documents page, but don't add to menu		
+
+		// documents page, but don't add to menu
 		$docs_page = add_theme_page( 'Splotbox Documentation', '', 'manage_options', 'splotbox-docs', array( &$this, 'display_docs' ) );
 			}
 
@@ -49,68 +49,38 @@ class splotbox_Theme_Options {
 	public function display_page() {
 		echo '<div class="wrap">
 		<h2>Splotbox Options</h2>';
-		
+
 		if ( isset( $_GET['settings-updated'] ) && $_GET['settings-updated'] == true )
 			echo '<div class="updated fade"><p>' . __( 'Theme options updated.' ) . '</p></div>';
-				
+
 		echo '<form action="options.php" method="post" enctype="multipart/form-data">';
 
 			settings_fields( 'splotbox_options' );
-			
+
 			echo  '<h2 class="nav-tab-wrapper"><a class="nav-tab nav-tab-active" href="?page=splotbox-options">Settings</a>
 	<a class="nav-tab" href="?page=splotbox-docs">Documentation</a></h2>';
 
 		do_settings_sections( $_GET['page'] );
 
-			echo '<p class="submit"><input name="Submit" type="submit" class="button-primary" value="' . __( 'Save Changes' ) . '" /></p>			
+			echo '<p class="submit"><input name="Submit" type="submit" class="button-primary" value="' . __( 'Save Changes' ) . '" /></p>
 		</form>
-		</div>
-		
-		<script type="text/javascript">
-		jQuery(document).ready(function($) {
-			
-			$("input[type=text], textarea").each(function() {
-				if ($(this).val() == $(this).attr("placeholder") || $(this).val() == "")
-					$(this).css("color", "#999");
-			});
-			
-			$("input[type=text], textarea").focus(function() {
-				if ($(this).val() == $(this).attr("placeholder") || $(this).val() == "") {
-					$(this).val("");
-					$(this).css("color", "#000");
-				}
-			}).blur(function() {
-				if ($(this).val() == "" || $(this).val() == $(this).attr("placeholder")) {
-					$(this).val($(this).attr("placeholder"));
-					$(this).css("color", "#999");
-				}
-			});
-			
-			// This will make the "warning" checkbox class really stand out when checked.
-			// I use it here for the Reset checkbox.
-			$(".warning").change(function() {
-				if ($(this).is(":checked"))
-					$(this).parent().css("background", "#c00").css("color", "#fff").css("fontWeight", "bold");
-				else
-					$(this).parent().css("background", "none").css("color", "inherit").css("fontWeight", "normal");
-			});
-		});
-		</script>';	
+		</div>';
+
 	}
 
 	/*  display documentation in a tab */
-	public function display_docs() {	
-		// This displays on the "Documentation" tab. 
-		
+	public function display_docs() {
+		// This displays on the "Documentation" tab.
+
 	 	echo '<div class="wrap">
 		<h1>Splotbox Documentation</h1>
 		<h2 class="nav-tab-wrapper">
 		<a class="nav-tab" href="?page=splotbox-options">Settings</a>
 		<a class="nav-tab nav-tab-active" href="?page=splotbox-docs">Documentation</a></h2>';
-		
+
 		include( get_stylesheet_directory() . '/includes/splotbox-theme-options-docs.php');
-		
-		echo '</div>';		
+
+		echo '</div>';
 	}
 
 
@@ -121,7 +91,7 @@ class splotbox_Theme_Options {
 		// for file upload checks
 		$max_upload_size = round(wp_max_upload_size() / 1000000);
 
-	
+
 		/* General Settings
 		===========================================*/
 
@@ -143,15 +113,15 @@ class splotbox_Theme_Options {
 			'type'    => 'text',
 			'section' => 'general'
 		);
-		
-		
+
+
 		$this->settings['accesshint'] = array(
 			'title'   => __( 'Access Hint' ),
 			'desc'    => __( 'Suggestion if someone cannot guess the code. Not super secure, but hey.' ),
 			'std'     => 'Name of this site (lower the case, Ace!)',
 			'type'    => 'text',
 			'section' => 'general'
-		);		
+		);
 
 
 		$this->settings['pages_heading'] = array(
@@ -165,23 +135,23 @@ class splotbox_Theme_Options {
 		// get all pages on site with template for the Sharing Form
 		$found_pages = get_pages_with_template('page-share.php');
 		$page_desc = 'Set the Page that should be used for the Sharing form.';
-		
+
 		// the function returns an array of id => page title, first item is the menu selection item
 		if ( count( $found_pages ) > 1 ) {
 			$page_std =  array_keys( $found_pages)[1];
 		} else {
-	
+
 			$trypage = get_page_by_path('share');
-		
+
 			if ( $trypage ) {
 				$page_std = $trypage->ID;
 				$found_pages = array( 0 => 'Select Page', $page_std => $trypage->post_title );
-		
+
 			} else {
-				$page_desc = 'No pages have been created with the Sharing Form template. This is required to enable access to the writing form. <a href="' . admin_url( 'post-new.php?post_type=page') . '">Create a new Page</a> and under <strong>Page Attributes</strong> select <code>Sharing Form</code> for the Template.'; 
+				$page_desc = 'No pages have been created with the Sharing Form template. This is required to enable access to the writing form. <a href="' . admin_url( 'post-new.php?post_type=page') . '">Create a new Page</a> and under <strong>Page Attributes</strong> select <code>Sharing Form</code> for the Template.';
 				$page_std = '';
 			}
-	
+
 		}
 
 		$this->settings['share_page'] = array(
@@ -192,27 +162,27 @@ class splotbox_Theme_Options {
 			'std'     =>  $page_std,
 			'choices' => $found_pages
 		);
-		
+
 		// get all pages on site with template for the View by Licebse
 		$found_pages = get_pages_with_template('page-licensed.php');
 		$page_desc = 'Set the Page that should be used for viewing content by Rights/Licensing.';
-		
+
 		// the function returns an array of id => page title, first item is the menu selection item
 		if ( count( $found_pages ) > 1 ) {
 			$page_std =  array_keys( $found_pages)[1];
 		} else {
-	
+
 			$trypage = get_page_by_path('licensed');
-		
+
 			if ( $trypage ) {
 				$page_std = $trypage->ID;
 				$found_pages = array( 0 => 'Select Page', $page_std => $trypage->post_title );
-		
+
 			} else {
-				$page_desc = 'No pages have been created with the Licenses/Rights template. This is required to show a view of items bu the type of reuse licensed applied. <a href="' . admin_url( 'post-new.php?post_type=page') . '">Create a new Page</a> and under <strong>Page Attributes</strong> select <code>Licenses/Rights</code> for the Template.'; 
+				$page_desc = 'No pages have been created with the Licenses/Rights template. This is required to show a view of items bu the type of reuse licensed applied. <a href="' . admin_url( 'post-new.php?post_type=page') . '">Create a new Page</a> and under <strong>Page Attributes</strong> select <code>Licenses/Rights</code> for the Template.';
 				$page_std = '';
 			}
-	
+
 		}
 
 		$this->settings['licensed_page'] = array(
@@ -243,7 +213,7 @@ class splotbox_Theme_Options {
 				'pending' => 'Set as pending',
 				'draft' => 'Keep as draft',
 			)
-		);	
+		);
 
 		$this->settings['allow_comments'] = array(
 			'section' => 'general',
@@ -252,11 +222,11 @@ class splotbox_Theme_Options {
 			'type'    => 'checkbox',
 			'std'     => 0 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
-		
+
 		// ------- media options
-		
+
 		$extender_support =   ( function_exists('splotboxplus_exists') ) ? 'In addition, via the SplotBox Extender plugin, this site also supports <strong>' .  implode( ', ', splotboxplus_supports()) . '</strong>.' : '';
-		
+
 		$this->settings['media_heading'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
@@ -264,12 +234,22 @@ class splotbox_Theme_Options {
 			'std'    => 'The following services are supported by SPLOTbox. Check the ones to make available on the share form. ' . $extender_support,
 			'type'    => 'heading'
 		);
-		
+
+		$this->settings['mtoggle'] = array(
+			'section' => 'general',
+			'title'   => __( 'Toggle selection' ),
+			'desc'    => __( 'Check for all, uncheck for none' ),
+			'type'    => 'checkbox',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+
 		$this->settings['m_spark'] = array(
 			'section' => 'general',
-			'title'   => __( 'Media Support By URL' ),
+			'title'   => __( 'Media Sources supported...' ),
 			'desc'    => __( 'Adobe Spark Pages/Videos  http://spark.adobe.com' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
@@ -278,6 +258,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Flickr photos http://flickr.com' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 		$this->settings['m_giphy'] = array(
@@ -285,6 +266,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Giphy gifs http://giphy.com' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 		$this->settings['m_archive'] = array(
@@ -292,6 +274,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Internet Archive Audio and Video http://archive.org' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 		$this->settings['m_mixcloud'] = array(
@@ -299,6 +282,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Mixcloud Audio http://mixcloud.com/' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
@@ -307,6 +291,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Slideshare Presentations http://slideshare.net/' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 		$this->settings['m_soundcloud'] = array(
@@ -314,6 +299,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Soundcloud Audio http://soundcloud.com/' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 		$this->settings['m_speakerdeck'] = array(
@@ -321,6 +307,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Speakerdeck Presentations http://speakerdeck.com/' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
@@ -329,15 +316,17 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Ted Talk Video http://ted.com/' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
-		
+
 		$this->settings['m_vimeo'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
 			'desc'    => __( 'Vimeo video http://vimeo.com' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
@@ -346,6 +335,7 @@ class splotbox_Theme_Options {
 			'title'   => __( '' ),
 			'desc'    => __( 'Youtube video http://youtube.com/' ),
 			'type'    => 'checkbox',
+			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
@@ -373,7 +363,7 @@ class splotbox_Theme_Options {
 							'0' => 'No',
 							'1' => 'Yes, allow upload of both audio and image files',
 							'2' => 'Yes, allow upload of image files only',
-							'3' => 'Yes, allow upload of audio files only',			
+							'3' => 'Yes, allow upload of audio files only',
 					)
 		);
 
@@ -381,6 +371,27 @@ class splotbox_Theme_Options {
 			'title'   => __( 'Maximum Upload File Size' ),
 			'desc'    => __( 'Set limit for file uploads in Mb (maximum possible for this site is ' . $max_upload_size . ' Mb).' ),
 			'std'     => $max_upload_size,
+			'type'    => 'text',
+			'section' => 'general'
+		);
+
+
+		$this->settings['use_media_recorder'] = array(
+			'section' => 'general',
+			'title'   => __( 'Enable HTML5 audio recorder for direct saving to media library'),
+			'desc'    => '',
+			'type'    => 'radio',
+			'std'     => '0',
+			'choices' => array (
+							'0' => 'No',
+							'1' => 'Yes',
+					)
+		);
+
+		$this->settings['max_record_time'] = array(
+			'title'   => __( 'Maximum Recording Time' ),
+			'desc'    => __( 'Set time limit for recording  (in minutes) ' ),
+			'std'     => 5,
 			'type'    => 'text',
 			'section' => 'general'
 		);
@@ -407,7 +418,7 @@ class splotbox_Theme_Options {
 							'title' => 'Title',
 					)
 		);
-		
+
 		$this->settings['sort_direction'] = array(
 			'section' => 'general',
 			'title'   => __( 'Sort Order'),
@@ -419,7 +430,7 @@ class splotbox_Theme_Options {
 							'ASC' => 'Ascending',
 					)
 		);
-		
+
 		// ------- single item display
 		$this->settings['single_item_heading'] = array(
 			'section' => 'general',
@@ -431,8 +442,8 @@ class splotbox_Theme_Options {
 
 
   		// Build array to hold options for select, an array of post categories
-  		
-  		
+
+
 		$this->settings['show_cats'] = array(
 			'section' => 'general',
 			'title'   => __( 'Show the categories menu on share form and list on item displays?'),
@@ -447,13 +458,13 @@ class splotbox_Theme_Options {
 
 
   		// Build array to hold options for select, an array of post categories
-		// Walk those cats, store as array index=ID 
-		
-	  	$all_cats = get_categories('hide_empty=0'); 
+		// Walk those cats, store as array index=ID
+
+	  	$all_cats = get_categories('hide_empty=0');
 		foreach ( $all_cats as $item ) {
   			$cat_options[$item->term_id] =  $item->name;
   		}
- 
+
 		$this->settings['def_cat'] = array(
 			'section' => 'general',
 			'title'   => __( 'Default Category for New Item'),
@@ -461,7 +472,7 @@ class splotbox_Theme_Options {
 			'type'    => 'select',
 			'std'     => get_option('default_category'),
 			'choices' => $cat_options
-		);	
+		);
 
 		$this->settings['show_tags'] = array(
 			'section' => 'general',
@@ -477,7 +488,7 @@ class splotbox_Theme_Options {
 
 
 
-		
+
 		$this->settings['use_caption'] = array(
 			'section' => 'general',
 			'title'   => __( 'Use description field on submission form and item display?'),
@@ -502,7 +513,7 @@ class splotbox_Theme_Options {
 							'r' => 'Rich text editor'
 					)
 		);
-			
+
 		$this->settings['use_source'] = array(
 			'section' => 'general',
 			'title'   => __( 'Use source field (e.g. to provide credit for media) on submission form and item display?'),
@@ -564,7 +575,7 @@ class splotbox_Theme_Options {
 							'2' => 'Yes, and make it required'
 					)
 		);
-		
+
 		$this->settings['show_attribution'] = array(
 			'section' => 'general',
 			'title'   => __( 'Cut and Paste Attribution' ),
@@ -575,11 +586,11 @@ class splotbox_Theme_Options {
 				'0' => 'No',
 				'1' => 'Yes',
 			)
-		);		
-			
+		);
+
 		/* Reset
 		===========================================*/
-		
+
 		$this->settings['reset_heading'] = array(
 			'section' => 'general',
 			'title'   => '', // Not used for headings.
@@ -587,8 +598,8 @@ class splotbox_Theme_Options {
 			'std'    => '',
 			'type'    => 'heading'
 		);
-		
-		
+
+
 		$this->settings['reset_theme'] = array(
 			'section' => 'general',
 			'title'   => __( 'Reset All Options' ),
@@ -598,13 +609,13 @@ class splotbox_Theme_Options {
 			'desc'    => __( 'Check this box and click "Save Changes" below to reset theme options to their defaults.' )
 		);
 
-		
+
 	}
-	
+
 	public function display_general() {
 		// section heading for general setttings
-	
-		echo '<p>These settings manage the behavior and appearance of your SPLOTbox site. See <a href="' . admin_url( 'themes.php?page=splotbox-docs') . '">the documentation</a> for help or visit the <a href="https://github.com/cogdog/splotbox" target="_blank">theme source on GitHub</a>.</p><p>If this kind of stuff has any value to you, please consider supporting me so I can do more!</p><p style="text-align:center"><a href="https://patreon.com/cogdog" target="_blank"><img src="https://cogdog.github.io/images/badge-patreon.png" alt="donate on patreon"></a> &nbsp; <a href="https://paypal.me/cogdog" target="_blank"><img src="https://cogdog.github.io/images/badge-paypal.png" alt="donate on paypal"></a></p> ';		
+
+		echo '<p>These settings manage the behavior and appearance of your SPLOTbox site. See <a href="' . admin_url( 'themes.php?page=splotbox-docs') . '">the documentation</a> for help or visit the <a href="https://github.com/cogdog/splotbox" target="_blank">theme source on GitHub</a>.</p><p>If this kind of stuff has any value to you, please consider supporting me so I can do more!</p><p style="text-align:center"><a href="https://patreon.com/cogdog" target="_blank"><img src="https://cogdog.github.io/images/badge-patreon.png" alt="donate on patreon"></a> &nbsp; <a href="https://paypal.me/cogdog" target="_blank"><img src="https://cogdog.github.io/images/badge-paypal.png" alt="donate on paypal"></a></p> ';
 	}
 
 
@@ -625,14 +636,14 @@ class splotbox_Theme_Options {
 			$options[$id] = 0;
 
 		$options['new_types'] = 'New Type Name'; // always reset
-		
+
 		$field_class = '';
 		if ( $class != '' )
 			$field_class = ' ' . $class;
-			
-			
+
+
 		switch ( $type ) {
-		
+
 			case 'heading':
 				echo '<tr><td colspan="2" class="alternate"><h3>' . $desc . '</h3><p>' . $std . '</p></td></tr>';
 				break;
@@ -677,12 +688,12 @@ class splotbox_Theme_Options {
 					echo '<br /><span class="description">' . $desc . '</span>';
 
 				break;
-				
+
 			case 'medialoader':
-			
-			
-				echo '<div id="uploader_' . $id . '">';		
-				
+
+
+				echo '<div id="uploader_' . $id . '">';
+
 				if ( $options[$id] )  {
 					$front_img = wp_get_attachment_image_src( $options[$id], 'radcliffe' );
 					echo '<img id="previewimage_' . $id . '" src="' . $front_img[0] . '" width="640" height="300" alt="default thumbnail" />';
@@ -693,7 +704,7 @@ class splotbox_Theme_Options {
 				echo '<input type="hidden" name="splotbox_options[' . $id . ']" id="' . $id . '" value="' . $options[$id]  . '" />
   <br /><input type="button" class="upload_image_button button-primary" name="_splotbox_button' . $id .'" id="_splotbox_button' . $id .'" data-options_id="' . $id  . '" data-uploader_title="Set Default Header Image" data-uploader_button_text="Select Image" value="Set/Change Image" />
 </div><!-- uploader -->';
-				
+
 				if ( $desc != '' )
 					echo '<br /><span class="description">' . $desc . '</span>';
 
@@ -712,15 +723,15 @@ class splotbox_Theme_Options {
 				echo '<input class="regular-text' . $field_class . '" type="text" id="' . $id . '" name="splotbox_options[' . $id . ']" placeholder="' . $std . '" value="' . esc_attr( $options[$id] ) . '" />';
 
 				if ( $desc != '' ) {
-				
+
 					if ($id == 'def_thumb') $desc .= '<br /><a href="' . $options[$id] . '" target="_blank"><img src="' . $options[$id] . '" style="overflow: hidden;" width="' . $options["index_thumb_w"] . '"></a>';
 					echo '<br /><span class="description">' . $desc . '</span>';
 				}
 
 				break;
 		}
-	}	
-			
+	}
+
 
 
 	/**
@@ -729,25 +740,25 @@ class splotbox_Theme_Options {
 	 * @since 1.0
 	 */
 	public function display_docs_section() {
-		
-		// This displays on the "Documentation" tab. 
-		
+
+		// This displays on the "Documentation" tab.
+
 		include( get_stylesheet_directory() . '/includes/splotbox-theme-options-docs.php');
-		
-		
+
+
 	}
 
 	/* Initialize settings to their default values */
 	public function initialize_settings() {
-	
+
 		$default_settings = array();
 		foreach ( $this->settings as $id => $setting ) {
 			if ( $setting['type'] != 'heading' )
 				$default_settings[$id] = $setting['std'];
 		}
-	
+
 		update_option( 'splotbox_options', $default_settings );
-	
+
 	}
 
 
@@ -759,18 +770,18 @@ class splotbox_Theme_Options {
 
 		foreach ( $this->sections as $slug => $title ) {
 			add_settings_section( $slug, $title, array( &$this, $this->section_callbacks[$slug] ), 'splotbox-options' );
-		}		
+		}
 
 		$this->get_settings();
-	
+
 		foreach ( $this->settings as $id => $setting ) {
 			$setting['id'] = $id;
 			$this->create_setting( $setting );
 		}
 
 	}
-	
-	
+
+
 	/* tool to create settings fields */
 	public function create_setting( $args = array() ) {
 
@@ -799,21 +810,21 @@ class splotbox_Theme_Options {
 
 		if ( $type == 'checkbox' )
 			$this->checkboxes[] = $id;
-				
+
 
 		add_settings_field( $id, $title, array( $this, 'display_setting' ), 'splotbox-options', $section, $field_args );
 
 	}
-	
+
 	public function validate_settings( $input ) {
-		
+
 		if ( ! isset( $input['reset_theme'] ) ) {
 			$options = get_option( 'splotbox_options' );
-			
+
 			if ( $input['notify'] != $options['notify'] ) {
 				$input['notify'] = str_replace(' ', '', $input['notify']);
 			}
-		
+
 			foreach ( $this->checkboxes as $id ) {
 				if ( isset( $options[$id] ) && ! isset( $input[$id] ) )
 					unset( $options[$id] );
@@ -822,15 +833,15 @@ class splotbox_Theme_Options {
 			// make sure the max file upload is integer and less than max possible
 			$max_upload_size = round(wp_max_upload_size() / 1000000);
 			$input['upload_max'] = min( intval( $input['upload_max'] ), $max_upload_size  );
-		
+
 			return $input;
 		}
-		
+
 		return false;
-		
+
 	}
  }
- 
+
 $theme_options = new splotbox_Theme_Options();
 
 function splotbox_option( $option ) {

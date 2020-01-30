@@ -10,11 +10,11 @@ add_action('after_switch_theme', 'splotbox_setup');
 
 function splotbox_setup () {
   // make sure our categories are present
-  
+
   // create pages if they do not exist
-  
+
   if (! get_page_by_path( 'share' ) ) {
-  
+
   	// create the Write page if it does not exist
   	$page_data = array(
   		'post_title' 	=> 'Share',
@@ -26,16 +26,16 @@ function splotbox_setup () {
   		'post_date' 	=> date('Y-m-d H:i:s'),
   		'page_template'	=> 'page-share.php',
   	);
-  	
+
   	wp_insert_post( $page_data );
-  
+
   }
 
 
   if (! get_page_by_path( 'licensed' ) ) {
-  
+
   	// create index page and archive for licenses.
-  	
+
   	$page_data = array(
   		'post_title' 	=> 'Items by License',
   		'post_content'	=> 'Browse the items in this SPLOTbox by license for reuse',
@@ -46,11 +46,11 @@ function splotbox_setup () {
   		'post_date' 	=> date('Y-m-d H:i:s', time() - 172800),
   		'page_template'	=> 'page-licensed.php',
   	);
-  	
+
   	wp_insert_post( $page_data );
-  
+
   }
-  
+
 	// add rewrite rules, then flush to make sure they stick.
 	splotbox_rewrite_rules();
 	flush_rewrite_rules();
@@ -81,9 +81,9 @@ add_action( 'init', 'splotbox_change_post_object' );
 function splotbox_change_post_label() {
     global $menu;
     global $submenu;
-    
+
     $thing_name = 'Item';
-    
+
     $menu[5][0] = $thing_name . 's';
     $submenu['edit.php'][5][0] = 'All ' . $thing_name . 's';
     $submenu['edit.php'][15][0] = $thing_name .' Categories';
@@ -114,6 +114,54 @@ function splotbox_change_post_object() {
 add_filter('comment_form_defaults', 'splotbox_comment_mod');
 
 # -----------------------------------------------------------------
+# login fancy
+# -----------------------------------------------------------------
+
+// Add custom logo to entry screen... because we can
+// While we are at it, use CSS to hide the back to blog and retried password links
+add_action( 'login_enqueue_scripts', 'splot_login_logo' );
+
+function splot_login_logo() { ?>
+    <style type="text/css">
+        body.login div#login h1 a {
+            background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/site-login-logo.png);
+            height:90px;
+			width:320px;
+			background-size: 320px 90px;
+			background-repeat: no-repeat;
+			padding-bottom: 0px;
+        }
+    </style>
+<?php }
+
+
+// Make logo link points to blog, not Wordpress.org Change Dat
+// -- h/t http://www.sitepoint.com/design-a-stylized-custom-wordpress-login-screen/
+
+add_filter( 'login_headerurl', 'splot_login_link' );
+
+function splot_login_link( $url ) {
+	return 'https://splot.ca/';
+}
+
+/* Customize message above registration form */
+
+add_filter('login_message', 'splot_add_login_message');
+
+function splot_add_login_message() {
+	return '<p class="message">To do all that is SPLOT!</p>';
+}
+
+// login page title
+add_filter( 'login_headertext', 'splot_login_logo_url_title' );
+
+function splot_login_logo_url_title() {
+	return 'The grand mystery of all things SPLOT';
+}
+
+
+
+# -----------------------------------------------------------------
 # Comments
 # -----------------------------------------------------------------
 
@@ -137,10 +185,10 @@ function splotbox_order_items( $query ) {
 
 		// change sort order on home, archives, or search results
 		if (  $query->is_home()  OR $query->is_archive() OR $query->is_search() ) {
-	
+
 			$query->set( 'orderby', splotbox_option('sort_by')  );
 			$query->set( 'order', splotbox_option('sort_direction') );
-		
+
 		}
 	}
 }
@@ -153,34 +201,34 @@ function splotbox_queryvars( $qvars ) {
 	$qvars[] = 'random'; // flag for random generator
 	$qvars[] = 'elink'; // flag for get edit link
 	$qvars[] = 'ispre'; // flag for preview when not logged in
-	
+
 	return $qvars;
-}  
+}
 
 # -----------------------------------------------------------------
 # Query vars and Redirects
 # -----------------------------------------------------------------
 
-      
-function splotbox_rewrite_rules() {
-	
-	$licensed_page_slug = splotbox_get_licensed_page();
-	
-	// first rule for paged results of licenses
-	add_rewrite_rule( '^'. $licensed_page_slug . '/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]&paged=$matches[2]','top');	
 
-	add_rewrite_rule( '^' . $licensed_page_slug . '/([^/]*)/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]','top');	
+function splotbox_rewrite_rules() {
+
+	$licensed_page_slug = splotbox_get_licensed_page();
+
+	// first rule for paged results of licenses
+	add_rewrite_rule( '^'. $licensed_page_slug . '/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]&paged=$matches[2]','top');
+
+	add_rewrite_rule( '^' . $licensed_page_slug . '/([^/]*)/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]','top');
 
 	// let's go random
 	add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
 }
 
 /* set up function to handle redirects */
- 
+
  add_action('template_redirect','splotbox_random_template');
 
  function splotbox_random_template() {
- 
+
  	// manage redirect for /random
    if ( get_query_var('random') == 1 ) {
 		 // set arguments for WP_Query on published posts to get 1 at random
@@ -196,15 +244,15 @@ function splotbox_rewrite_rules() {
 
 		while ( $my_random_post->have_posts () ) {
 		  $my_random_post->the_post ();
-  
+
 		  // redirect to the random post
 		  wp_redirect ( get_permalink () );
 		  exit;
-		}  
+		}
    }
  }
- 
- 
+
+
 # -----------------------------------------------------------------
 # Enqueue Scripts and Styles
 # -----------------------------------------------------------------
@@ -213,11 +261,11 @@ function splotbox_rewrite_rules() {
 add_action('wp_enqueue_scripts', 'add_splotbox_scripts');
 
 function add_splotbox_scripts() {
-	// hello parents!	 
-    $parent_style = 'garfunkel_style'; 
-    
+	// hello parents!
+    $parent_style = 'garfunkel_style';
+
     wp_enqueue_style( $parent_style, get_template_directory_uri() . '/style.css' );
-    
+
     wp_enqueue_style( 'child-style',
         get_stylesheet_directory_uri() . '/style.css',
         array( $parent_style ),
@@ -226,35 +274,34 @@ function add_splotbox_scripts() {
 
 
 	// register and enqueue styles for icons and google fonts because parent theme has it wired wrong
-	wp_register_style( 'splotbox_googleFonts', '//fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,700italic|Playfair+Display:400,900|Crimson+Text:700,400italic,700italic,400' );
-	wp_register_style( 'splotbox_genericons', get_stylesheet_directory_uri() . '/genericons/genericons.css' );
+	wp_enqueue_style( 'splotbox_googleFonts', '//fonts.googleapis.com/css?family=Fira+Sans:400,500,700,400italic,700italic|Playfair+Display:400,900|Crimson+Text:700,400italic,700italic,400' );
+	wp_enqueue_style( 'splotbox_genericons', get_stylesheet_directory_uri() . '/genericons/genericons.css' );
 
-	wp_enqueue_style( 'splotbox_style', get_stylesheet_uri(), array( 'splotbox_googleFonts', 'splotbox_genericons' ) );
-			    
+
  	// use these scripts just our sharing form page
  	 	if ( is_page( splotbox_get_share_page() ) ) { // use on just our form page
 
 		 // add media scripts if we are on our share page and not an admin
 		 // after http://wordpress.stackexchange.com/a/116489/14945
-    	 
+
 		if (! is_admin() ) wp_enqueue_media();
-		
+
 		// Build in tag auto complete script
    		wp_enqueue_script( 'suggest' );
-   		
+
    		// Autoembed functionality in rich text editor
    		// needs dependency on tiny_mce
-   		// h/t https://wordpress.stackexchange.com/a/287623		
-   		wp_enqueue_script( 'mce-view', '', array('tiny_mce') );		
-   		
+   		// h/t https://wordpress.stackexchange.com/a/287623
+   		wp_enqueue_script( 'mce-view', '', array('tiny_mce') );
+
  		// tinymce mods
 		add_filter("mce_external_plugins", "splotbox_register_buttons");
 		add_filter('mce_buttons','splotbox_tinymce_buttons');
 		add_filter('mce_buttons_2','splotbox_tinymce_2_buttons');
 
-  		
+
 		// custom jquery for the uploader on the form
-		wp_register_script( 'jquery.splotbox' , get_stylesheet_directory_uri() . '/js/jquery.splotbox.js', null , '1.0', TRUE );
+		wp_register_script( 'jquery.splotbox' , get_stylesheet_directory_uri() . '/js/jquery.splotbox.js', null , false, true );
 
 		// add a local variable for the site's home url
 		wp_localize_script(
@@ -264,13 +311,53 @@ function add_splotbox_scripts() {
 		  	'ajaxUrl' => admin_url('admin-ajax.php'),
 			'siteUrl' => esc_url(home_url()),
 			'uploadMax' => splotbox_option('upload_max' ),
-			'allowedMedia' => splotbox_option('use_upload_media'),
-		  )
+			'allowedMedia' => splotbox_option('use_upload_media')		  )
 		);
 
-		wp_enqueue_script( 'jquery.splotbox' );		
-	}
+		wp_enqueue_script( 'jquery.splotbox' );
 
+
+		if ( splotbox_option('use_media_recorder') ) {
+			// enqueues for the Media Recorder https://github.com/collab-project/videojs-record/
+			// styles
+			wp_enqueue_style( 'video-js', '//vjs.zencdn.net/7.6.6/video-js.min.css' );
+			wp_enqueue_style( 'video-wavesurfer', '//unpkg.com/videojs-wavesurfer/dist/css/videojs.wavesurfer.min.css' );
+			wp_enqueue_style( 'videojs-record', get_stylesheet_directory_uri() . '/css/videojs.record.min.css' );
+
+			//scripts
+			wp_register_script( 'video-min', '//vjs.zencdn.net/7.6.6/video.min.js' );
+			wp_register_script( 'webrtc-adapter', '//unpkg.com/webrtc-adapter/out/adapter.js' );
+			wp_register_script( 'wavesurfer', '//unpkg.com/wavesurfer.js/dist/wavesurfer.min.js' );
+			wp_register_script( 'wavesurfer-microphone', '//unpkg.com/wavesurfer.js/dist/plugin/wavesurfer.microphone.min.js', array('wavesurfer') );
+			wp_register_script( 'videojs-wavesurfer', '//unpkg.com/videojs-wavesurfer/dist/videojs.wavesurfer.min.js' , array('wavesurfer'));
+			wp_register_script( 'videojs-record', get_stylesheet_directory_uri() . '/js/videojs.record.min.js' );
+			wp_register_script( 'videojs-lame', get_stylesheet_directory_uri() . '/js/videojs.record.lamejs.min.js' );
+
+			wp_enqueue_script( 'video-min' );
+			wp_enqueue_script( 'webrtc-adapter' );
+			wp_enqueue_script( 'wavesurfer' );
+			wp_enqueue_script( 'wavesurfer-microphone' );
+			wp_enqueue_script( 'videojs-wavesurfer' );
+			wp_enqueue_script( 'videojs-record' );
+			wp_enqueue_script( 'videojs-lame' );
+
+			// videojs recorder scripts
+			wp_register_script( 'splotbox-recorder' , get_stylesheet_directory_uri() . '/js/splotbox-recorder.js', null , false, true );
+
+			// add a local variable for the site's home url
+			wp_localize_script(
+			  'splotbox-recorder',
+			  'recorderObject',
+			  array(
+				'ajaxUrl' => admin_url('admin-ajax.php'),
+				'recordMax' => splotbox_option('max_record_time') * 60,
+				'stylesheetUrl' => get_stylesheet_directory_uri(),
+			  )
+			);
+
+			wp_enqueue_script( 'splotbox-recorder' );
+		}
+	}
 }
 
 # -----------------------------------------------------------------
@@ -278,17 +365,17 @@ function add_splotbox_scripts() {
 # -----------------------------------------------------------------
 
 // checks to see if a menu location is used.
-function splot_is_menu_location_used( $location = 'primary' ) {	
+function splot_is_menu_location_used( $location = 'primary' ) {
 
 	// get locations of all menus
 	$menulocations = get_nav_menu_locations();
-	
+
 	// get all nav menus
 	$navmenus = wp_get_nav_menus();
 
 	// if either is empty we have no menus to use
 	if ( empty( $menulocations ) OR empty( $navmenus ) ) return false;
-	
+
 	// othewise look for the menu location in the list
 	return in_array( $location , $menulocations);
 }
@@ -298,7 +385,7 @@ function splot_default_menu() {
 
 	// site home with trailing slash
 	$splot_home = site_url('/');
-  
+
  	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . splotbox_get_share_page() . '">Share</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
 }
 
@@ -309,10 +396,9 @@ function splot_default_menu() {
 # Allow Previews
 # -----------------------------------------------------------------
 
-
 function  splotbox_show_drafts( $query ) {
-
-    if ( is_user_logged_in() || is_feed() )
+// show drafts only for single previews
+    if ( is_user_logged_in() || is_feed() || !is_single() )
         return;
 
     $query->set( 'post_status', array( 'publish', 'draft' ) );
@@ -328,9 +414,9 @@ add_filter( 'the_posts', 'splotbox_reveal_previews', 10, 2 );
 function splotbox_reveal_previews( $posts, $wp_query ) {
 
     //making sure the post is a preview to avoid showing published private posts
-    if ( !is_preview() )        
+    if ( !is_preview() )
         return $posts;
-        
+
     if ( is_user_logged_in() )
     	 return $posts;
 
@@ -385,7 +471,7 @@ function splotbox_tinymce_settings( $settings ) {
 	formData.append(\'action\', \'splotbox_upload_action\');
     xhr.send(formData);
   }';
-  
+
 
 	return $settings;
 }
@@ -425,11 +511,13 @@ function splotbox_tinymce_2_buttons( $buttons)  {
  }
 
 
-// this is the handler used in the tiny_mce editor to manage iage upload
+// this is the handler used in the tiny_mce editor to manage image upload
 add_action( 'wp_ajax_nopriv_splotbox_upload_action', 'splotbox_upload_action' ); //allow on front-end
 add_action( 'wp_ajax_splotbox_upload_action', 'splotbox_upload_action' );
 
-function splotbox_upload_action() {	
+
+function splotbox_upload_action() {
+	// for image files (it was the first kind so lazy name for function)
 
     $newupload = 0;
 
@@ -451,7 +539,38 @@ function splotbox_upload_action() {
         }
     }
     echo json_encode( array('id'=> $newupload, 'location' => wp_get_attachment_image_src( $newupload, 'large' )[0], 'caption' => get_attachment_caption_by_id( $newupload ) ) );
-    die();	
+    die();
 }
+
+// enable ajax for audio uploads
+add_action( 'wp_ajax_nopriv_splotbox_upload_audio_action', 'splotbox_upload_audio_action' ); //allow on front-end
+add_action( 'wp_ajax_splotbox_upload_audio_action', 'splotbox_upload_audio_action' );
+
+function splotbox_upload_audio_action() {
+	// for audio files
+
+    $newupload = 0;
+
+    if ( !empty($_FILES) ) {
+        $files = $_FILES;
+        foreach($files as $file) {
+            $newfile = array (
+                    'name' => $file['name'],
+                    'type' => $file['type'],
+                    'tmp_name' => $file['tmp_name'],
+                    'error' => $file['error'],
+                    'size' => $file['size']
+            );
+
+            $_FILES = array('upload'=>$newfile);
+            foreach($_FILES as $file => $array) {
+                $newupload = media_handle_upload( $file, 0);
+            }
+        }
+    }
+    echo json_encode( array('id'=> $newupload, 'location' => wp_get_attachment_url($newupload) ) );
+    die();
+}
+
 
 ?>

@@ -1,139 +1,64 @@
 /* Javascript code for theme options editing
    code by Alan Levine @cogdog http://cogdog.info
-   
-   media uploader scripts somewhat lifted some from
-   http://mikejolley.com/2012/12/using-the-new-wordpress-3-5-media-uploader-in-plugins/
-  
+
 */
 
-jQuery(document).ready(function() { 
-
-	//hide the password field
-	jQuery("#pkey").hide();
-
-	//toggle password field to show/hide contents
-	 jQuery("#showHide").click(function() {
-		if (jQuery("#showHide").val() == "Show") {
-		  jQuery("#pkey").show();
-		  jQuery("#showHide").attr('value', 'Hide');
-
-		} else {
-		  jQuery("#pkey").hide();
-		  jQuery("#showHide").attr('value', 'Show');
-		}
-	  });
-	  
-/* Javascript code for theme options editing
-   code by Alan Levine @cogdog http://cogdog.info
-   
-   media uploader scripts somewhat lifted some from
-   http://mikejolley.com/2012/12/using-the-new-wordpress-3-5-media-uploader-in-plugins/
-  
-*/
-
-jQuery(document).ready(function() { 
-
-	//hide the password field
-	jQuery("#pkey").hide();
-
-	//toggle password field to show/hide contents
-	 jQuery("#showHide").click(function() {
-		if (jQuery("#showHide").val() == "Show") {
-		  jQuery("#pkey").show();
-		  jQuery("#showHide").attr('value', 'Hide');
-
-		} else {
-		  jQuery("#pkey").hide();
-		  jQuery("#showHide").attr('value', 'Show');
-		}
-	  });
+jQuery(document).ready(function() {
 
 
-	// called for via click of upload button in theme options	
-	jQuery(document).on('click', '.upload_image_button', function(e){
+			jQuery("input[type=text], textarea").each(function() {
+				if (jQuery(this).val() == jQuery(this).attr("placeholder") || jQuery(this).val() == "")
+					jQuery(this).css("color", "#999");
+			});
 
-		// disable defauklt behavior
-		e.preventDefault();
+			jQuery("input[type=text], textarea").focus(function() {
+				if (jQuery(this).val() == jQuery(this).attr("placeholder") || jQuery(this).val() == "") {
+					jQuery(this).val("");
+					jQuery(this).css("color", "#000");
+				}
+			}).blur(function() {
+				if (jQuery(this).val() == "" || jQuery(this).val() == jQuery(this).attr("placeholder")) {
+					jQuery(this).val(jQuery(this).attr("placeholder"));
+					jQuery(this).css("color", "#999");
+				}
+			});
 
-		// Create the media frame
-		// use title and label passed from data-items in form button
-	
-		file_frame = wp.media.frames.file_frame = wp.media({
-		  title: jQuery( this ).data( 'uploader_title' ),
-		  button: {
-			text: jQuery( this ).data( 'uploader_button_text' ),
-		  },
-		  multiple: false  // Set to true to allow multiple files to be selected
-		});
-
-		// fetch the id for this option so we can use it, comes from data-options_id value 
-		// in form button
-	
-		options_id = jQuery( this ).data( 'options_id' );
-
-		// set up call back from image selection from media uploader
-		file_frame.on( 'select', function() {
-	
-		  // attachment object from upload
-		  attachment = file_frame.state().get('selection').first().toJSON();
-  
-		  // insert the thumbnail url into the hidden field for the option value
-		  jQuery("#"+options_id).val(attachment.id);  	
-  
-		  // update the src of the preview image so you can see it
-		  jQuery('img#previewimage_'+options_id).attr( 'src', attachment.sizes.medium.url ); 
-  
-		});
-
-		// Finally, open the modal
-		file_frame.open();
-	
-	});
-});
+			// This will make the "warning" checkbox class really stand out when checked.
+			// I use it here for the Reset checkbox.
+			jQuery(".warning").change(function() {
+				if (jQuery(this).is(":checked"))
+					jQuery(this).parent().css("background", "#c00").css("color", "#fff").css("fontWeight", "bold");
+				else
+					jQuery(this).parent().css("background", "none").css("color", "inherit").css("fontWeight", "normal");
+			});
 
 
+    	// makes the media checkboxes sync to the "Check all" one
+      jQuery("#mtoggle").click(function(){
+        jQuery('input.mtype[type=checkbox]').not(this).prop('checked', this.checked);
+      });
 
-	  
-	  
 
-	// called for via click of upload button in theme options
-	jQuery(document).on('click', '.upload_image_button', function(e){
+      // if all media types selected, update the select all
+      function checkAllMediaTypes() {
+        if ( jQuery('input.mtype[type=checkbox]').not(':checked').length === 0 ) {
+          jQuery("#mtoggle").prop('checked', true);
+        }
+      }
 
-		// disable defauklt behavior
-		e.preventDefault();
+      // if any category checkbox is de-selected we turn off the select all one
+      function toggleMediaTypesOff(obj) {
+        if (! jQuery(obj).prop('checked')) jQuery("mtoggle").prop('checked', false);
+      }
 
-		// Create the media frame
-		// use title and label passed from data-items in form button
-	
-		file_frame = wp.media.frames.file_frame = wp.media({
-		  title: jQuery( this ).data( 'uploader_title' ),
-		  button: {
-			text: jQuery( this ).data( 'uploader_button_text' ),
-		  },
-		  multiple: false  // Set to true to allow multiple files to be selected
-		});
+      // manage state of media types, if checked
+      jQuery('input.mtype[type=checkbox]').click(function(){
+        checkAllMediaTypes();
+        toggleMediaTypesOff(this);
 
-		// fetch the id for this option so we can use it, comes from data-options_id value 
-		// in form button
-	
-		options_id = jQuery( this ).data( 'options_id' );
+      });
 
-		// set up call back from image selection from media uploader
-		file_frame.on( 'select', function() {
-	
-		  // attachment object from upload
-		  attachment = file_frame.state().get('selection').first().toJSON();
-  
-		  // insert the thumbnail url into the hidden field for the option value
-		  jQuery("#"+options_id).val(attachment.id);  	
-  
-		  // update the src of the preview image so you can see it
-		  jQuery('img#previewimage_'+options_id).attr( 'src', attachment.sizes.medium.url ); 
-  
-		});
+      // run a check on each load
+      checkAllMediaTypes();
 
-		// Finally, open the modal
-		file_frame.open();
-	
-	});
 });
