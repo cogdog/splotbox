@@ -1,6 +1,6 @@
 # SPLOTbox
 
-A [SPLOT](http://splot.ca/) for building collections of audio,video, and image media, kind of like a  jukebox (you do know what that is, right?).
+A [SPLOT](http://splot.ca/) for building collections of audio, video, and image media, kind of like a jukebox (you do know what that is, right?).
 
 by Alan Levine https://cog.dog or http://cogdogblog.com/
 
@@ -36,9 +36,16 @@ In addition, special code has been added to support similarly for:
 * Internet Archive audio or video
 
 And in this new version, we are offering a third, cool option:
-* record audio directly
+* record audio directly = currently available on a demo site at https://lab.cogdogblog.com/splotbox
 
-Media can also be added by any direct URL to audio in mp3, ogg, or m4a formats or  jpg, png, or gif images. Site owners can also enable an upload button for image and sound files in mp3, ogg, or m4a (audi0) or jpg, png, gif (image). 
+Media can also be added by any direct URL to audio in mp3, ogg, or m4a formats or  jpg, png, or gif images. Site owners can also enable an upload button for image and sound files in mp3, ogg, or m4a (audi0) or jpg, png, gif (image) as well as a using a built in audio recorder.
+
+![](images/media-method.gif)
+
+Because of the underlying device recording code (using WebRTC) a user must grant access to the site to use the microphone; this in turn can only be done on a site running under SSL.
+
+![](images/splot-recorder.gif)
+
 
 Other features that can be activated to entry provide fields for (and require or not), descriptions, a credit source name and a selection of a reuse licenses.
 
@@ -62,7 +69,8 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 * [Open Pedagogy Playlist](http://openpedagogyplaylist.com/) by Chad Flinn
 * [OWLTECH Perspectives](http://perspectives.owlteh.org/) Open Web For Learning & Teaching Expertise Hub -- a series of videos contributed by educators and learners who are actively engaged in using the Open Web within their practice.
 * [MURSDLeads Author Series](http://eduquinn.com/Interviews/) interviews with leading education authors
-* [SPLOTbox](http://splot.ca/box/) - the demo site
+* [SPLOTbox](http://splot.ca/box/) - one demo site
+* [SPLOtbox Deluxe](https://lab.cogdogblog.com/splotbox) - anther demo site for the newest features
 * [TARUC @ UC 2019](http://georgehaughie.coventry.domains/TARUC2019/)
 
 [Find more in The Google](https://www.google.ca/search?q="SPLOTbox+theme+is+based+on+Garfunkel"+-site:splot.ca)?
@@ -72,14 +80,12 @@ If you make a SPLOTbox site, please please pretty *please* fork this repo to edi
 If you have problems, feature suggestions, piles of unmarked bills to send my way, please [contact me via the issues area](https://github.com/cogdog/splotbox/issues) on this repo.
 
 ## Requirements
-I will make the big leap in that you have a self hosted Wordpress site and can install themes. The SPLOTbox theme is a child theme based on the  [Garfunkle theme by Anders Noren](https://wordpress.org/themes/garfunkel). Install that first from your Wordpress Dashboard.
 
-Then install the splotbox theme to Wordpress directly by ftping or using the downloaded ZIP for this repo.
-
+I will make the big leap in that you have a self hosted Wordpress site and can install themes.
 
 ### Installing SPLOTbox from Scratch
 
-Using this theme requires a self-hosted--or institutionally hosted (lucky you)-- Wordpress site (the kind that you download from [wordpress.org](http://www.wordpress.org). You cannot use this theme on the free "wordpress.com" site. Maybe check out [Reclaim Hosting](https://reclaimhosting.com/) if you need to set up your own hosting space. 
+Using this theme requires a self-hosted--or institutionally hosted (lucky you)-- Wordpress site (the kind that you download from [wordpress.org](http://www.wordpress.org). You cannot use this theme on the free "wordpress.com" site. Maybe check out [Reclaim Hosting](https://reclaimhosting.com/) to set up your own hosting space. 
 
 SPLOTbox is a child theme based on [the free and elegant Garfunkel theme by Anders Noren](https://wordpress.org/themes/garfunkel). Install this theme first from within the Wordpress Dashboard under **Appearance** -- **Themes** searching on `Gardfunkel`.
 
@@ -89,7 +95,7 @@ The zip can be uploaded directly to your site via **Add Themes** in the Wordpres
 
 To get SPLOTbox working all you need to do is activate the "SPLOTbox" theme when it appears in your Wordpress dashboard under **Appearance** --> **Themes**. 
 
-In this theme posts are renamed **items** and thus on the dashboard:
+In this theme, posts are renamed **items** and thus on the dashboard:
 
 ![](images/items-menu.jpg)
 
@@ -112,17 +118,6 @@ If you are updating a site built with a previous version of the theme and someth
 ## Setting Up The Site Via SPLOTbox options
 
 These instructions are a reference for the settings within the SPLOTbox; if you are reading this, you got as far as installing and activating the theme. Below are basic instructions for all of the theme options, which, if this were designed well, you likely do not need me to explain, but #BecauseDocumentation here we go. 
-
-
-## Browse by Licenses
-
-As of version 1.1 SPLOTbox provides links that display archives of content that have the same reuse license (if the feature is activated via the SPLOTbox options). This page is created automatically on new sites, or simply by activating the theme again (activate the parent Garfunkel, then activate SPLOTbox again).
-
-This page (see [example](http://splot.ca/box/licensed/)) provides links to view all content with the licenses available on the sharing form. The url including `licensed/cc-by` yields all items with a Creative Commons CC By Attribution license [example](http://splot.ca/box/licensed/cc-by).
-
-Use the page to find links to the ones you wish to use and add to your site's menus or widgets. If the links do not work, you may have to go to **Settings** -- **Permalinks** and just click save to regenerate the settings.
-
-For extra flexibility there is a `[licensed]` shortcode that can be used in a widget or any page to display the same index list in a sidebar. By default, it lists only licenses used (e.g. it skips licenses with zero uses); to show all licenses, use the code `[licensed show="all"]`.
 
 
 ### Theme Options and Settings
@@ -166,13 +161,17 @@ Check **Enable Comments on Items**  to add a standard blog comment field at the 
 
 The checkboxes here allow you to control the types of sites that are able to add content directly to a SPLOTbox site by URL only (using WordPress embed or built in support for Internet Archive and Adobe Spark). This would allow you to maintain a site for only certain sources, say only video from YouTube or vimeo.
 
-These checkboxes **should** be enabled, but you may have to manually set them.
+These checkboxes **should** be enabled on a new install, but you may have to manually set them use the "Select All" box.
 
 ![](images/media-support.jpg)
 
-Also, if you only want visitors adding media by URL, you can hide the uploader. And you can set a limit for upload size.
+If you only want visitors adding media by URL, you can hide the uploader. And you can set a limit for upload size.
 
 ![](images/media-uploads.jpg)
+
+Finally, you can also enable an audio recorder as an option for adding to a SPLOTbox site (audio is directly saved to the Media Library). This can only be enabled if a site is running under SSL (if not you will not see these settings). You can also set a limit the length of audio recording time.
+
+![](images/audio-recorder-setting.jpg)
 
 ## Item Sorting 
 
@@ -231,9 +230,21 @@ And then you will see a series of fields to edit for all form field elements. Fo
 
 ![](images/customizer-edit.jpg)
 
+## View By License Page
+
+SPLOTbox provides links that display archives of content that have the same reuse license (if the feature is activated via the SPLOTbox options). This page is created automatically on new sites, or simply by activating the theme again (activate the parent Garfunkel, then activate SPLOTbox again).
+
+[This example](http://splot.ca/box/licensed/)) provides links to view all content with the licenses available on the sharing form. The url including `licensed/cc-by` yields all items with a Creative Commons CC By Attribution license [example](http://splot.ca/box/licensed/cc-by).
+
+Use the page to find links to the ones you wish to use and add to your site's menus or widgets. If the links do not work, you may have to go to **Settings** -- **Permalinks** and just click save to regenerate the settings.
+
+For extra flexibility there is a `[licensed]` shortcode that can be used in a widget or any page to display the same index list in a sidebar. By default, it lists only licenses used (e.g. it skips licenses with zero uses); to show all licenses, use the code `[licensed show="all"]`.
+
+
+
 ## Other Wordpressy Things You Might Want to Do
 
-I like short links, so I typically use a Custom Permalink setting (under `Settings -- Permalinks`) of `/%post_id%/'
+I like shorter links than using a title, so I typically use a Custom Permalink setting (under `Settings -- Permalinks`) of `/%post_id%/'
 
 ![Simplest Permalink](images/permalink.jpg "custom permalink") 
 
@@ -253,6 +264,9 @@ With a bit of coding elbow grease, this theme is set up to expand the services y
 
 ## Relatively Cool New Features & Updates
 
+
+* (3.0) HTML5 Audio recorder support 
+* (2.2) Admin options to select all / none for media sites, fixed bug where drafts were visible on front page
 * (2.1) Better formatting for Internet Archive audio, and new checking for supported media types from the archive, added missing Customizer editing for all form labels, made new admin bar link to open Customizer to Sharing Form
 * (2.0) A big revamp, removing the need for special user accounts and secret logins. No logins are used to add content. The theme us much simpler, there is no special desk page for routing the access code. And the sharing form now has radio buttons that toggle the two different means of upload (by URL or by Upload)
 * (1.9) Support included now for Giphy, Mixcloud, Flickr, Speakerdeck, and Slideshare, plus uploads now include ability to add images. The theme options can be used to limit the sites enabled. Also, the theme no longer needs a separate page for the random link generator (it's done all with code).

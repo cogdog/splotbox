@@ -2,8 +2,8 @@
 Theme Name: 	Splotbox
 Theme URI: 		http://github.com/cogdog/splotbox
 Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		2.13
-Template:       garfunkel
+Version: 		3.0
+Template:   garfunkel
 Author: 		CogDog
 Author URI: 	https://cog.dog/
 License: GNU General Public License v2.0 & Apache License 2.0
@@ -63,7 +63,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
 }
 
 .mobile-menu .search-field:hover, .mobile-menu .search-field:focus {
-		background: #ca2017; 
+		background: #ca2017;
 		color: #fff;
 }
 
@@ -111,9 +111,9 @@ a.download-link {
 	background-position: 95% center;
 }
 
-a.download-link:hover { 
+a.download-link:hover {
 	padding-right: 40px;
-	background-image: url(images/icons/1x/download-c.png); 
+	background-image: url(images/icons/1x/download-c.png);
 	background-repeat: no-repeat;
 	background-position: 95% center;
 }
@@ -130,7 +130,7 @@ a.download-link:hover {
 
 /* some pretty buttons all done in CSS
    h/t http://www.graemeboy.com/modern-css-buttons */
-   
+
     .pretty-button, .post-content input.pretty-button {
 		padding: 12px 16px;
 		margin: 0;
@@ -139,13 +139,13 @@ a.download-link:hover {
 		font-size: 0.9rem;
 		line-height: 1;
 		-webkit-appearance: none;
-		border-radius: 3px;  
+		border-radius: 3px;
     	font-family: 'Fira Sans', sans-serif;
         text-decoration: none;
         text-align: center;
-        display: inline-block      
+        display: inline-block
     }
-    
+
     /* user actions on the buttons. */
     .pretty-button:hover, .post-content input.pretty-button:hover {
         text-decoration: none;
@@ -156,9 +156,9 @@ a.download-link:hover {
         -moz-box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.3), inset 0px -1px 1px rgba(255, 255, 255, 0.05), 0px 1px 0px #777777, 0px 3px 3px rgba(0, 0, 0, 0.03);
         box-shadow: inset 0px 1px 0px rgba(255, 255, 255, 0.03), inset 0px -1px 1px rgba(255, 255, 255, 0.05), 0px 1px 0px #777777, 0px 3px 3px rgba(0, 0, 0, 0.03)
     }
-        
+
     /* The next blocks of code are specific to the color. Copy the color you want. */
-     
+
     .pretty-button-gray, .post-content input.pretty-button-gray {
         background: #333;
     }
@@ -167,7 +167,7 @@ a.download-link:hover {
         background: #ca2017;
         text-decoration: none;
     }
-   
+
 /* ------------------------------  alert/message boxes --------------------------------*/
 /* h/t http://aviaryan.github.io/blog/css-notification-bubble-box.html */
 
@@ -191,8 +191,8 @@ a.download-link:hover {
 .icon-excl:before { content: '!'; }
 
 .notify {
-    background-color:#e3f7fc; 
-    color:#555; 
+    background-color:#e3f7fc;
+    color:#555;
     border:.1em solid;
     border-color: #8ed9f6;
     border-radius:10px;
@@ -219,7 +219,7 @@ a.download-link:hover {
 #splotboxform label {
 	font-size: 1.2em;
 	display: block;
-	margin-top: 1em;	
+	margin-top: 1em;
 }
 
 #splotboxform .required, .notify .required  {
@@ -269,7 +269,7 @@ a.download-link:hover {
 	color: #fff;
 }
 
-#splotboxform a.disabled, #splotboxform input[type="submit"][disabled] {
+#splotboxform a.disabled, #splotboxform input[type="submit"][disabled], #splotboxform input[type="button"][disabled] {
    pointer-events: none;
    cursor: default;
    opacity:0.4;
@@ -337,8 +337,78 @@ img#mediathumb {
 	word-break: break-word;
 	font-family: 'Open Sans', sans-serif;
 	font-size: 1em;
-	font-weight:bold;  
+	font-weight:bold;
 	color: #333;
 }
 
 
+/* --------------------------------  audio recorder -----------------------------------*/
+
+
+#wMediaRecorder {
+  background-color: #493657;
+}
+
+.vjs-icon-record-start {
+    color: red!important;
+ }
+
+ .recordermsg {
+    padding: 0.4rem;
+    font-family: monospace;
+    text-align: center;
+    background-color: #333446;
+    color:#eee;
+    width:100%;
+}
+
+#wUploadRecording {
+    display: block;
+    background: #555;
+    margin: 1em auto;
+}
+
+#wUploadRecording:hover {
+	cursor: pointer;
+	background: #ca2017!important;
+	color: #fff!important;
+}
+
+/* secret interceptor to trap record button clicks */
+#countrecwrapper {
+    position: relative;
+}
+
+#countrec {
+    width: 2em;
+    height: 1.5em;
+    position: absolute;
+    /* background-color: yellow; */
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+}
+
+/* overlay div for counter display */
+#countingwrapper {
+  width: inherit;
+  height:0px;
+  position:relative;
+  z-index: -5;
+}
+
+/* counter circle */
+#countdown {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+  font-size: 3rem;
+  color: #fff;
+  line-height: 6rem;
+  text-align: center;
+  background: red;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
