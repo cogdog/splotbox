@@ -472,13 +472,6 @@ get_header();
 
 							<audio id="wMediaRecorder" class="video-js vjs-default-skin"></audio>
 
-							<div id="countrecwrapper">
-								<div id="countrec"></div>
-							</div>
-							<div id="countingwrapper">
-							  <div id="countdown"></div>
-							</div>
-
 							<p class="recordermsg"><span id="recordstatus">Audio recorder standing by. Click microphone button to grant access to device.</span>
 							<input type="button" id="wUploadRecording" value="Use This Audio" style="display:none" />
 							</p>

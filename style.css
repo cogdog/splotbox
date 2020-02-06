@@ -2,7 +2,7 @@
 Theme Name: 	Splotbox
 Theme URI: 		http://github.com/cogdog/splotbox
 Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		3.0
+Version: 		3.03
 Template:   garfunkel
 Author: 		CogDog
 Author URI: 	https://cog.dog/
@@ -375,26 +375,14 @@ img#mediathumb {
 }
 
 /* secret interceptor to trap record button clicks */
-#countrecwrapper {
-    position: relative;
-}
-
 #countrec {
-    width: 2em;
-    height: 1.5em;
-    position: absolute;
-    /* background-color: yellow; */
-    left: 0;
-    bottom: 0;
-    z-index: 10;
-}
-
-/* overlay div for counter display */
-#countingwrapper {
-  width: inherit;
-  height:0px;
-  position:relative;
-  z-index: -5;
+  width: 2rem;
+  height: 2rem;
+  position: absolute;
+  /*background-color: yellow; */
+  left: 0;
+  bottom: 0;
+  z-index: 5;
 }
 
 /* counter circle */
@@ -411,4 +399,18 @@ img#mediathumb {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  z-index: -5;
 }
+
+/* smaller screenn / smaller circle */
+@media screen and (max-width: 600px) {
+
+	#countdown {
+		width: 3rem;
+		height: 3rem;
+		font-size: 1.5rem;
+		line-height: 3rem;
+	}
+}
+
+

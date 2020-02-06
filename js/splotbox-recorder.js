@@ -28,9 +28,6 @@ var options = {
 	}
 };
 
-// recorder dimensions
-jQuery('#countingwrapper').css('width', recorderwidth + 'px');
-jQuery('#countingwrapper').css('top', '-' + recorderwidth / 4 + 'px' );
 
 // set up Video.js player
 var player = videojs('wMediaRecorder', options, function() {
@@ -45,6 +42,9 @@ var player = videojs('wMediaRecorder', options, function() {
 // handy flag for after the mic button clicked
 var deviceready = false;
 
+// insert divs for countdown trigger and display
+jQuery('#wMediaRecorder').append('<div id="countdown"></div><div id="countrec"></div>');
+
 // error handling
 player.on('deviceError', function() {
 	console.log('device error:', player.deviceErrorCode);
@@ -57,6 +57,7 @@ player.on('error', function(element, error) {
 // mic button click
 jQuery(".vjs-device-button").click(function(){
     jQuery("#recordstatus").html( 'Microphone activated. Speak into microphone to check levels, then click press <span style="color:red">&#9679;</span> to start recording.' );
+    jQuery('#countingwrapper').css('z-index', '5');
     deviceready = true;
 });
 
@@ -64,14 +65,12 @@ jQuery(".vjs-device-button").click(function(){
 player.on('startRecord', function() {
 	console.log('started recording!');
 	jQuery("#recordstatus").html( 'Microphone activated. Get ready to record...' );
-
 });
 
 // user completed recording and stream is available
 player.on('finishRecord', function() {
-
+  jQuery('#countrec').css('z-index', '5');
 	jQuery("#recordstatus").html( 'Recording done. Click &#9656; to play back. Click "Use This Audio" to select this audio for use or click <span style="color:red">&#9679;</span> to record again.' );
-	jQuery('#countrec').css('z-index', '10'); // reset the record interceptor
 	jQuery("#wUploadRecording").show(); // enable the upload button
 
 	console.log('finished recording: ', player.recordedData);
@@ -88,6 +87,9 @@ jQuery('#countrec').click(function(){
   // only if mic is ready
 	if (deviceready) {
 	  jQuery("#recordstatus").html( 'Get ready to record in...' );
+	  jQuery("#wUploadRecording").hide();
+		jQuery('#countdown').html('3');
+		jQuery('#countdown').css('z-index', '10');
 		start_countdown(3);
 	}
 });
@@ -96,9 +98,8 @@ function start_countdown(timer) {
   //Keeps the interval ID for later clear
   var intervalID;
 
-  // set counter display
+
   jQuery('#countdown').text(timer);
-  jQuery('#countingwrapper').css('z-index', '5');
 
   // create the timed event
   intervalID = setInterval(function () {
@@ -110,9 +111,9 @@ function start_countdown(timer) {
         clearTimeout(intervalID);
 
         // reset things
-        jQuery('#countrec').css('z-index', '-10');
         jQuery('#countdown').text('');
-        jQuery('#countingwrapper').css('z-index', '-5');
+        jQuery('#countrec').css('z-index', '-5');
+        jQuery('#countdown').css('z-index', '-10');
 
         // initiate the recording
         jQuery('.vjs-record-button').click();
