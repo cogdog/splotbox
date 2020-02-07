@@ -36,7 +36,7 @@ In addition, special code has been added to support similarly for:
 * Internet Archive audio or video
 
 And in this new version, we are offering a third, cool option:
-* record audio directly = currently available on a demo site at https://lab.cogdogblog.com/splotbox
+* record audio directly!
 
 Media can also be added by any direct URL to audio in mp3, ogg, or m4a formats or  jpg, png, or gif images. Site owners can also enable an upload button for image and sound files in mp3, ogg, or m4a (audi0) or jpg, png, gif (image) as well as a using a built in audio recorder.
 
@@ -263,7 +263,6 @@ Go build collections of media!
 With a bit of coding elbow grease, this theme is set up to expand the services you can use in a SPLOTbox via the [SPLOTbox Extender Plugin](https://github.com/cogdog/splotbox-extender).
 
 ## Relatively Cool New Features & Updates
-
 
 * (3.0) HTML5 Audio recorder support 
 * (2.2) Admin options to select all / none for media sites, fixed bug where drafts were visible on front page
