@@ -42,14 +42,15 @@ Media can also be added by any direct URL to audio in mp3, ogg, or m4a formats o
 
 ![](images/media-method.gif)
 
-Because of the underlying device recording code (using WebRTC) a user must grant access to the site to use the microphone; this in turn can only be done on a site running under SSL.
+Because of the underlying device recording code (using WebRTC) a user must grant access to the site to use the microphone; **this in turn can only be done on a site running under SSL**. This requires activating / setting up an SSL certificate with your web host and activating a plugin such as [Really Simple SSL](https://en-ca.wordpress.org/plugins/really-simple-ssl/) to redirect requests from `http` to `https`.
 
 ![](images/splot-recorder.gif)
 
+After clicking the microphone icon, if you do not see a dialog box asking to grant access to the microphone or do not see the recording controls, verify that the address of the web page for the form starts with `https`. 
 
-Other features that can be activated to entry provide fields for (and require or not), descriptions, a credit source name and a selection of a reuse licenses.
+Other features that can be activated in SPLOTbox are to provide entry fields for (and require or not), descriptions, a credit source name and a selection of reuse licenses.
 
-This is an improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder). For blogged history, see  [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
+SPLOTbox is a huge improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder). For blogged history, see  [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
 
 
 ## With Thanks
