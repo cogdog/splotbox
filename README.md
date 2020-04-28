@@ -65,11 +65,14 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 ### See It In Action
 
 * [Coventry University DMLL Video Archive](https://videos.dmll.org.uk/)
+* [COVDID19 and LCC: Our Stories in Voice, Sound, and Motion](https://livetogether.openlcc.net/covid19voices/) Lansing Community College
 * [GEOL 109  The Earth and Life Through Time](http://sites.usask.ca/geol109/) Student-Curated Geology Video Collection from the University of Saskatchewan
+* [Leave Room To Make Room](https://pod.learningnuggets.ca/) A workshop for #OLCIdeate 2020 by Terry Greene and Jonathan Lashley
 * [OpenMed Video Collection](https://videos.openmedproject.eu/) Audiovisual OER produced for the OpenMed Project
 * [Open Pedagogy Playlist](http://openpedagogyplaylist.com/) by Chad Flinn
 * [OWLTECH Perspectives](http://perspectives.owlteh.org/) Open Web For Learning & Teaching Expertise Hub -- a series of videos contributed by educators and learners who are actively engaged in using the Open Web within their practice.
 * [MURSDLeads Author Series](http://eduquinn.com/Interviews/) interviews with leading education authors
+* [Quarantine Library](http://electrolibrary.org/quarantine/) 
 * [SPLOTbox](http://splot.ca/box/) - one demo site
 * [SPLOtbox Deluxe](https://lab.cogdogblog.com/splotbox) - anther demo site for the newest features
 * [TARUC @ UC 2019](http://georgehaughie.coventry.domains/TARUC2019/)
