@@ -383,7 +383,17 @@ get_header();
 						<label for="wMediaMethod"><?php _e('Method of Sharing', 'garfunkel' ) ?> </label>
 
 						<div id="methods">
-							<input type="radio" name="wMediaMethod" value="by_url" <?php if ( $wMediaMethod == "by_url" ) echo " checked"?>> <strong>By URL</strong> <span class="descrip"> Use audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.</span><br />
+
+							<?php if ( splotbox_option('use_url_entry')) :?>
+							 <input type="radio" name="wMediaMethod"<?php if ( $wMediaMethod == "by_url" ) echo " checked"?> value="by_url"> <strong>By URL</strong> <span class="descrip"> Use audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.</span><br />
+
+							 <?php else:?>
+
+							<input type="radio" name="wMediaMethod" style="position:absolute;left:-1000px;" <?php if ( $wMediaMethod == "by_url" ) echo " checked"?> >
+
+
+							 <?php endif?>
+
 							<?php if ( splotbox_option('use_upload_media') ) :?>
 								<input type="radio" name="wMediaMethod"  value="by_upload" <?php if ( $wMediaMethod == "by_upload" ) echo " checked"?>> <strong>By Upload</strong> <span class="descrip"> <?php echo splotbox_supports_by_upload()?></span><br />
 							<?php endif?>
@@ -393,7 +403,7 @@ get_header();
 							<?php endif?>
 						</div>
 
-					<div id="media_by_url" <?php if ( $wMediaMethod != "by_url" ) echo ' style="display:none;"'?>>
+					<div id="media_by_url" <?php if ( $wMediaMethod != "by_url" OR  splotbox_option('use_url_entry') == 0 )  echo ' style="display:none;"'?>>
 
 						<label for="wMediaURL"><?php _e('Enter Media URL', 'garfunkel' ) ?> <span class="required">*</span></label><br />
 						<p>Embed a media player for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The web address entered is one that displays the content from the service. <?php echo splotbox_supports_by_link();?></p>

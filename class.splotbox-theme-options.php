@@ -225,6 +225,7 @@ class splotbox_Theme_Options {
 
 		// ------- media options
 
+
 		$extender_support =   ( function_exists('splotboxplus_exists') ) ? 'In addition, via the SplotBox Extender plugin, this site also supports <strong>' .  implode( ', ', splotboxplus_supports()) . '</strong>.' : '';
 
 		$this->settings['media_heading'] = array(
@@ -234,6 +235,19 @@ class splotbox_Theme_Options {
 			'std'    => 'The following services are supported by SPLOTbox. Check the ones to make available on the share form. ' . $extender_support,
 			'type'    => 'heading'
 		);
+
+		$this->settings['use_url_entry'] = array(
+			'section' => 'general',
+			'title'   => __( 'Allow entry of media URLs; disable to only use upload or media record options'),
+			'desc'    => '',
+			'type'    => 'radio',
+			'std'     => '1',
+			'choices' => array (
+							'0' => 'No, hide this field',
+							'1' => 'Yes for media urls enabled below'
+					)
+		);
+
 
 		$this->settings['mtoggle'] = array(
 			'section' => 'general',
@@ -376,25 +390,27 @@ class splotbox_Theme_Options {
 		);
 
 
-		$this->settings['use_media_recorder'] = array(
-			'section' => 'general',
-			'title'   => __( 'Enable HTML5 audio recorder for direct saving to media library'),
-			'desc'    => '',
-			'type'    => 'radio',
-			'std'     => '0',
-			'choices' => array (
-							'0' => 'No',
-							'1' => 'Yes',
-					)
-		);
+		if ( is_ssl() ) {
+			$this->settings['use_media_recorder'] = array(
+				'section' => 'general',
+				'title'   => __( 'Enable HTML5 audio recorder for direct saving to media library. Requires site running under SSL'),
+				'desc'    => '',
+				'type'    => 'radio',
+				'std'     => '0',
+				'choices' => array (
+								'0' => 'No',
+								'1' => 'Yes',
+						)
+			);
 
-		$this->settings['max_record_time'] = array(
-			'title'   => __( 'Maximum Recording Time' ),
-			'desc'    => __( 'Set time limit for recording  (in minutes) ' ),
-			'std'     => 5,
-			'type'    => 'text',
-			'section' => 'general'
-		);
+			$this->settings['max_record_time'] = array(
+				'title'   => __( 'Maximum Recording Time' ),
+				'desc'    => __( 'Set time limit for recording  (in minutes) ' ),
+				'std'     => 5,
+				'type'    => 'text',
+				'section' => 'general'
+			);
+		}
 
 
 		// ------- sort options
@@ -485,9 +501,6 @@ class splotbox_Theme_Options {
 							'1' => 'Yes'
 					)
 		);
-
-
-
 
 		$this->settings['use_caption'] = array(
 			'section' => 'general',
@@ -650,7 +663,7 @@ class splotbox_Theme_Options {
 
 			case 'checkbox':
 
-				echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="splotbox_options[' . $id . ']" value="1" ' . checked( $options[$id], "1", false ) . ' /> <label for="' . $id . '">' . $desc . '</label>';
+				echo '<input class="checkbox' . $field_class . '" type="checkbox" id="' . $id . '" name="splotbox_options[' . $id . ']" value="1" ' . checked( $options[$id], "1", false ) .  ' /> <label for="' . $id . '">' . $desc . '</label>';
 
 				break;
 
@@ -669,8 +682,10 @@ class splotbox_Theme_Options {
 
 			case 'radio':
 				$i = 0;
+
+
 				foreach ( $choices as $value => $label ) {
-					echo '<input class="radio' . $field_class . '" type="radio" name="splotbox_options[' . $id . ']" id="' . $id . $i . '" value="' . esc_attr( $value ) . '" ' . checked( $options[$id], $value, false ) . '> <label for="' . $id . $i . '">' . $label . '</label>';
+					echo '<input class="radio' . $field_class . '" type="radio" name="splotbox_options[' . $id . ']" id="' . $id . $i . '" value="' . esc_attr( $value ) . '" ' . checked( $options[$id], $value, false ) .  '> <label for="' . $id . $i . '">' . $label . '</label>';
 					if ( $i < count( $options ) - 1 )
 						echo '<br />';
 					$i++;
@@ -829,6 +844,9 @@ class splotbox_Theme_Options {
 				if ( isset( $options[$id] ) && ! isset( $input[$id] ) )
 					unset( $options[$id] );
 			}
+
+			// SSL required for media recorder
+			if ( !is_ssl() ) $input['use_media_recorder'] = 0;
 
 			// make sure the max file upload is integer and less than max possible
 			$max_upload_size = round(wp_max_upload_size() / 1000000);
