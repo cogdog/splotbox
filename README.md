@@ -66,6 +66,7 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 
 * [Coventry University DMLL Video Archive](https://videos.dmll.org.uk/)
 * [COVDID19 and LCC: Our Stories in Voice, Sound, and Motion](https://livetogether.openlcc.net/covid19voices/) Lansing Community College
+* [Elkhart Responds](https://heal.elkhart.k12.in.us/) Elkhart Community Schools
 * [GEOL 109  The Earth and Life Through Time](http://sites.usask.ca/geol109/) Student-Curated Geology Video Collection from the University of Saskatchewan
 * [Leave Room To Make Room](https://pod.learningnuggets.ca/) A workshop for #OLCIdeate 2020 by Terry Greene and Jonathan Lashley
 * [OpenMed Video Collection](https://videos.openmedproject.eu/) Audiovisual OER produced for the OpenMed Project
