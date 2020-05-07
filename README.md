@@ -269,6 +269,8 @@ With a bit of coding elbow grease, this theme is set up to expand the services y
 
 ## Relatively Cool New Features & Updates
 
+
+* (3.2) Counts added for all archive results, fixed issue with license links
 * (3.0) HTML5 Audio recorder support 
 * (2.2) Admin options to select all / none for media sites, fixed bug where drafts were visible on front page
 * (2.1) Better formatting for Internet Archive audio, and new checking for supported media types from the archive, added missing Customizer editing for all form labels, made new admin bar link to open Customizer to Sharing Form

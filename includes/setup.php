@@ -213,11 +213,12 @@ function splotbox_queryvars( $qvars ) {
 function splotbox_rewrite_rules() {
 
 	$licensed_page_slug = splotbox_get_licensed_page();
+	$license_page_id = splotbox_get_license_page_id();
 
 	// first rule for paged results of licenses
-	add_rewrite_rule( '^'. $licensed_page_slug . '/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]&paged=$matches[2]','top');
+	add_rewrite_rule( '^'. $licensed_page_slug . '/([^/]+)/page/([0-9]{1,})/?',  'index.php?page_id=' . $license_page_id . '&flavor=$matches[1]&paged=$matches[2]','top');
 
-	add_rewrite_rule( '^' . $licensed_page_slug . '/([^/]*)/?',  'index.php?page_id=' . splotbox_option('share_page') . '&flavor=$matches[1]','top');
+	add_rewrite_rule( '^' . $licensed_page_slug . '/([^/]*)/?',  'index.php?page_id=' . $license_page_id . '&flavor=$matches[1]','top');
 
 	// let's go random
 	add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
@@ -363,22 +364,6 @@ function add_splotbox_scripts() {
 # -----------------------------------------------------------------
 # Menu Setup
 # -----------------------------------------------------------------
-
-// checks to see if a menu location is used.
-function splot_is_menu_location_used( $location = 'primary' ) {
-
-	// get locations of all menus
-	$menulocations = get_nav_menu_locations();
-
-	// get all nav menus
-	$navmenus = wp_get_nav_menus();
-
-	// if either is empty we have no menus to use
-	if ( empty( $menulocations ) OR empty( $navmenus ) ) return false;
-
-	// othewise look for the menu location in the list
-	return in_array( $location , $menulocations);
-}
 
 // create a basic menu if one has not been define for primary
 function splot_default_menu() {

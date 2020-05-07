@@ -64,6 +64,17 @@ function splotbox_get_licensed_page() {
 	}
 }
 
+function splotbox_get_license_page_id() {
+
+	// return slug for page set in theme options for view by license page (newer versions of SPLOT)
+	if (  splotbox_option( 'licensed_page' ) ) {
+		return ( splotbox_option( 'licensed_page' ) );
+	} else {
+		// older versions of SPLOT use the slug
+		return ( get_page_by_path('licensed')->ID );
+	}
+}
+
 
 function splot_redirect_url() {
 	// where to send visitors after login ok
