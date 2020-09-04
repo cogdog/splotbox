@@ -8,8 +8,8 @@
 
 					<h5><?php printf(
 						_n(
-							'%s Item found for %s',
-							'%s Items found for %s',
+							'%s Item found for "%s"',
+							'%s Items found for "%s"',
 							$wp_query->found_posts,
 							'garfunkel'
 						),

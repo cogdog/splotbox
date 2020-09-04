@@ -94,7 +94,7 @@
 
 			<?php endif?>
 
-		</div><!-- .page-title -->
+		</div><!-- .page-title .archive-title -->
 
 		<div class="content">
 
