@@ -267,6 +267,15 @@ class splotbox_Theme_Options {
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
+		$this->settings['m_audioboom'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Audioboom http://audioboom.com' ),
+			'type'    => 'checkbox',
+			'class'	  => 'mtype',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
 		$this->settings['m_flickr'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
@@ -710,7 +719,7 @@ class splotbox_Theme_Options {
 				echo '<div id="uploader_' . $id . '">';
 
 				if ( $options[$id] )  {
-					$front_img = wp_get_attachment_image_src( $options[$id], 'radcliffe' );
+					$front_img = wp_get_attachment_image_src( $options[$id], 'garfunkel' );
 					echo '<img id="previewimage_' . $id . '" src="' . $front_img[0] . '" width="640" height="300" alt="default thumbnail" />';
 				} else {
 					echo '<img id="previewimage_' . $id . '" src="https://placehold.it/640x300" alt="default header image" />';

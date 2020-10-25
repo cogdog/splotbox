@@ -64,6 +64,7 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 
 ### See It In Action
 
+* [Amazing/True Stories of Openness](http://stories.cogdogblog.com) converted to SPLOTbox from another theme, amazing, eh?
 * [Coventry University DMLL Video Archive](https://videos.dmll.org.uk/)
 * [COVDID19 and LCC: Our Stories in Voice, Sound, and Motion](https://livetogether.openlcc.net/covid19voices/) Lansing Community College
 * [Elkhart Responds](https://heal.elkhart.k12.in.us/) Elkhart Community Schools
@@ -273,6 +274,7 @@ With a bit of coding elbow grease, this theme is set up to expand the services y
 ## Relatively Cool New Features & Updates
 
 
+* (3.32) Added support for Audioboom 
 * (3.2) Counts added for all archive results, fixed issue with license links
 * (3.0) HTML5 Audio recorder support 
 * (2.2) Admin options to select all / none for media sites, fixed bug where drafts were visible on front page
