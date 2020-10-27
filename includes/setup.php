@@ -127,7 +127,6 @@ function splot_login_logo() { ?>
             background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/site-login-logo.png);
             height:90px;
 			width:320px;
-			background-size: 320px 90px;
 			background-repeat: no-repeat;
 			padding-bottom: 0px;
         }
@@ -252,6 +251,33 @@ function splotbox_rewrite_rules() {
 		}
    }
  }
+
+ // prevent posts from being saved to /random (reserved for random post generator
+
+add_action( 'save_post', 'splot_save_post_random_check' );
+
+function splot_save_post_random_check( $post_id ) {
+    // verify post is not a revision and that the post slug is "random"
+
+    $new_post = get_post( $post_id );
+    if ( ! wp_is_post_revision( $post_id ) and  $new_post->post_name == 'random' ) {
+
+
+        // unhook this function to prevent infinite looping
+        remove_action( 'save_post', 'splot_save_post_random_check' );
+
+        // update the post slug
+        wp_update_post( array(
+            'ID' => $post_id,
+            'post_name' => 'randomly' // do your thing here
+        ));
+
+        // re-hook this function
+        add_action( 'save_post', 'splot_save_post_random_check' );
+
+    }
+}
+
 
 
 # -----------------------------------------------------------------

@@ -164,8 +164,8 @@ function url_is_video ( $url ) {
 		if ( splotbox_option( $key ) ) $allowables[] = $value;
 
 		// more than one matching patterns
-		if  (splotbox_option( $key ) == 'm_youtube') $allowables[] = 'youtu.be';
-		if  (splotbox_option( $key ) == 'm_spark') $allowables[] = 'spark.adobe.com/video';
+		if  ( $key  == 'm_youtube' and splotbox_option( $key ) ) $allowables[] = 'youtu.be';
+		if  ( $key  == 'm_spark' and splotbox_option( $key ) ) $allowables[] = 'spark.adobe.com/video';
 	}
 
 	// check for more videos in extender plugin
@@ -270,7 +270,7 @@ function is_url_embeddable( $url ) {
 
 		if ( splotbox_option( $key ) ) $allowed_embeds[] = $value;
 		// more than one matching patterns
-		if  (splotbox_option( $key ) == 'm_youtube') $allowables[] = 'youtu.be';
+		if  ($key  == 'm_youtube' and splotbox_option( $key )) $allowed_embeds[] = 'youtu.be';
 	}
 
 	// add ones made available in extender plugin
