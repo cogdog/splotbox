@@ -320,7 +320,8 @@ This is a preview of your entry that shows how it will look when published. <a h
 										</li>
 										<?php endif?>
 
-										<?php if ($wLicense):?>
+
+										<?php if (splotbox_option('use_license') > 0 AND $wLicense):?>
 										<li>
 											<div class="genericon genericon-flag"></div>
 											<?php echo splotbox_the_license( $wLicense ); ?>
