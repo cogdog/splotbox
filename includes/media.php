@@ -341,11 +341,15 @@ function splotbox_get_audioplayer( $url ) {
 
 		// audioboom, in honor of Keith Lyons https://audioboom.com/520507
 
-		$pos_start = strpos( $url, 'posts/'); // id string starts
-		$pos_end = strpos( $url, '-'); // id ends at "-"
-		$audioboom_id = substr($url, $pos_start + 6, $pos_end - $pos_start + 6 ); // id
+		// use regex to find ID from Audioboom URL e.g. "1386797"
+		// from https://audioboom.com/posts/1386797-replying-to-alan
 
-		return '<iframe width="100%" height="300" src="https://embeds.audioboom.com/posts/' . $audioboom_id  .  '/embed/v4" style="background-color:transparent; display:block; padding: 0;" frameborder="0" allowtransparency="allowtransparency" scrolling="no" title="Audioboom player" allow="autoplay"></iframe>';
+		if ( preg_match('/(?!posts\\/)(\\d+)(?=\\-)/m', $url, $matches)) {
+			return  '<iframe width="100%" height="300" src="https://embeds.audioboom.com/posts/' . $matches[0]  .  '/embed/v4" style="background-color:transparent; display:block; padding: 0;" frameborder="0" allowtransparency="allowtransparency" scrolling="no" title="Audioboom player" allow="autoplay"></iframe>';
+		} else {
+			// no ID found, bad mojo
+			return '';
+		}
 
 	} elseif ( function_exists('splotboxplus_exists') ) {
 		return splotboxplus_get_mediaplayer( $url );
