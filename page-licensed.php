@@ -28,38 +28,36 @@ $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
 <div class="wrapper">
 
-	<div class="wrapper-inner section-inner thin">
+	<div class="wrapper-inner section-inner groupthin">
 
 	<?php if ($license_flavor == 'none') :?>
+
 
 		<div class="content">
 
 			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
 
-				<div class="post">
+				<article id="post-<?php the_ID(); ?>" <?php post_class( 'post' ); ?>>
 
 				<?php if ( has_post_thumbnail() ) : ?>
 
-					<div class="featured-media">
+					<figure class="featured-media">
 
-						<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
+						<?php
 
-							<?php the_post_thumbnail( 'post-image' ); ?>
+						the_post_thumbnail();
 
-							<?php if ( ! empty( get_post( get_post_thumbnail_id() )->post_excerpt ) ) : ?>
+						$image_caption = get_the_post_thumbnail_caption();
 
-								<div class="media-caption-container">
+						if ( $image_caption ) : ?>
 
-									<p class="media-caption"><?php echo get_post( get_post_thumbnail_id() )->post_excerpt; ?></p>
+							<div class="media-caption-container">
+								<p class="media-caption"><?php echo $image_caption; ?></p>
+							</div>
 
-								</div>
+						<?php endif; ?>
 
-							<?php endif; ?>
-
-						</a>
-
-					</div><!-- .featured-media -->
-
+					</figure><!-- .featured-media -->
 				<?php endif; ?>
 
 				<div class="post-inner">
@@ -70,7 +68,7 @@ $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
 					</div><!-- .post-header -->
 
-						<div class="post-content">
+						<div class="post-content entry-content">
 
 							<?php the_content(); ?>
 
@@ -107,10 +105,11 @@ $paged = (get_query_var('paged')) ? get_query_var('paged') : 1;
 
 						<?php endif; ?>
 
-						<div class="clear"></div>
+
 
 					</div><!-- .post-inner -->
-			</div><!-- .post -->
+				</article> <!-- .post -->
+			</div><!-- content -->
 
 		<?php else:?>
 

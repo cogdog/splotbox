@@ -206,11 +206,19 @@ jQuery(document).ready(function() {
 		   // hide button
 		   jQuery("#testURL").removeAttr('href');
 		   jQuery("#testURL").addClass('disabled');
+		   jQuery("#alt_by_link").hide();
 		} else {
 			//show test button, set its href value
 			jQuery("#testURL").removeClass('disabled');
 			jQuery("#testURL").css( 'cursor', 'pointer' );
-		    jQuery("#testURL").attr("href", jQuery("#wMediaURL").val());
+		  jQuery("#testURL").attr("href", jQuery("#wMediaURL").val());
+
+		  if (isImageFile(jQuery("#wMediaURL").val())) {
+		    jQuery("#alt_by_link").show();
+		  } else {
+		    jQuery("#alt_by_link").hide();
+		  }
+
 
 		}
 	});

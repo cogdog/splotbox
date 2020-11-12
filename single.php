@@ -14,6 +14,7 @@
 				$wCredit = get_post_meta( $post->ID, 'credit', 1 );
 				$wLicense = get_post_meta( $post->ID, 'license', 1 );
 				$media_url = get_post_meta($post->ID, 'media_url', 1);
+				$wAlt = get_post_meta($post->ID, 'image_alt', 1);
 				$wMediaType = url_is_media_type($media_url);
 				$attributions = ['',''];
 
@@ -130,7 +131,7 @@
 							<?php
 
 
-							// can we embed this audio url?
+							// can we embed this image url?
 							if ( is_url_embeddable( $media_url ) ) {
 
 								// then do it
@@ -146,7 +147,7 @@
 							} else {
 								// then we have an image file so get it's code
 
-								echo splotbox_get_imageplayer( $media_url );
+								echo splotbox_get_imageplayer( $media_url, $wAlt );
 
 							}
 							?>

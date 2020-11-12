@@ -4,7 +4,7 @@ Template Name: Sharing Page
 */
 
 // set blanks
-$wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = $ia_media_type = '';
+$wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = $ia_media_type = $wAlt = $wAlt_by_link = '';
 $wAccessCodeOk = $is_published = false;
 $audio_file_size = 0;
 $errors = array();
@@ -59,6 +59,9 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 	$wLicense = 				( isset ($_POST['wLicense'] ) ) ? $_POST['wLicense'] : '--';
 	$wUploadMediaID =			$_POST['wUploadMedia'];
 	$wMediaMethod = 			$_POST['wMediaMethod'];
+	$wAlt = 					( isset ($_POST['wAlt'] ) ) ? $_POST['wAlt'] : '';
+
+	$wAlt_by_link = 					( isset ($_POST['wAlt_by_link'] ) ) ? sanitize_text_field($_POST['wAlt_by_link']) : '';
 
 	if ( isset ($_POST['post_id'] ) ) $post_id = $_POST['post_id'];
 
@@ -208,7 +211,23 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			if ( $wNotes ) add_post_meta($post_id, 'extra_notes', $wNotes);
 
 			// set featured image
-			if ( $wUploadMediaID ) set_post_thumbnail( $post_id, $wUploadMediaID);
+			if ( $wUploadMediaID ) {
+				set_post_thumbnail( $post_id, $wUploadMediaID);
+				// update featured image alt
+				update_post_meta($wUploadMediaID, '_wp_attachment_image_alt', $wAlt);
+			}
+
+			// check for imaage types
+			if ( $wMediaType == 'image') {
+
+				if ($wMediaMethod == 'by_upload') {
+					// use alt text from upload fields
+					add_post_meta( $post_id, 'image_alt', $wAlt );
+				} else {
+					// use alt text from by url fields
+					add_post_meta( $post_id, 'image_alt',  $wAlt_by_link );
+				}
+			}
 
 			// add the tags
 			wp_set_post_tags( $post_id, $wTags);
@@ -275,6 +294,25 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 
 			// extra notes
 			if ( $wNotes ) update_post_meta($post_id, 'extra_notes', $wNotes);
+
+			// set featured image
+			if ( $wUploadMediaID ) {
+				set_post_thumbnail( $post_id, $wUploadMediaID);
+				// update featured image alt
+				update_post_meta($wUploadMediaID, '_wp_attachment_image_alt', $wAlt);
+			}
+
+			// check for imaage types
+			if ( $wMediaType == 'image') {
+
+				if ($wMediaMethod == 'by_upload') {
+					// use alt text from upload fields
+					update_post_meta( $post_id, 'image_alt', $wAlt );
+				} else {
+					// use alt text from by url fields
+					update_post_meta( $post_id, 'image_alt', $wAlt_by_link );
+				}
+			}
 
 			// tags
 			wp_set_post_tags( $post_id, $wTags);
@@ -359,6 +397,9 @@ get_header();
 
 	<?php if (!$wAccessCodeOk) : // show the access code form ?>
 
+
+
+
 		<form  id="splotboxform" method="post" action="">
 			<fieldset>
 				<label for="wAccess">Access Code</label><br />
@@ -414,13 +455,22 @@ get_header();
 						<?php $testbuttonclass = ( empty($wMediaURL) ) ? ' disabled' : '';?>
 
 						<p>It's a good idea to  <a href="<?php echo $wMediaURL?>" class="pretty-button pretty-button-gray<?php echo $testbuttonclass?>" id="testURL" target="_blank">Test Link</a>  to make sure it works!</p>
+
+						<div id="alt_by_link" <?php if (!url_is_image($wMediaURL)) echo ' style="display:none;"'?>>
+							<label for="wAlt_by_link">Alternative Description for Image (Recommended)</label><br />
+								<p>To provide better web accessibility and search results, enter a short alternative text that can be substituted for this image.</p>
+								<input type="text" name="wAlt_by_link" id="wAlt_by_link"  value="<?php echo htmlspecialchars(stripslashes($wAlt_by_link)); ?>" />
+						</div>
+
+
+
 					</div>
 
 
 					<?php if ( splotbox_option('use_upload_media') ) :?>
 
 
-					<div id="media_by_upload" <?php if ( $wMediaMethod != "media_by_upload" ) echo ' style="display:none;"'?>>
+					<div id="media_by_upload" <?php if ( $wMediaMethod != "by_upload" ) echo ' style="display:none;"'?>>
 
 						<label for="headerImage"><?php _e('Upload a File', 'garfunkel') ?></label>
 
@@ -468,8 +518,15 @@ get_header();
 							<div id="splotdropzone">
 								<input type="file" <?php echo $mediUploadExt?> name="wUploadFile" id="wUploadFile">
 								<p id="dropmessage">Drag file or click to select file to upload</p>
-							</div>
-						</div>
+							</div><!-- splotdropzone -->
+
+							<?php if (splotbox_option('use_upload_media') < 3 ): // 3 = audio only ?>
+							<label for="wAlt">Alternative Description for Image (Recommended)</label><br />
+								<p>To provide better web accessibility and search results, enter a short alternative text that can be substituted for this image.</p>
+								<input type="text" name="wAlt" id="wAlt" value="<?php echo htmlspecialchars(stripslashes($wAlt));?>" />
+							<?php endif?>
+
+						</div><!-- uploader -->
 						<?php endif // use upload media?>
 
 						<?php if ( splotbox_option('use_media_recorder') ) :?>

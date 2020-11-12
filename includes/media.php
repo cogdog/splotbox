@@ -191,6 +191,7 @@ function url_is_image ( $url ) {
 	// all possible supported sites
 	$all_sites = array(
 		'm_flickr' => 'flickr.com/photos',
+		'm_giphy' => 'giphy.com/gifs',
 	);
 
 	// pull names of ones activated in theme options
@@ -361,10 +362,10 @@ function splotbox_get_audioplayer( $url ) {
 
 }
 
-function splotbox_get_imageplayer( $url ) {
+function splotbox_get_imageplayer( $url, $alt = '' ) {
 	// output the img code for displaying an image
 	if ( url_is_image_link( $url ) ) {
-			return ('<img width="1140" height="760" src="' . $url . '" class="attachment-post-image size-post-image wp-post-image" alt="" />');
+			return ('<img width="1140" height="760" src="' . $url . '" class="attachment-post-image size-post-image wp-post-image" alt="' .  esc_attr( $alt ) . '" />');
 	} elseif ( function_exists('splotboxplus_exists') ) {
 		return splotboxplus_get_imageplayer( $url );
 	} else {
