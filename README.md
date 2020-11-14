@@ -52,6 +52,12 @@ Other features that can be activated in SPLOTbox are to provide entry fields for
 
 SPLOTbox is a huge improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder). For blogged history, see  [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
 
+## How to SPLOTbox in 60 Seconds
+
+Thanks to [Clint Lalonde](https://edtechfactotum.com/) for this nifty video
+
+[<img src="https://img.youtube.com/vi/xSdxPuXEGJU/maxresdefault.jpg" width="50%">](https://youtu.be/xSdxPuXEGJU)
+
 
 ## With Thanks
 
