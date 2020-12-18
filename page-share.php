@@ -13,7 +13,7 @@ $wCats = array( splotbox_option('def_cat')); // preload default category
 $all_licenses = splotbox_get_licences(); // licenses
 $splotbox_supports = splotbox_supports(); // sites supported by external URL
 
-// see if we have an incoming clear the code form variable only on writing form
+// see if we have an incoming clear the code form variable only on sharing form
 // ignored if options are not to use it
 
 $wAccessCodeOk = isset( $_POST['wAccessCodeOk'] ) ? true : false;
@@ -145,7 +145,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 				$feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been published!  You can <a href="'. get_permalink( $post_id ) . '">view it now</a>.  Or you can <a href="' . site_url()  . '">return to ' . get_bloginfo() . '</a>.';
 
 				// for email
-				$message = 'A media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been published to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id  . '">see view it now</a>';
+				$message = 'A media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been published to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id  . '">view it now</a>';
 
 
 			} elseif ( $post_status == 'pending' ) {
@@ -217,17 +217,14 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 				update_post_meta($wUploadMediaID, '_wp_attachment_image_alt', $wAlt);
 			}
 
-			// check for imaage types
-			if ( $wMediaType == 'image') {
-
-				if ($wMediaMethod == 'by_upload') {
-					// use alt text from upload fields
-					add_post_meta( $post_id, 'image_alt', $wAlt );
-				} else {
-					// use alt text from by url fields
-					add_post_meta( $post_id, 'image_alt',  $wAlt_by_link );
-				}
+			if ($wMediaMethod == 'by_upload') {
+				// use alt text from upload fields
+				add_post_meta( $post_id, 'image_alt', $wAlt );
+			} else {
+				// use alt text from by url fields
+				add_post_meta( $post_id, 'image_alt',  $wAlt_by_link );
 			}
+
 
 			// add the tags
 			wp_set_post_tags( $post_id, $wTags);
@@ -302,17 +299,14 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 				update_post_meta($wUploadMediaID, '_wp_attachment_image_alt', $wAlt);
 			}
 
-			// check for imaage types
-			if ( $wMediaType == 'image') {
-
-				if ($wMediaMethod == 'by_upload') {
-					// use alt text from upload fields
-					update_post_meta( $post_id, 'image_alt', $wAlt );
-				} else {
-					// use alt text from by url fields
-					update_post_meta( $post_id, 'image_alt', $wAlt_by_link );
-				}
+			if ($wMediaMethod == 'by_upload') {
+				// use alt text from upload fields
+				update_post_meta( $post_id, 'image_alt', $wAlt );
+			} else {
+				// use alt text from by url fields
+				update_post_meta( $post_id, 'image_alt', $wAlt_by_link );
 			}
+
 
 			// tags
 			wp_set_post_tags( $post_id, $wTags);
@@ -456,9 +450,9 @@ get_header();
 
 						<p>It's a good idea to  <a href="<?php echo $wMediaURL?>" class="pretty-button pretty-button-gray<?php echo $testbuttonclass?>" id="testURL" target="_blank">Test Link</a>  to make sure it works!</p>
 
-						<div id="alt_by_link" <?php if (!url_is_image($wMediaURL)) echo ' style="display:none;"'?>>
-							<label for="wAlt_by_link">Alternative Description for Image (Recommended)</label><br />
-								<p>To provide better web accessibility and search results, enter a short alternative text that can be substituted for this image.</p>
+						<div id="alt_by_link">
+							<label for="wAlt_by_link">Alternative Description for Media (Recommended)</label><br />
+								<p>Enter short alternative text that can be substituted for this media for web accessibility. For images, this is published with the image as an <code>alt</code> tag used by screen readers. For video, audio, and other media, this is a published as a summary shown at the bottom of the item entry. Here URLs can be included to link to a transcript or more information.</p>
 								<input type="text" name="wAlt_by_link" id="wAlt_by_link"  value="<?php echo htmlspecialchars(stripslashes($wAlt_by_link)); ?>" />
 						</div>
 

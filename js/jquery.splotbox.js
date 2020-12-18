@@ -212,17 +212,7 @@ jQuery(document).ready(function() {
 			jQuery("#testURL").removeClass('disabled');
 			jQuery("#testURL").css( 'cursor', 'pointer' );
 		  jQuery("#testURL").attr("href", jQuery("#wMediaURL").val());
-
-		  if (isImageFile(jQuery("#wMediaURL").val())) {
-		    jQuery("#alt_by_link").show();
-		  } else {
-		    jQuery("#alt_by_link").hide();
-		  }
-
-
 		}
 	});
 
 });
-
-

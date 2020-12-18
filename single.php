@@ -221,6 +221,16 @@ This is a preview of your entry that shows how it will look when published. <a h
 							<?php
 								if (  url_is_audio_link ( $media_url )   ) echo '<p><a href="' . $media_url . '" class="download-link pretty-button pretty-button-gray" download>Download "' . get_the_title() . '"</a></p>';
 
+							?>
+
+						<div class="sb_meta">
+
+						<?php
+						// alt descriptions y'all should be doing
+						if ($wAlt) {
+							echo '<p><strong>Media Description:</strong> ' .  make_links_clickable($wAlt) . '</p>';
+						}
+
 
 			    		// Sharer
 			    		echo '<p><strong>Shared by:</strong> ' . $wAuthor . '</p>';
@@ -238,18 +248,17 @@ This is a preview of your entry that shows how it will look when published. <a h
 			    				$attributions = splotbox_attributor( $wLicense, get_the_title(), get_permalink(), $wCredit);?>
 
 								<h4>Copy/Paste Text Attribution</h4>
-								<textarea rows="2" onClick="this.select()" style="height:80px;"><?php echo $attributions[0]?></textarea>
-
+								<textarea rows="2" onClick="this.select()" style="height:60px;"><?php echo $attributions[0]?></textarea>
 
 								<h4>Copy/Paste HTML Attribution</h4>
-								<textarea rows=5" onClick="this.select()" style="height:110px;"><?php echo $attributions[1]?></textarea>
+								<textarea rows="3" onClick="this.select()" style="height:80px;"><?php echo $attributions[1]?></textarea>
 							<?php
 			    			}
 			    		}
 
 
 			    	?>
-
+					</div>
 
 							<?php  if ( is_preview() ):?>
 								<div class="notify"><span class="symbol icon-info"></span> Once done reviewing your entry, <a href="#" onclick="self.close();return false;">Close this window/tab</a> to return to the editing form.

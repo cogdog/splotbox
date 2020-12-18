@@ -279,7 +279,8 @@ With a bit of coding elbow grease, this theme is set up to expand the services y
 
 ## Relatively Cool New Features & Updates
 
-
+* (3.5) Customizer options to modify the comment title and add a site specific prompt
+* (3.4) Fields added for alternative text in images plus media descriptions that can link t transcripts for audio/video
 * (3.32) Added support for Audioboom 
 * (3.2) Counts added for all archive results, fixed issue with license links
 * (3.0) HTML5 Audio recorder support 

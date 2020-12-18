@@ -10,27 +10,95 @@ add_action( 'customize_register', 'splotbox_register_theme_customizer' );
 
 function splotbox_register_theme_customizer( $wp_customize ) {
 	// Create custom panel.
-	$wp_customize->add_panel( 'customize_collector', array(
+	$wp_customize->add_panel( 'customize_splotbox', array(
 		'priority'       => 25,
 		'theme_supports' => '',
 		'title'          => __( 'SPLOTbox', 'garfunkel'),
 		'description'    => __( 'Customizer Stuff', 'garfunkel'),
 	) );
 
+
+	// Add section for the general stuff
+	$wp_customize->add_section( 'box_stuff' , array(
+		'title'    => __('Box Dressing','garfunkel'),
+		'panel'    => 'customize_splotbox',
+		'priority' => 10
+	) );
+
+
+	// Add setting for comment titles
+	$wp_customize->add_setting( 'comment_title', array(
+		 'default'  => __( 'Provide Feedback', 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
+
+	// Control  label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'comment_title',
+		    array(
+		        'label'    => __( 'Title for Comments Section', 'garfunkel'),
+		        'priority' => 21,
+		        'description' => __( 'Make as specific as needed' ),
+		        'section'  => 'box_stuff',
+		        'settings' => 'comment_title',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
+	// Add setting for Extra instructions for comments
+	$wp_customize->add_setting( 'comment_extra_intro', array(
+		 'default'  => __( '', 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
+
+	// Control title label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'comment_extra_intro',
+		    array(
+		        'label'    => __( 'Extra Instructions for Comment Area', 'garfunkel'),
+		        'priority' => 25,
+		        'description' => __( 'Specify suggestions as needed to guide comment input' ),
+		        'section'  => 'box_stuff',
+		        'settings' => 'comment_extra_intro',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
+
+/* --------- customize the share form ------------------------- */
+
+
 	// Add section for the collect form
 	$wp_customize->add_section( 'share_form' , array(
 		'title'    => __('Share Form Labels &amp; Prompts','garfunkel'),
-		'panel'    => 'customize_collector',
-		'priority' => 10
+		'panel'    => 'customize_splotbox',
+		'priority' => 20
 	) );
-	
+
+
+
+
+
+
+
+
+
+
+
+
 	// Add setting for default prompt
 	$wp_customize->add_setting( 'default_prompt', array(
 		 'default'           => __( 'Complete the form below to add a media item to this collection', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Add control for default prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -52,7 +120,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control fortitle label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -74,7 +142,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control fortitle label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -89,14 +157,14 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		    )
 	    )
 	);
-	
+
 	// setting for title description
 	$wp_customize->add_setting( 'item_title_prompt', array(
 		 'default'           => __( 'Enter a title that works well as a headline for this item when listed on this site.', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for title description
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -111,14 +179,14 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		    )
 	    )
 	);
-	
+
 	// setting for image upload label
 	$wp_customize->add_setting( 'item_upload', array(
 		 'default'           => __( 'Media Source', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for image upload  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -140,7 +208,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for image upload prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -162,7 +230,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for author  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -184,7 +252,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for author  label prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -206,11 +274,11 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for description  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
-		'item_description', 
+		'item_description',
 		    array(
 		        'label'    => __( 'Description Label', 'garfunkel'),
 		        'priority' => 18,
@@ -228,7 +296,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for description  label prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -251,7 +319,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for image source  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -278,7 +346,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for image source  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -300,7 +368,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for image source prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -322,7 +390,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for license  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -344,7 +412,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for license prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -366,7 +434,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for categories  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -388,7 +456,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for categories prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -403,14 +471,14 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		    )
 	    )
 	);
-	
+
 	// setting for tags  label
 	$wp_customize->add_setting( 'item_tags', array(
 		 'default'           => __( 'Tags', 'garfunkel'),
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for tags  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -432,7 +500,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for tags prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -454,7 +522,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for editor notes  label
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -476,7 +544,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for editor notes prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -498,7 +566,7 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		 'type' => 'theme_mod',
 		 'sanitize_callback' => 'sanitize_text'
 	) );
-	
+
 	// Control for editor notes prompt
 	$wp_customize->add_control( new WP_Customize_Control(
 	    $wp_customize,
@@ -516,11 +584,28 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 
 
-			
+
  	// Sanitize text
 	function sanitize_text( $text ) {
 	    return sanitize_text_field( $text );
 	}
+}
+
+
+function get_splotbox_comment_title() {
+	 if ( get_theme_mod( 'comment_title') != "" ) {
+	 	return ( get_theme_mod( 'comment_title'));
+	 }	else {
+	 	return  ('Provide Feedback');
+	 }
+}
+
+function get_splotbox_comment_extra_intro() {
+	 if ( get_theme_mod( 'comment_extra_intro') != "" ) {
+	 	return ( '<p class="comment_notes">' . get_theme_mod( 'comment_extra_intro') . '</p>');
+	 }	else {
+	 	return  ('');
+	 }
 }
 
 
@@ -727,48 +812,48 @@ function splotbox_form_item_submit_buttons_prompt() {
  * plugin found here... https://wordpress.org/plugins/customizer-export-import/
  * h/t - https://gist.github.com/fastlinemedia/9a8070b9a636e38b510f
  */
- 
+
 add_action( 'after_switch_theme', 'splot_import_customizer_settings' );
- 
+
 function splot_import_customizer_settings()
 {
 	// Check to see if the settings have already been imported.
 	$template = get_template();
 	$imported = get_option( $template . '_customizer_import', false );
-	
+
 	// Bail if already imported.
 	if ( $imported ) {
 		return;
 	}
-	
+
 	// Get the path to the customizer export file.
 	$path = trailingslashit( get_stylesheet_directory() ) . 'data/customizer.dat';
-	
+
 	// Return if the file doesn't exist.
 	if ( ! file_exists( $path ) ) {
 		return;
 	}
-	
+
 	// Get the settings data.
 	$data = @unserialize( file_get_contents( $path ) );
-	
+
 	// Return if something is wrong with the data.
 	if ( 'array' != gettype( $data ) || ! isset( $data['mods'] ) ) {
 		return;
 	}
-	
+
 	// Import options.
 	if ( isset( $data['options'] ) ) {
 		foreach ( $data['options'] as $option_key => $option_value ) {
 			update_option( $option_key, $option_value );
 		}
 	}
-	
+
 	// Import mods.
 	foreach ( $data['mods'] as $key => $val ) {
 		set_theme_mod( $key, $val );
 	}
-	
+
 	// Set the option so we know these have already been imported.
 	update_option( $template . '_customizer_import', true );
 }

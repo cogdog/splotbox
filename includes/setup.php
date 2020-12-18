@@ -165,13 +165,12 @@ function splot_login_logo_url_title() {
 # -----------------------------------------------------------------
 
 function splotbox_comment_mod( $defaults ) {
-	$defaults['title_reply'] = 'Provide Feedback';
+	$defaults['title_reply'] = get_splotbox_comment_title();
+	$defaults['title_reply_after'] = '</h3>' . get_splotbox_comment_extra_intro();
 	$defaults['logged_in_as'] = '';
-	$defaults['title_reply_to'] = 'Provide Feedback for %s';
+	$defaults['title_reply_to'] = get_splotbox_comment_title() . ' for %s';
 	return $defaults;
 }
-
-
 
 
 // options for post order on front page
@@ -352,6 +351,7 @@ function add_splotbox_scripts() {
 			wp_enqueue_style( 'videojs-record', get_stylesheet_directory_uri() . '/css/videojs.record.min.css' );
 
 			//scripts
+
 			wp_register_script( 'video-min', get_stylesheet_directory_uri() . '/js/video.min.js' );
 			wp_register_script( 'webrtc-adapter', get_stylesheet_directory_uri() . '/js/webrtc-adapter/out/adapter.js' );
 			wp_register_script( 'wavesurfer', get_stylesheet_directory_uri() . '/js/wavesurfer.min.js' );
@@ -359,6 +359,7 @@ function add_splotbox_scripts() {
 			wp_register_script( 'videojs-wavesurfer', get_stylesheet_directory_uri() . '/js/videojs.wavesurfer.min.js' , array('wavesurfer'));
 			wp_register_script( 'videojs-record', get_stylesheet_directory_uri() . '/js/videojs.record.min.js' );
 			wp_register_script( 'videojs-lame', get_stylesheet_directory_uri() . '/js/videojs.record.lamejs.min.js' );
+
 
 			wp_enqueue_script( 'video-min' );
 			wp_enqueue_script( 'webrtc-adapter' );
@@ -584,6 +585,4 @@ function splotbox_upload_audio_action() {
     echo json_encode( array('id'=> $newupload, 'location' => wp_get_attachment_url($newupload) ) );
     die();
 }
-
-
 ?>
