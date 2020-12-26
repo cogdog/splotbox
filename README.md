@@ -91,15 +91,13 @@ If you make a SPLOTbox site, please please pretty *please* fork this repo to edi
 
 If you have problems, feature suggestions, piles of unmarked bills to send my way, please [contact me via the issues area](https://github.com/cogdog/splotbox/issues) on this repo.
 
-## Requirements
+### Installing SPLOTbox
 
-I will make the big leap in that you have a self hosted Wordpress site and can install themes.
-
-### Installing SPLOTbox from Scratch
-
-Using this theme requires a self-hosted--or institutionally hosted (lucky you)-- Wordpress site (the kind that you download from [wordpress.org](http://www.wordpress.org). You cannot use this theme on the free "wordpress.com" site. Maybe check out [Reclaim Hosting](https://reclaimhosting.com/) to set up your own hosting space. 
+Using this theme requires a self-hosted--or institutionally hosted (lucky you)-- Wordpress site (the kind that you download from [wordpress.org](http://www.wordpress.org). You cannot use this theme on the free "wordpress.com" site unless you have a business plan. Maybe check out [Reclaim Hosting](https://reclaimhosting.com/) if you choose to set up your own hosting space. 
 
 SPLOTbox is a child theme based on [the free and elegant Garfunkel theme by Anders Noren](https://wordpress.org/themes/garfunkel). Install this theme first from within the Wordpress Dashboard under **Appearance** -- **Themes** searching on `Gardfunkel`.
+
+### Installing SPLOTbox from Scratch
 
 You can download a ZIP file of this theme via the green **Code*" button above (use the Download Zip option). 
 
@@ -115,12 +113,30 @@ You might want to set up in advance some Wordpress Categories for your Items; in
 
 ### Updating the SPLOTbox Theme (manually)
 
-As of WordPress version 5.5 themes uploaded as .ZIP files can now be updated the same way you installed it; just download the newest version, and update it  via **Themes** in the Wordpress dashboard, then **Add Theme** and finally **Upload Theme**. You will be asked to confirm updating the theme with the newer version.  
+As of WordPress version 5.5, themes uploaded as .ZIP files can now be updated the same way you installed it. Just download the newest version, and update it by going to **Themes** in the Wordpress dashboard, then **Add Theme** and finally **Upload Theme**. You will be asked to confirm updating the theme with the newer version.  
+
+### Installing SPLOTbox in One Click with WP Pusher (get automatic updates!)
+
+To have your site stay up to date automatically, I recommend trying the [WP Pusher plugin](https://wppusher.com/) which makes it easier to install themes and plugins that are published in GitHub. It takes a few steps to set up, but it's the most direct way to get updates to the theme.
+
+To use WP-Pusher you will need to have or create an account on [GitHub](https://github.com/) (free). Log in. 
+
+Next [download WP Pusher plugin](https://wppusher.com/download) as a ZIP file. From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button, select that zip file to upload, and activate the plugin.
+
+Then click the **WP Pusher** option in your Wordpress Dashboard, and then click the **GitHub** tab. Next click the **Obtain a GitHub Token** button to get an authentication token. Copy the one that is generated, paste into the field for it, and finally, click **Save GitHub** Token.
+
+Now you are ready to install SPLOTbox! 
+
+![](images/wp-pusher.jpg "WP Pusher Settings")
+
+Look under **WP Pusher** for **Install Theme**. In the form that appears, under **Theme Repository**, enter `cogdog/splotbox`. Also check the option for **Push-to-Deploy** (this will automatically update your site when the theme is updated) finally, click **Install Theme**.
+
+Woah Neo?
+
+Not only does this install the theme without any messy download/uploads, each time I update the theme on GitHub, your site will be automatically updated to the newest version.  
 
 
-If you have ftp/sftp access to your site (or this can be done in a cpanel file manager), simply upload the new theme files to the `wp-content/themes` directory that includes the older version theme. 
-
-For those that lack direct file upload access or maybe that idea sends shivers down the spine, upload and activate the [Easy Theme and Plugin Upgrades](https://wordpress.org/plugins/easy-theme-and-plugin-upgrades/) plugin -- this will allow you to upload a newer version of a theme as a ZIP archive, the same way you add a theme by uploading.
+## Got Issues?
 
 If you are updating a site built with a previous version of the theme and something wonky happens, try the following:
 
@@ -129,6 +145,21 @@ If you are updating a site built with a previous version of the theme and someth
 * Go to Appearances, and change the theme to any other theme, then change it back to S_LOTbox. There are some things the theme does on activation that can clear some issues.
 * Go to the SPLOTbox Options and click **Save** as new option values may need a reset.
 * If all that fails, [report an issue](https://github.com/cogdog/splotbox/issues) with as much detail that describes the situation.
+
+## Setting Up a New SPLOTbox site
+
+(1) Create a fresh new Wordpress site. 
+
+(2) Install the [Garfunkel theme](https://wordpress.org/themes/garfunkel) from the Wordpress Dashboard (I'll gamble that you know how to install themes, search on `Fukasawa` from Appearances -- Themes. It does not need to be activated, it just needs to be present.
+
+(3) Install the SPLOTbox theme via one of the methods described above.
+
+(4) Activate SPLOTbox as the site's theme. 
+
+(5) You might want to set up in advance some Wordpress Categories for your items; in the options you will choose one as default (and for the love of all that is holy, *change the name of the Uncategorized category*!
+
+Next, you should configure the options.
+
 
 ## Setting Up The Site Via SPLOTbox options
 
@@ -279,6 +310,7 @@ With a bit of coding elbow grease, this theme is set up to expand the services y
 
 ## Relatively Cool New Features & Updates
 
+* (3.6) Tags suggestion on the sharing form now works
 * (3.5) Customizer options to modify the comment title and add a site specific prompt
 * (3.4) Fields added for alternative text in images plus media descriptions that can link t transcripts for audio/video
 * (3.32) Added support for Audioboom 

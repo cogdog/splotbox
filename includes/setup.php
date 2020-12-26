@@ -310,10 +310,15 @@ function add_splotbox_scripts() {
 		 // add media scripts if we are on our share page and not an admin
 		 // after http://wordpress.stackexchange.com/a/116489/14945
 
-		if (! is_admin() ) wp_enqueue_media();
+		if (! is_admin() ) {
+			// add media scripts if we are on our collect page and not an admin
+		 	// after http://wordpress.stackexchange.com/a/116489/14945
+			wp_enqueue_media();
 
-		// Build in tag auto complete script
-   		wp_enqueue_script( 'suggest' );
+			// Build in tag auto complete script
+			wp_enqueue_script( 'suggest' );
+		}
+
 
    		// Autoembed functionality in rich text editor
    		// needs dependency on tiny_mce
@@ -327,7 +332,7 @@ function add_splotbox_scripts() {
 
 
 		// custom jquery for the uploader on the form
-		wp_register_script( 'jquery.splotbox' , get_stylesheet_directory_uri() . '/js/jquery.splotbox.js', null , false, true );
+		wp_register_script( 'jquery.splotbox' , get_stylesheet_directory_uri() . '/js/jquery.splotbox.js', array( 'suggest') , false, true );
 
 		// add a local variable for the site's home url
 		wp_localize_script(
@@ -389,6 +394,90 @@ function add_splotbox_scripts() {
 }
 
 # -----------------------------------------------------------------
+# Tag Search
+# -----------------------------------------------------------------
+
+
+add_filter( 'wp_headers', 'splot_send_cors_headers', 11, 1 );
+
+function splot_send_cors_headers( $headers ) {
+	if ( is_page( splotbox_get_share_page() ) ) {
+    	$headers['Access-Control-Allow-Origin'] = '*';
+    }
+    return $headers;
+}
+
+// this is the handler used in the tiny_mce editor to manage image upload
+add_action( 'wp_ajax_nopriv_splot_ajax_tag_search', 'splot_ajax_tag_search' ); //allow on front-end
+add_action( 'wp_ajax_splot_ajax_tag_search', 'splot_ajax_tag_search' );
+
+
+/* local version of wp_ajax_ajax_tag_search without exit for user capabilties
+   (this requires a logged in user which we do not always have
+
+   modified from
+   https://developer.wordpress.org/reference/functions/wp_ajax_ajax_tag_search
+*/
+
+function splot_ajax_tag_search() {
+    if ( ! isset( $_GET['tax'] ) ) {
+        wp_die( 0 );
+    }
+
+    $taxonomy = sanitize_key( $_GET['tax'] );
+    $tax      = get_taxonomy( $taxonomy );
+
+    if ( ! $tax ) {
+        wp_die( 0 );
+    }
+
+    $s = wp_unslash( $_GET['q'] );
+
+    $comma = _x( ',', 'tag delimiter' );
+    if ( ',' !== $comma ) {
+        $s = str_replace( $comma, ',', $s );
+    }
+
+    if ( false !== strpos( $s, ',' ) ) {
+        $s = explode( ',', $s );
+        $s = $s[ count( $s ) - 1 ];
+    }
+
+    $s = trim( $s );
+
+    /**
+     * Filters the minimum number of characters required to fire a tag search via Ajax.
+     *
+     * @since 4.0.0
+     *
+     * @param int         $characters The minimum number of characters required. Default 2.
+     * @param WP_Taxonomy $tax        The taxonomy object.
+     * @param string      $s          The search term.
+     */
+    $term_search_min_chars = (int) apply_filters( 'term_search_min_chars', 2, $tax, $s );
+
+    /*
+     * Require $term_search_min_chars chars for matching (default: 2)
+     * ensure it's a non-negative, non-zero integer.
+     */
+    if ( ( 0 == $term_search_min_chars ) || ( strlen( $s ) < $term_search_min_chars ) ) {
+        wp_die();
+    }
+
+    $results = get_terms(
+        array(
+            'taxonomy'   => $taxonomy,
+            'name__like' => $s,
+            'fields'     => 'names',
+            'hide_empty' => false,
+        )
+    );
+
+    echo implode( "\n", $results );
+    wp_die();
+}
+
+# -----------------------------------------------------------------
 # Menu Setup
 # -----------------------------------------------------------------
 
@@ -400,9 +489,6 @@ function splot_default_menu() {
 
  	return ( '<li><a href="' . $splot_home . '">Home</a></li><li><a href="' . $splot_home . splotbox_get_share_page() . '">Share</a></li><li><a href="' . $splot_home . 'random' . '">Random</a></li>' );
 }
-
-
-
 
 # -----------------------------------------------------------------
 # Allow Previews

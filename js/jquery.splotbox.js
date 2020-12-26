@@ -38,8 +38,7 @@ function isAudioFile(fname) {
 	 return audio_exts.includes(ext.toLowerCase());
 }
 
-jQuery('#wTags').suggest( boxObject.ajaxUrl + "?action=ajax-tag-search&tax=post_tag", {multiple:true, multipleSep: ","});
-
+jQuery('#wTags').suggest( boxObject.ajaxUrl + "?action=splot_ajax_tag_search&tax=post_tag", {multiple:true, multipleSep: ","});
 
 jQuery(document).ready(function() {
 

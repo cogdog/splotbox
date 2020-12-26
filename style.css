@@ -2,7 +2,7 @@
 Theme Name: 	Splotbox
 Theme URI: 		http://github.com/cogdog/splotbox
 Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		3.5
+Version: 		3.6
 Template:   garfunkel
 Author: 		CogDog
 Author URI: 	https://cog.dog/
@@ -431,4 +431,28 @@ img#mediathumb {
 	}
 }
 
+/* -------------------- style the autocomplete stuff ----------------------------------*/
+/* h/t http://sudarmuthu.com/blog/using-wordpress-built-in-tag-auto-complete-script-in-your-plugins/#comment-644312 */
+.ac_results
+{
+	padding: 0;
+	margin: 0;
+	list-style: none;
+	position: absolute;
+	z-index: 10000;
+	display: none;
+	border-width: 1px;
+	border-style: solid;
+	background-color: white;
+}
+
+.ac_results li
+{
+	padding: 4px 6px;
+	white-space: nowrap;
+	text-align: left;
+}
+
+.ac_over { cursor: pointer; }
+.ac_match { text-decoration: underline; }
 

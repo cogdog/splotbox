@@ -153,15 +153,6 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 				$feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> is now in the queue for publishing.  You can <a href="'. site_url() . '/?p=' . $post_id . '&preview=true&ispre=1' . '"  target="_blank">preview it now</a> (link opens in a new window). It will appear on <strong>' . get_bloginfo() . '</strong> as soon as it has been reviewed. ';
 
 				$message = 'A media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been submitted to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id . 'preview=true' . '">preview it now</a>.<br /><br /> To  publish it, simply <a href="' . admin_url( 'edit.php?post_status=pending&post_type=post') . '">find it in the pending items</a> and change its status from <strong>Pending</strong> to <strong>Publish</strong>';
-
-
-			} else {
-				// draft
-				$feedback_msg = 'Your shared media item  <strong>' . $wTitle . '</strong> has been submitted for review.  You can <a href="'. site_url() . '/?p=' . $post_id . '&preview=true&ispre=1"  target="_blank">preview it now</a> (link opens in a new window). It will appear on <strong>' . get_bloginfo() . '</strong> as soon as it has been approved. ';
-
-				// for email
-				$message = 'A media item <strong>"' . $wTitle . '"</strong> shared by <strong>' . $wAuthor . '</strong> has been submitted to ' . get_bloginfo() . '. You can <a href="'. site_url() . '/?p=' . $post_id . 'preview=true' . '">preview it now</a>.<br /><br /> To  publish it, simply <a href="' . admin_url( 'edit.php?post_status=draft&post_type=post') . '">find it in the drafts</a> and change its status from <strong>Draft</strong> to <strong>Publish</strong>';
-
 			} // if $post_status
 
 		} else {
