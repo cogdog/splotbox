@@ -286,9 +286,17 @@ Use the page to find links to the ones you wish to use and add to your site's me
 
 For extra flexibility there is a `[licensed]` shortcode that can be used in a widget or any page to display the same index list in a sidebar. By default, it lists only licenses used (e.g. it skips licenses with zero uses); to show all licenses, use the code `[licensed show="all"]`.
 
+## Optional / Suggested Add-ons
 
+### OpenGraph Tags for Social Media Sharing
 
-## Other Wordpressy Things You Might Want to Do
+If you would like Twitter Cards and Facebook shares to use the main images and provide a more complete display, install, activate, and configure a plugin like [Open Graph and Twitter Card Tags](https://wordpress.org/plugins/wonderm00ns-simple-facebook-open-graph-tags/). This adds the special [open graph tags](https://ogp.me/) to your site's pages to enable better social media share previews.
+
+### Extending the Media Capabilities
+
+With a bit of coding elbow grease, this theme is set up to expand the services you can use in a SPLOTbox via the [SPLOTbox Extender Plugin](https://github.com/cogdog/splotbox-extender).
+
+### Other Wordpressy Things You Might Want to Do
 
 I like shorter links than using a title, so I typically use a Custom Permalink setting (under `Settings -- Permalinks`) of `/%post_id%/'
 
@@ -303,10 +311,6 @@ Get rid of the default widgets on the site; make 'em your own.
 ![Widgets](images/widgets.jpg "suggested widget set up") 
 
 Go build collections of media!
-
-## Extending the Media Capabilities
-
-With a bit of coding elbow grease, this theme is set up to expand the services you can use in a SPLOTbox via the [SPLOTbox Extender Plugin](https://github.com/cogdog/splotbox-extender).
 
 ## Relatively Cool New Features & Updates
 
