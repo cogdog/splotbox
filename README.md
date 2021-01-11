@@ -34,6 +34,7 @@ In addition, special code has been added to support similarly for:
 * Adobe Spark Pages
 * Adobe Spark Videos
 * Internet Archive audio or video
+* Vocaroo audio
 
 And in this new version, we are offering a third, cool option:
 * record audio directly!
@@ -314,6 +315,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+* (3.7) Support added for Vocaroo, easy peasy to do
 * (3.6) Tags suggestion on the sharing form now works
 * (3.5) Customizer options to modify the comment title and add a site specific prompt
 * (3.4) Fields added for alternative text in images plus media descriptions that can link t transcripts for audio/video

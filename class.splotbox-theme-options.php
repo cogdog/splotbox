@@ -353,6 +353,16 @@ class splotbox_Theme_Options {
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
+		$this->settings['m_vocaroo'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Vocaroo Audio http://vocaroo.com' ),
+			'type'    => 'checkbox',
+			'class'	  => 'mtype',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+
 		$this->settings['m_youtube'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),

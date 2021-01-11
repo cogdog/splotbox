@@ -23,6 +23,7 @@ function splotbox_supports() {
 		'm_soundcloud' => 'Soundcloud',
 		'm_speakerdeck' => 'Speaker Deck',
 		'm_ted' => 'TED Talks',
+		'm_vocaroo' => 'Vocaroo',
 		'm_vimeo' => 'Vimeo',
 		'm_youtube' => 'YouTube',
 	);
@@ -117,11 +118,15 @@ function url_is_audio ( $url ) {
 		'm_mixcloud' => 'mixcloud.com',
 		'm_soundcloud' => 'soundcloud.com',
 		'm_audioboom' => 'audioboom.com',
+		'm_vocaroo' => 'vocaroo.com',
 	);
 
 	// pull names of ones activated in theme options
 	foreach ($all_sites as $key => $value ) {
 		if ( splotbox_option( $key ) ) $allowables[] = $value;
+
+		// short url option for vocaroo
+		if  ( $key  == 'm_vocaroo' and splotbox_option( $key ) ) $allowables[] = 'voca.ro';
 	}
 
 	// check for more audio types provided in extender plugin
@@ -351,6 +356,16 @@ function splotbox_get_audioplayer( $url ) {
 			// no ID found, bad mojo
 			return '';
 		}
+
+	} elseif  ( is_in_url( 'voca.ro', $url ) or is_in_url( 'vocaroo.com', $url )) {
+
+		// split url by "/"- id is the 3rd element
+		$url_array = explode('/', $url);
+
+		return '<iframe width="100%" height="60" src="https://vocaroo.com/embed/' . $url_array[3] . '?autoplay=0" frameborder="0" allow="autoplay"></iframe>';
+
+
+
 
 	} elseif ( function_exists('splotboxplus_exists') ) {
 		return splotboxplus_get_mediaplayer( $url );
