@@ -85,6 +85,7 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 * [SPLOTbox](http://splot.ca/box/) - one demo site
 * [SPLOtbox Deluxe](https://lab.cogdogblog.com/splotbox) - anther demo site for the newest features
 * [TARUC @ UC 2019](http://georgehaughie.coventry.domains/TARUC2019/)
+* [Center for Teaching, Learning, and Engagement](https://gccazctle.com/), Glendale Community College, Arizona
 
 [Find more in The Google](https://www.google.ca/search?q="SPLOTbox+theme+is+based+on+Garfunkel"+-site:splot.ca)?
 
@@ -96,13 +97,13 @@ If you have problems, feature suggestions, piles of unmarked bills to send my wa
 
 Using this theme requires a self-hosted--or institutionally hosted (lucky you)-- Wordpress site (the kind that you download from [wordpress.org](http://www.wordpress.org). You cannot use this theme on the free "wordpress.com" site unless you have a business plan. Maybe check out [Reclaim Hosting](https://reclaimhosting.com/) if you choose to set up your own hosting space. 
 
-SPLOTbox is a child theme based on [the free and elegant Garfunkel theme by Anders Noren](https://wordpress.org/themes/garfunkel). Install this theme first from within the Wordpress Dashboard under **Appearance** -- **Themes** searching on `Gardfunkel`.
+SPLOTbox is a child theme based on [the free and elegant Garfunkel theme by Anders Noren](https://wordpress.org/themes/garfunkel). Install this theme first from within the Wordpress Dashboard under **Appearance** -- **Themes** searching on `Garfunkel`.
 
 ### Installing SPLOTbox from Scratch
 
 You can download a ZIP file of this theme via the green **Code*" button above (use the Download Zip option). 
 
-The zip can be uploaded directly to your site via **Themes** in the Wordpress dashboard, then **Add Theme** and finally **Upload Theme**. If you run into size upload limits or just prefer going old school like me, unzip the package and ftp the entire folder into your `wp-content/themes` directory.
+The zip can be uploaded directly to your site via **Themes** in the Wordpress dashboard, then **Add Theme** and finally **Upload Theme**. If you run into size upload limits or just prefer going old school like me, unzip the package and ftp the entire folder into your `wp-content/themes` directory. If installing on a "wordpress.com" site with a business plan, follow the instructions at [https://wordpress.com/support/themes/uploading-setting-up-custom-themes/](https://wordpress.com/support/themes/uploading-setting-up-custom-themes/); the theme will activate instantly.
 
 To get SPLOTbox working all you need to do is activate the "SPLOTbox" theme when it appears in your Wordpress dashboard under **Appearance** --> **Themes**. 
 
@@ -122,7 +123,7 @@ To have your site stay up to date automatically, I recommend trying the [WP Push
 
 To use WP-Pusher you will need to have or create an account on [GitHub](https://github.com/) (free). Log in. 
 
-Next [download WP Pusher plugin](https://wppusher.com/download) as a ZIP file. From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button, select that zip file to upload, and activate the plugin.
+Next [download WP Pusher plugin](https://wppusher.com/download) as a ZIP file. From the plugins area of your Wordpress dashboard, click the **Upload Plugin** button, select that zip file to upload, and activate the plugin. If installing on a "wordpress.com" site with a business plan, follow these instructions: [https://wordpress.com/support/plugins/adding-plugins/#install-plugins-via-a-zip-file](https://wordpress.com/support/plugins/adding-plugins/#install-plugins-via-a-zip-file)
 
 Then click the **WP Pusher** option in your Wordpress Dashboard, and then click the **GitHub** tab. Next click the **Obtain a GitHub Token** button to get an authentication token. Copy the one that is generated, paste into the field for it, and finally, click **Save GitHub** Token.
 
@@ -168,7 +169,7 @@ These instructions are a reference for the settings within the SPLOTbox; if you 
 
 
 ### Theme Options and Settings
-Upon activation the theme will set up a **SPLOTbox Options** link that appears in the black admin bar at the top of your Wordpress Dashboard interface (when logged in), and in the "Appearance" tab on your Wordpress Dashboard. 
+Upon activation the theme will set up a **SPLOTbox Options** link that appears in the black admin bar at the top of your Wordpress Dashboard interface (when logged in), and in the "Appearance" tab on your Wordpress Dashboard. (**SPLOTbox Options** only displays in the "Appearance" tab on the Dashboard of a "wordpress.com" site with business plan.)
 
 
 ## Access and Publishing Controls
@@ -269,9 +270,9 @@ There is a special SPLOTbox pane to open:
 
 ![](images/customizer-section.jpg)
 
-Then from this pane, open "Share Form"
+Then from this pane, open "Share Form Labels & Prompts"
 
-![](images/customizer-share-form.jpg)
+![](images/customizer-share-form.png)
 
 And then you will see a series of fields to edit for all form field elements. For each, you can edit the title/label of the field and the prompt that appears below. As you type in the customizer fields on the left, you will see a live preview on the right:
 
