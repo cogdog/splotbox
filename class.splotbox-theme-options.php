@@ -261,7 +261,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_spark'] = array(
 			'section' => 'general',
 			'title'   => __( 'Media Sources supported...' ),
-			'desc'    => __( 'Adobe Spark Pages/Videos  http://spark.adobe.com' ),
+			'desc'    => __( 'Adobe Spark Pages/Videos  https://spark.adobe.com' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -270,7 +270,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_audioboom'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Audioboom http://audioboom.com' ),
+			'desc'    => __( 'Audioboom https://audioboom.com' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -279,7 +279,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_flickr'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Flickr photos http://flickr.com' ),
+			'desc'    => __( 'Flickr photos https://flickr.com' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -287,7 +287,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_giphy'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Giphy gifs http://giphy.com' ),
+			'desc'    => __( 'Giphy gifs https://giphy.com' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -295,11 +295,22 @@ class splotbox_Theme_Options {
 		$this->settings['m_archive'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Internet Archive Audio and Video http://archive.org' ),
+			'desc'    => __( 'Internet Archive Audio and Video https://archive.org' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
+
+		$this->settings['m_loom'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Loom Screencasts https://loom.com/' ),
+			'type'    => 'checkbox',
+			'class'	  => 'mtype',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+
+
 		$this->settings['m_mixcloud'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),

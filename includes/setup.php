@@ -111,7 +111,6 @@ function splotbox_change_post_object() {
     $labels->name_admin_bar =  $thing_name;
 }
 
-add_filter('comment_form_defaults', 'splotbox_comment_mod');
 
 # -----------------------------------------------------------------
 # login fancy
@@ -163,6 +162,9 @@ function splot_login_logo_url_title() {
 # -----------------------------------------------------------------
 # Comments
 # -----------------------------------------------------------------
+
+
+add_filter('comment_form_defaults', 'splotbox_comment_mod');
 
 function splotbox_comment_mod( $defaults ) {
 	$defaults['title_reply'] = get_splotbox_comment_title();

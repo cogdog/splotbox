@@ -4,6 +4,7 @@
 # Audio and Video management
 # -----------------------------------------------------------------
 
+
 function splotbox_supports() {
 	/* return a comma separated text list of all support media sites that are
 	   supported by URL entry, either built in WordPress embeds our others
@@ -17,6 +18,7 @@ function splotbox_supports() {
 		'm_flickr' => 'Flickr',
 		'm_giphy' => 'Giphy',
 		'm_archive' => 'Internet Archive',
+		'm_loom' => 'Loom',
 		'm_mixcloud' => 'Mixcloud',
 		'm_audioboom' => 'Audioboom',
 		'm_slideshare' => 'Slideshare',
@@ -157,6 +159,7 @@ function url_is_video ( $url ) {
 		'm_spark' => 'spark.adobe.com/page',
 		'm_giphy' => 'giphy.com',
 		'm_archive' => 'archive.org',
+		'm_loom' => 'loom.com',
 		'm_slideshare' => 'slideshare.net',
 		'm_speakerdeck' => 'speakerdeck.com',
 		'm_ted' => 'ted.com/talk',
@@ -254,6 +257,7 @@ function url_is_video_link ( $url ) {
 
 function is_url_embeddable( $url ) {
 // test if URL matches the ones that Wordpress can do oembed on
+//  or if oembed can be added
 // test by by string matching
 
 
@@ -439,6 +443,17 @@ function splotbox_get_videoplayer( $url ) {
 
 		// spark page embed code
 		$videoplayer = '<script id="asp-embed-script" data-zindex="1000000" type="text/javascript" charset="utf-8" src="https://spark.adobe.com/page-embed.js"></script><a class="asp-embed-link" href="https://spark.adobe.com/page/' . $spark_id . '/" target="_blank"><img src="https://spark.adobe.com/page/' . $spark_id . '/embed.jpg" alt="" style="width:100%" border="0" /></a>';
+
+	} elseif  ( is_in_url( 'loom.com/share/', $url ) ) {
+
+		// Loom.com screencast
+
+		// use a substitution to turn the public link to it's embed one
+		$loom_url = str_replace ( 'share' , 'embed' , $url );
+
+
+		$videoplayer = '<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="' . $loom_url . '" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>';
+
 
 	} elseif ( function_exists('splotboxplus_exists') ) {
 
