@@ -10,7 +10,11 @@
 			<?php if ( have_posts() ) : while( have_posts() ) : the_post();
 
 				$format = get_post_format();
-				$wAuthor =  get_post_meta( $post->ID, 'shared_by', 1 );
+
+				// get author name, for sites that create nomral posts, we can use WP author link
+				// Here ya go GCC CTLE
+				$wAuthor =  ( get_post_meta( $post->ID, 'shared_by', 1 ) ) ?  get_post_meta( $post->ID, 'shared_by', 1 ) : get_the_author_posts_link();
+
 				$wCredit = get_post_meta( $post->ID, 'credit', 1 );
 				$wLicense = get_post_meta( $post->ID, 'license', 1 );
 				$media_url = get_post_meta($post->ID, 'media_url', 1);
