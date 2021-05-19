@@ -317,6 +317,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+* (3.82) Small bug cleared to allow Customizer access to form if access code in play
 * (3.81) Special feature for [GCC CTLE](https://gccazctle.com/) If using normal posts in a SPLOTbox, the display of a single item will swap in name of WordPress author and link to archive
 * (3.8) Support added for Loom, even more easy peasy to do
 * (3.7) Support added for Vocaroo, easy peasy to do

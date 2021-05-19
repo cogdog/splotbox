@@ -4,7 +4,7 @@ Template Name: Sharing Page
 */
 
 // set blanks
-$wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = $ia_media_type = $wAlt = $wAlt_by_link = '';
+$wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = $ia_media_type = $wAlt = $wAlt_by_link = $wAccess = '';
 $wAccessCodeOk = $is_published = false;
 $audio_file_size = 0;
 $errors = array();
@@ -14,12 +14,13 @@ $all_licenses = splotbox_get_licences(); // licenses
 $splotbox_supports = splotbox_supports(); // sites supported by external URL
 
 // see if we have an incoming clear the code form variable only on sharing form
-// ignored if options are not to use it
+// ignored if options are not to use it or we are in the customizer
 
-$wAccessCodeOk = isset( $_POST['wAccessCodeOk'] ) ? true : false;
+$wAccessCodeOk = isset( $_POST['wAccessCodeOk'] ) ? true : (is_customize_preview()) ? true : false;
+
 
 // check that an access code is in play and it's not been yet passed
-if ( !empty( splotbox_option('accesscode') ) AND !$wAccessCodeOk ) {
+if ( !empty( splotbox_option('accesscode') ) AND !$wAccessCodeOk  ) {
 
 	// now see if we are to check the access code
 	if ( isset( $_POST['splotbox_form_access_submitted'] )
@@ -31,13 +32,13 @@ if ( !empty( splotbox_option('accesscode') ) AND !$wAccessCodeOk ) {
 		// Validation of the code
 		if ( $wAccess != splotbox_option('accesscode') ) {
 			$box_style = '<div class="notify notify-red"><span class="symbol icon-error"></span> ';
-			$feedback_msg = '<p><strong>Incorrect Access Code</strong> - try again? Hint: ' . splotbox_option('accesshint') . '</p>';
+			$feedback_msg = '<strong>Incorrect Access Code</strong> - try again? Hint: ' . splotbox_option('accesshint');
 		} else {
 			$wAccessCodeOk = true;
 		}
 	} else {
 		$box_style = '<div class="notify"><span class="symbol icon-info"></span> ';
-		$feedback_msg = '<p>An access code is required to use the writing form on ' . get_bloginfo('name') . '</p>';
+		$feedback_msg = 'An access code is required to use the sharing form on "' . get_bloginfo('name') . '".';
 	} // form check access code
 } else {
 	// set flag true just to clear all the other gates
