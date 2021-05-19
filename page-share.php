@@ -469,7 +469,7 @@ get_header();
 								if ($wUploadMediaID) {
 									$defthumb = wp_get_attachment_image( $wUploadMediaID, 'thumbnail', true, array( "id" => "mediathumb" ) );
 								} else {
-									$defthumb = '<img src="https://placehold.it/150x150?text=Media+holder" alt="" width="150" height="150" id="mediathumb">';
+									$defthumb = '<img src="https://place-hold.it/150x150?text=Upload+Image" alt="" width="150" height="150" id="mediathumb">';
 
 								}
 
