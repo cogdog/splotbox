@@ -85,6 +85,7 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 * [Quarantine Library](http://electrolibrary.org/quarantine/) 
 * [SPLOTbox](http://splot.ca/box/) - one demo site
 * [SPLOtbox Deluxe](https://lab.cogdogblog.com/splotbox) - anther demo site for the newest features
+* [Starscapes](https://starscapes.openlcc.net/) Lansing Community College's collection of student presentations showcasing their creativity
 * [TARUC @ UC 2019](http://georgehaughie.coventry.domains/TARUC2019/)
 * [Center for Teaching, Learning, and Engagement](https://gccazctle.com/), Glendale Community College, Arizona
 
