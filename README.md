@@ -73,6 +73,10 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 ### See It In Action
 
 * [Amazing/True Stories of Openness](http://stories.cogdogblog.com) converted to SPLOTbox from another theme, amazing, eh?
+* [AutoCAD for Interior Design](https://wordpress.kpu.ca/cadforid/) Kwantlen Polytechnic University
+* [Ascent Success Plans](https://ascent.plymouthcreate.net/) Plymouth State University
+* [Becoming a Learner](https://uwb.ds.lib.uw.edu/becomingalearner/) BCUSP 100: General Learning Strategies, UW Bothell
+* [Belt and Road Observatory](http://baro.coventry.domains/) Coventry University
 * [Coventry University DMLL Video Archive](https://videos.dmll.org.uk/)
 * [COVDID19 and LCC: Our Stories in Voice, Sound, and Motion](https://livetogether.openlcc.net/covid19voices/) Lansing Community College
 * [Elkhart Responds](https://heal.elkhart.k12.in.us/) Elkhart Community Schools
