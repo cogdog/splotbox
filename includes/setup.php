@@ -126,12 +126,13 @@ function splot_login_logo() { ?>
             background-image: url(<?php echo get_stylesheet_directory_uri(); ?>/images/site-login-logo.png);
             height:90px;
 			width:320px;
+			background-size: 320px 90px;
 			background-repeat: no-repeat;
 			padding-bottom: 0px;
         }
     </style>
-<?php }
-
+<?php
+}
 
 // Make logo link points to blog, not Wordpress.org Change Dat
 // -- h/t http://www.sitepoint.com/design-a-stylized-custom-wordpress-login-screen/

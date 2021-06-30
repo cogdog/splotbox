@@ -29,7 +29,7 @@ The options can allow you to offer a field for add the media by URL from the fol
 * Vimeo video 
 * YouTube video
 
-In addition, special code has been added to support similarly for:
+In addition, special code has been added to support:
 
 * Adobe Spark Pages
 * Adobe Spark Videos
@@ -37,22 +37,28 @@ In addition, special code has been added to support similarly for:
 * Loom screencasts
 * Vocaroo audio
 
-And in this new version, we are offering a third, cool option:
-* record audio directly!
+And another exciting option:
+
+* record audio directly! (still does not work on iOS devices, blame Apple)
 
 Media can also be added by any direct URL to audio in mp3, ogg, or m4a formats or  jpg, png, or gif images. Site owners can also enable an upload button for image and sound files in mp3, ogg, or m4a (audi0) or jpg, png, gif (image) as well as a using a built in audio recorder.
 
 ![](images/media-method.gif)
+
+Other features that can be activated in SPLOTbox are to provide entry fields for (and require or not), descriptions, a credit source name and a selection of reuse licenses.
+
+SPLOTbox is a huge improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder). For blogged history, see  [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
+
+
+
+
+### About Audio recording
 
 Because of the underlying device recording code (using WebRTC) a user must grant access to the site to use the microphone; **this in turn can only be done on a site running under SSL**. This requires activating / setting up an SSL certificate with your web host and activating a plugin such as [Really Simple SSL](https://en-ca.wordpress.org/plugins/really-simple-ssl/) to redirect requests from `http` to `https`.
 
 ![](images/splot-recorder.gif)
 
 After clicking the microphone icon, if you do not see a dialog box asking to grant access to the microphone or do not see the recording controls, verify that the address of the web page for the form starts with `https`. 
-
-Other features that can be activated in SPLOTbox are to provide entry fields for (and require or not), descriptions, a credit source name and a selection of reuse licenses.
-
-SPLOTbox is a huge improvement and enhancement of the first generation [TRU Sounder SPLOT](https://github.com/cogdog/splot-sounder). For blogged history, see  [CogDogBlog for posts about SPLOTbox](https://cogdogblog.com/tag/splotbox/).
 
 ## How to SPLOTbox in 60 Seconds
 
@@ -296,13 +302,36 @@ For extra flexibility there is a `[licensed]` shortcode that can be used in a wi
 
 ## Optional / Suggested Add-ons
 
+### Extending the Media Capabilities
+
+With a bit of coding elbow grease, this theme is set up to expand the services you can use in a SPLOTbox via the [SPLOTbox Extender Plugin](https://github.com/cogdog/splotbox-extender).
+
+This includes:
+
+* Add support for [others that WordPress supports ](https://wordpress.org/support/article/embeds/#okay-so-what-sites-can-i-embed-from) that are not made available in the theme.
+*. Create custom code to add support for additional sites. This is a case where the URL for a media item can be parsed to identify the source, e.g. for Internet Archive built into the theme and also to construct the iframe embed code
+*. For services that offer oEmbed URLs, you can add code that adds these sites as additional providers (e.k. [Kaltura media servers](https://www.kaltura.org))
+
+
 ### OpenGraph Tags for Social Media Sharing
 
 If you would like Twitter Cards and Facebook shares to use the main images and provide a more complete display, install, activate, and configure a plugin like [Open Graph and Twitter Card Tags](https://wordpress.org/plugins/wonderm00ns-simple-facebook-open-graph-tags/). This adds the special [open graph tags](https://ogp.me/) to your site's pages to enable better social media share previews.
 
-### Extending the Media Capabilities
+### Widget For Media Types List
 
-With a bit of coding elbow grease, this theme is set up to expand the services you can use in a SPLOTbox via the [SPLOTbox Extender Plugin](https://github.com/cogdog/splotbox-extender).
+Media in a SPLOTbox is identified as audio, video, or image by using WordPress Post Formats. As these are technically a terms on a WordPress taxonomy, the [List Custom Taxonomy Widget plugin](https://wordpress.org/plugins/list-custom-taxonomy-widget/) can be used to add a widget that can produce something like:
+
+![Media Type Widget](images/media-type-widget.jpg "media type widget") 
+
+In the widget, for the choices of Taxonomy, use `post_format`.
+
+These provide links that can be used elsewhere (e.g. menus?) for media type archives, e.g. from the demo site
+
+* https://splot.ca/box/type/audio/
+* https://splot.ca/box/type/image/
+* https://splot.ca/box/type/video/
+
+The main theme includes CSS to match the format of other widgets in the parent Garfunkel theme.
 
 ### Other Wordpressy Things You Might Want to Do
 
@@ -322,6 +351,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+* (3.9) Tested for support of Kaltura video via SPLOTbox Extender plugin, archive for media types identified via post formats, css for taxonomy widget to display them.
 * (3.82) Small bug cleared to allow Customizer access to form if access code in play
 * (3.81) Special feature for [GCC CTLE](https://gccazctle.com/) If using normal posts in a SPLOTbox, the display of a single item will swap in name of WordPress author and link to archive
 * (3.8) Support added for Loom, even more easy peasy to do

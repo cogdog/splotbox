@@ -69,6 +69,18 @@
 				}
 				?>
 
+			<?php elseif ( is_tax( 'post_format' ) ) : ?>
+				<h5><?php printf(
+						_n(
+							'%s Item of Media Type',
+							'%s Items of Media Type',
+							$wp_query->found_posts,
+							'garfunkel'
+						),
+						number_format_i18n( $wp_query->found_posts )
+					);?> "<?php echo single_cat_title( '', false ); ?>"</h5>
+
+
 			<?php elseif ( is_author() ) :
 				$curauth = ( isset( $_GET['author_name'] ) ) ? get_user_by( 'slug', $author_name) : get_userdata( intval( $author ) ); ?>
 				<h5><?php printf(

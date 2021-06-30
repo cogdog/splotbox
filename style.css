@@ -2,7 +2,7 @@
 Theme Name: 	Splotbox
 Theme URI: 		http://github.com/cogdog/splotbox
 Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		3.83
+Version: 		3.9
 Template:   garfunkel
 Author: 		CogDog
 Author URI: 	https://cog.dog/
@@ -133,6 +133,7 @@ a.download-link:hover {
     padding: 1em;
     margin: 1em 0;
     box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+    clear: both;
 }
 
 .sb_meta textarea {
@@ -455,4 +456,23 @@ img#mediathumb {
 
 .ac_over { cursor: pointer; }
 .ac_match { text-decoration: underline; }
+
+/* -------------------- icon for the taxonomy list widget -------------------------------*/
+
+.widget_lc_taxonomy li:before {
+    font: 16px/1 'Genericons';
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    vertical-align: middle;
+    color: #999;
+    margin-right: 8px;
+    position: relative;
+    top: -1px;
+    content: '\f104';
+}
+
+.widget_lc_taxonomy ul {
+    margin-left: 0;
+}
 

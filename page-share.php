@@ -433,7 +433,7 @@ get_header();
 					<div id="media_by_url" <?php if ( $wMediaMethod != "by_url" OR  splotbox_option('use_url_entry') == 0 )  echo ' style="display:none;"'?>>
 
 						<label for="wMediaURL"><?php _e('Enter Media URL', 'garfunkel' ) ?> <span class="required">*</span></label><br />
-						<p>Embed a media player for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The web address entered is one that displays the content from the service. <?php echo splotbox_supports_by_link();?></p>
+						<p>Embed a media player for audio, video, or image content<?php if ( !empty($splotbox_supports)) echo ' that is published on sites including <span class="supports">' . $splotbox_supports . '</span>'?>.  The web address entered is one that displays the content from a source. <?php echo splotbox_supports_by_link();?></p>
 
 						<p>Enter a full web address for the item (including http:// or https://)</p>
 						<input type="text" name="wMediaURL" id="wMediaURL" class="required pstate" value="<?php echo $wMediaURL; ?>"/>

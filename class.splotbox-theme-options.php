@@ -225,8 +225,8 @@ class splotbox_Theme_Options {
 
 		// ------- media options
 
-
-		$extender_support =   ( function_exists('splotboxplus_exists') ) ? 'In addition, via the SplotBox Extender plugin, this site also supports <strong>' .  implode( ', ', splotboxplus_supports()) . '</strong>.' : '';
+		// str_replace('^', '',  $splotbox_supports)
+		$extender_support =   ( function_exists('splotboxplus_exists') ) ? 'In addition, via the SplotBox Extender plugin, this site also supports <strong>' .  str_replace('^', '', implode( ', ', splotboxplus_supports()))  . '</strong>.' : '';
 
 		$this->settings['media_heading'] = array(
 			'section' => 'general',

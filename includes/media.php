@@ -8,7 +8,8 @@
 function splotbox_supports() {
 	/* return a comma separated text list of all support media sites that are
 	   supported by URL entry, either built in WordPress embeds our others
-	   added to this theme */
+	   added to this theme
+	*/
 
 	$supported_sites = array();
 
@@ -257,7 +258,7 @@ function url_is_video_link ( $url ) {
 
 function is_url_embeddable( $url ) {
 // test if URL matches the ones that Wordpress can do oembed on
-//  or if oembed can be added
+//     or if embed can be added by custom code included
 // test by by string matching
 
 

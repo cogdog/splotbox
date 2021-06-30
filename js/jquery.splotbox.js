@@ -161,7 +161,7 @@ jQuery(document).ready(function() {
 
     // disable preview button if anything changes, forces a re-check
     jQuery("input" ).change(function() {
-    	jQuery("#wPreview").addClass('disabled');
+    jQuery("#wPreview").addClass('disabled');
 	});
 
 	// toggle upload modes
