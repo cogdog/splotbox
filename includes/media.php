@@ -367,10 +367,7 @@ function splotbox_get_audioplayer( $url ) {
 		// split url by "/"- id is the 3rd element
 		$url_array = explode('/', $url);
 
-		return '<iframe width="100%" height="60" src="https://vocaroo.com/embed/' . $url_array[3] . '?autoplay=0" frameborder="0" allow="autoplay"></iframe>';
-
-
-
+		return '<iframe width="100%" height="60" src="https://vocaroo.com/embed/' . $url_array[3] . '" autoplay="0" frameborder="0" allow="autoplay"></iframe>';
 
 	} elseif ( function_exists('splotboxplus_exists') ) {
 		return splotboxplus_get_mediaplayer( $url );
