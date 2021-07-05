@@ -80,7 +80,7 @@ License URI: http://www.gnu.org/licenses/gpl-2.0.html http://www.apache.org/lice
 
 /* full player */
 .audio-player {
-    width: 100%;
+  width: 100%;
 	background-color: #282828;
 }
 
@@ -88,6 +88,10 @@ iframe.ia-audio {
 	padding: 5px 0;
     background: #000;
 }
+
+.featured-media audio {
+  width: 100%;
+ }
 
 /* captures embeds with stuff after iframe, e.g. slideshare */
 

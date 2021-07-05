@@ -22,6 +22,7 @@ var options = {
 			debug: true,
 			audioEngine: 'lamejs',
 			audioWorkerURL: recorderObject.stylesheetUrl + '/includes/lib/lamejs/worker-example/worker-realtime.js',
+			audioRecorderType: 'WebAssemblyRecorder',
 			audioSampleRate: 44100,
 			audioBitRate: 128
 		}
