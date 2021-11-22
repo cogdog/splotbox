@@ -571,7 +571,7 @@ get_header();
 					<?php endif // user_caption?>
 					</fieldset>
 
-					<?php if (splotbox_option('show_cats') ):?>
+					<?php if ( splotbox_option('show_cats') == '1' ):?>
 						<fieldset id="theCats">
 							<label for="wCats"><?php splotbox_form_item_categories() ?></label>
 							<p><?php splotbox_form_item_categories_prompt() ?></p>
@@ -595,7 +595,7 @@ get_header();
 						</fieldset>
 					<?php endif // show_cats?>
 
-					<?php if (splotbox_option('show_tags') ):?>
+					<?php if (splotbox_option('show_tags') == '1' ):?>
 						<fieldset id="wCats">
 							<label for="wTags"><?php  splotbox_form_item_tags() ?></label>
 							<p><?php  splotbox_form_item_tags_prompt() ?></p>

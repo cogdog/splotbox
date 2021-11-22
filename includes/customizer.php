@@ -20,10 +20,104 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 
 	// Add section for the general stuff
 	$wp_customize->add_section( 'box_stuff' , array(
-		'title'    => __('Box Dressing','garfunkel'),
+		'title'    => __('Single Item Display','garfunkel'),
 		'panel'    => 'customize_splotbox',
 		'priority' => 10
 	) );
+
+	// Add setting for shared by label on single item dispay
+	$wp_customize->add_setting( 'media_description_label_display', array(
+		 'default'  => __( 'Media Description', 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
+
+
+	// Control  label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'media_description_label_display',
+		    array(
+		        'label'    => __( 'Label for Media Description', 'garfunkel'),
+		        'priority' => 11,
+		        'description' => '',
+		        'section'  => 'box_stuff',
+		        'settings' => 'media_description_label_display',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
+	// Add setting for attribution label on single item dispay
+	$wp_customize->add_setting( 'credit_label_display', array(
+		 'default'  => __( 'Shared by', 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
+
+
+
+	// Control  label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'credit_label_display',
+		    array(
+		        'label'    => __( 'Label for Credit Display', 'garfunkel'),
+		        'priority' => 15,
+		        'description' => __( 'Typically used for the name to credit who filled the form, but can be used for purposes' ),
+		        'section'  => 'box_stuff',
+		        'settings' => 'credit_label_display',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
+	// Add setting for attribution label on single item dispay
+	$wp_customize->add_setting( 'attribution_label_display', array(
+		 'default'  => __( 'Item Credit', 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
+
+	// Control  label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'attribution_label_display',
+		    array(
+		        'label'    => __( 'Label for Attribution display', 'garfunkel'),
+		        'priority' => 16,
+		        'description' => __( 'Typically used for the item attribution, but can be used for other purposes' ),
+		        'section'  => 'box_stuff',
+		        'settings' => 'attribution_label_display',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
+	// Add setting for license label on single item dispay
+	$wp_customize->add_setting( 'license_label_display', array(
+		 'default'  => __( 'Reuse License', 'garfunkel'),
+		 'type' => 'theme_mod',
+		 'sanitize_callback' => 'sanitize_text'
+	) );
+
+	// Control  label
+	$wp_customize->add_control( new WP_Customize_Control(
+	    $wp_customize,
+		'license_label_display',
+		    array(
+		        'label'    => __( 'Label for License display', 'garfunkel'),
+		        'priority' => 18,
+		        'description' => '',
+		        'section'  => 'box_stuff',
+		        'settings' => 'license_label_display',
+		        'type'     => 'text'
+		    )
+	    )
+	);
+
+
+
 
 
 	// Add setting for comment titles
@@ -80,17 +174,6 @@ function splotbox_register_theme_customizer( $wp_customize ) {
 		'panel'    => 'customize_splotbox',
 		'priority' => 20
 	) );
-
-
-
-
-
-
-
-
-
-
-
 
 	// Add setting for default prompt
 	$wp_customize->add_setting( 'default_prompt', array(
@@ -608,6 +691,38 @@ function get_splotbox_comment_extra_intro() {
 	 }
 }
 
+function get_media_description_label() {
+	 if ( get_theme_mod( 'media_description_label_display') != "" ) {
+	 	return ( get_theme_mod( 'media_description_label_display'));
+	 }	else {
+	 	return  ('Media Description');
+	 }
+}
+
+function get_credit_label() {
+	 if ( get_theme_mod( 'credit_label_display') != "" ) {
+	 	return ( get_theme_mod( 'credit_label_display'));
+	 }	else {
+	 	return  ('Shared by');
+	 }
+}
+
+function get_attribution_label() {
+	 if ( get_theme_mod( 'attribution_label_display') != "" ) {
+	 	return ( get_theme_mod( 'attribution_label_display'));
+	 }	else {
+	 	return  ('Item Credit');
+	 }
+}
+
+function get_license_label() {
+	 if ( get_theme_mod( 'license_label_display') != "" ) {
+	 	return ( get_theme_mod( 'license_label_display'));
+	 }	else {
+	 	return  ('Reuse License');
+	 }
+}
+
 
 function splotbox_form_default_prompt() {
 	 if ( get_theme_mod( 'default_prompt') != "" ) {
@@ -673,12 +788,17 @@ function splotbox_form_item_author_prompt() {
 	 }
 }
 
-function splotbox_form_item_description() {
-	 if ( get_theme_mod( 'item_description') != "" ) {
-	 	echo get_theme_mod( 'item_description');
+
+
+function splotbox_form_item_description($mode = 'echo') {
+	$output = ( get_theme_mod( 'item_description') != "" ) ? get_theme_mod( 'item_description') : 'Media Decscription';
+
+	 if ( $mode == 'get') {
+	 	return $output;
 	 }	else {
-	 	echo 'Decscription';
+	 	echo $output;
 	 }
+
 }
 
 function splotbox_form_item_description_prompt() {
@@ -688,7 +808,6 @@ function splotbox_form_item_description_prompt() {
 	 	echo 'Enter a description to include with the item.';
 	 }
 }
-
 
 function splotbox_form_item_attrbution_section() {
 	 if ( get_theme_mod( 'item_attrbution_section') != "" ) {
@@ -729,9 +848,10 @@ function splotbox_form_item_license() {
 	 if ( get_theme_mod( 'item_license') != "" ) {
 	 	echo get_theme_mod( 'item_license');
 	 }	else {
-	 	echo 'Reuse License';
+	 	echo 'Choose a License';
 	 }
 }
+
 
 function splotbox_form_item_license_prompt() {
 	 if ( get_theme_mod( 'item_license_prompt') != "" ) {

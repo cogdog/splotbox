@@ -227,42 +227,42 @@ This is a preview of your entry that shows how it will look when published. <a h
 
 							?>
 
+
 						<div class="sb_meta">
 
-						<?php
-						// alt descriptions y'all should be doing
-						if ($wAlt) {
-							echo '<p><strong>Media Description:</strong> ' .  make_links_clickable($wAlt) . '</p>';
-						}
-
-
-			    		// Sharer
-			    		echo '<p><strong>Shared by:</strong> ' . $wAuthor . '</p>';
-
-			    		if ( ( splotbox_option('use_source') > 0 )  AND $wCredit ) echo '<p><strong>Item Credit:</strong> ' .  make_links_clickable($wCredit)  . '</p>';
-
-
-			    		if  ( splotbox_option('use_license') > 0  AND $wLicense) {
-			    			echo '<p><strong>Reuse License:</strong> ';
-			    			splotbox_the_license( $wLicense );
-			    			echo '</p>';
-
-			    			// display attribution?
-			    			if  ( splotbox_option( 'show_attribution' ) == 1 ) {
-			    				$attributions = splotbox_attributor( $wLicense, get_the_title(), get_permalink(), $wCredit);?>
-
-								<h4>Copy/Paste Text Attribution</h4>
-								<textarea rows="2" onClick="this.select()" style="height:60px;"><?php echo $attributions[0]?></textarea>
-
-								<h4>Copy/Paste HTML Attribution</h4>
-								<textarea rows="3" onClick="this.select()" style="height:80px;"><?php echo $attributions[1]?></textarea>
 							<?php
-			    			}
-			    		}
+							// alt descriptions y'all should be doing
+							if ($wAlt) {
+								echo '<p><strong>' . get_media_description_label() . ':</strong> ' .  make_links_clickable($wAlt) . '</p>';
+							}
 
 
-			    	?>
-					</div>
+							// Sharer
+							echo '<p><strong>' . get_credit_label() . ':</strong> ' . $wAuthor . '</p>';
+
+							if ( ( splotbox_option('use_source') > 0 )  AND $wCredit ) echo '<p><strong>' . get_attribution_label() . ':</strong> ' .  make_links_clickable($wCredit)  . '</p>';
+
+
+							if  ( splotbox_option('use_license') > 0  AND $wLicense) {
+								echo '<p><strong>' . get_license_label() . ':</strong>  ';
+								splotbox_the_license( $wLicense );
+								echo '</p>';
+
+								// display attribution?
+								if  ( splotbox_option( 'show_attribution' ) == 1 ) {
+									$attributions = splotbox_attributor( $wLicense, get_the_title(), get_permalink(), $wCredit);?>
+
+									<h4>Copy/Paste Text Attribution</h4>
+									<textarea rows="2" onClick="this.select()" style="height:60px;"><?php echo $attributions[0]?></textarea>
+
+									<h4>Copy/Paste HTML Attribution</h4>
+									<textarea rows="3" onClick="this.select()" style="height:80px;"><?php echo $attributions[1]?></textarea>
+								<?php
+								}
+							}
+							?>
+						</div>
+
 
 							<?php  if ( is_preview() ):?>
 								<div class="notify"><span class="symbol icon-info"></span> Once done reviewing your entry, <a href="#" onclick="self.close();return false;">Close this window/tab</a> to return to the editing form.

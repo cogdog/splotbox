@@ -246,15 +246,19 @@ Change the sort otder to **Title** to... yes... sort items alphabetically by eac
 
 ## Single Item Display
 
-You can control many of the other options to make your upload form simpler.,
+You can control many of the other options to set how the display of single items appears
 
 ![](images/single-items.jpg)
 
-You can choose to not ask visitors to set a category for their items and thus not have categories displayed on views. If you do use categories.. create them first! You can then select the default category that should be used for new items.
+You can choose to not ask visitors to set a category for their items and thus not have categories displayed on views. Another option allows you to not have visitors choose categories, but instead, use them as an admin to organze content.
 
-Like categories, you can choose to offer or hide a form field for entering tags.
+  If you do use categories, create them first! You can then select the default category that should be used for new items.
 
-You can choose to suppress the description field (if you want media shared only), or if making the description field available, you can require that it has something written in it.  The editor can either be simple text (no formatting) or the full visual editor, which also allows uploads of images to be used in the body text. Use the rich text editor when asking for longer amounts of description.
+Like categories, you can choose to offer or hide a form field for entering tags, or make them an admin setting only.
+
+You can choose to suppress the description field (if you want media shared only), or if making the description field available, you can require that it has something written in it.  
+
+The editor can either be simple text (no formatting) or the full visual editor, which also allows uploads of images to be used in the body text. Use the rich text editor when asking for longer amounts of writing added to an item.
 
 You can also choose to use a field if you want contributors to provide a source to credit for the media item.
 
@@ -289,6 +293,13 @@ Then from this pane, open "Share Form Labels & Prompts"
 And then you will see a series of fields to edit for all form field elements. For each, you can edit the title/label of the field and the prompt that appears below. As you type in the customizer fields on the left, you will see a live preview on the right:
 
 ![](images/customizer-edit.jpg)
+
+## Customize the Single Item display
+
+The customizer also allows you to create custom labels for meta data that appears on a single item. In the Customizer, under **Splotbox** select **Single Item Display**. Navigate via the right hand view to a single item. Any four of the labels in metadata box that appears below an item's description can have a label with text edited in the customizer.
+
+![](images/single-item-customizer.jpg)
+
 
 ## View By License Page
 
@@ -351,6 +362,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+* (3.92) Customizer options created for all metadata fields in a single item view. Also, new theme options added to enable use of categories or tags by admin editing only (they are not options on the share form, but can be edited in the Dashboard).
 * (3.9) Tested for support of Kaltura video via SPLOTbox Extender plugin, archive for media types identified via post formats, css for taxonomy widget to display them.
 * (3.82) Small bug cleared to allow Customizer access to form if access code in play
 * (3.81) Special feature for [GCC CTLE](https://gccazctle.com/) If using normal posts in a SPLOTbox, the display of a single item will swap in name of WordPress author and link to archive
