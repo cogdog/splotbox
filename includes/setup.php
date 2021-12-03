@@ -181,46 +181,54 @@ add_action( 'pre_get_posts', 'splotbox_order_items' );
 
 function splotbox_order_items( $query ) {
 
+	// check for not being an admin screem and a main query
 	if ( !is_admin() && $query->is_main_query()  ) {
 
-
+		// test on the settings
 		switch (splotbox_option('sort_applies')) {
 
 			case 'all':
+				// use sorting on home, all archives, and search results
 				if (  $query->is_home() OR $query->is_archive() OR $query->is_search() ) {
-					$query->set( 'orderby', splotbox_option('sort_by')  );
-					$query->set( 'order', splotbox_option('sort_direction') );
+					splotbox_query_set($query);
 				}
 				break;
 
 			case 'front':
 				if (  $query->is_home() ) {
-					$query->set( 'orderby', splotbox_option('sort_by')  );
-					$query->set( 'order', splotbox_option('sort_direction') );
+					// use sorting on home only
+					splotbox_query_set($query);
 				}
 				break;
 			case 'tag':
 				if (  $query->is_tag() ) {
-					$query->set( 'orderby', splotbox_option('sort_by')  );
-					$query->set( 'order', splotbox_option('sort_direction') );
+					// tag archive
+					splotbox_query_set($query);
 				}
 				break;
 			case 'cat':
 				if (  $query->is_category() ) {
-					$query->set( 'orderby', splotbox_option('sort_by')  );
-					$query->set( 'order', splotbox_option('sort_direction') );
+					// category archive
+					splotbox_query_set($query);
 				}
 				break;
 			case 'tagcat':
-				if (  $query->is_archive() ) {
-					$query->set( 'orderby', splotbox_option('sort_by')  );
-					$query->set( 'order', splotbox_option('sort_direction') );
+				if (  $query->is_tag() OR $query->is_category() ) {
+					// any archive that made it this far
+					splotbox_query_set($query);
 				}
 				break;
 
 		} // switch
 
 	} // if  main query
+
+}
+
+function splotbox_query_set ($the_query) {
+	//utility to set the query as per the theme settings
+	$the_query->set( 'orderby', splotbox_option('sort_by')  );
+	$the_query->set( 'order', splotbox_option('sort_direction') );
 
 }
 
