@@ -243,6 +243,7 @@ The default settings for the display of itms are for typical blogs where newest 
 
 Change the sort otder to **Title** to... yes... sort items alphabetically by each item's title.  Use **Ascending** for alphabetical order (A-Z) or **Descending** to reverse (Z-A).
 
+Use the **Sort Applies To** option to specify where the alternative sorting is applied (for example, just on tags archive, or just the home page).
 
 ## Single Item Display
 
@@ -309,7 +310,40 @@ SPLOTbox provides links that display archives of content that have the same reus
 
 Use the page to find links to the ones you wish to use and add to your site's menus or widgets. If the links do not work, you may have to go to **Settings** -- **Permalinks** and just click save to regenerate the settings.
 
-For extra flexibility there is a `[licensed]` shortcode that can be used in a widget or any page to display the same index list in a sidebar. By default, it lists only licenses used (e.g. it skips licenses with zero uses); to show all licenses, use the code `[licensed show="all"]`.
+## Shortcodes
+
+### Licenses Used
+
+Use the `[licensed]` shortcode that can be used in a widget or any page to display a list of all licenses in a page or sidebar. By default, it lists only licenses used (e.g. it skips licenses with zero uses); to show all licenses, use the code `[licensed show="all"]`.
+
+### Display All Tags
+
+By request for a site that had more than 45 tags (that is the maximum that can be displayed in the Tag Cloud widget.
+
+The basic use is just
+
+`[taglist]`
+
+which displays all tags used in alphabetical order, each linked to an archive, and the number of times used listed.
+
+Optional parameters include:
+
+* `number=10` limit to ten tags (default=0 or all tags)
+* `show_count=false` hides the display of the number of times tag used (default=true)
+* `mincount=2` will only show tags used 2 or more times (default=1)
+* `orderby="count"` to order results by the number of times tag used (default="name")
+* `order="DESC"` to list in descending order (default="ASC")
+* `hide_empty=0` to list tags not used (default=1)
+
+In use, this will display the 20 most used tags
+
+`[taglist number=20 orderby="count" order="DESC"]`
+
+### Count of Published items
+
+Use [splotcount] to display the number of all published items
+
+
 
 ## Optional / Suggested Add-ons
 
@@ -362,6 +396,8 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
+
+* (3.95) SPLOTbox Options provides settings to change the sorting of published items to be by date or alphabetical, and can be ascending or descending. There are also settings to apply it only to the home page, or just to tag and/or category archives. Also updated template to properly display archive headings and descriptions (for tag and category archives). Added shortcodes for listing all (or with other options some) tags used plus a shortcode to display the total number of items published in a box
 * (3.92) Customizer options created for all metadata fields in a single item view. Also, new theme options added to enable use of categories or tags by admin editing only (they are not options on the share form, but can be edited in the Dashboard).
 * (3.9) Tested for support of Kaltura video via SPLOTbox Extender plugin, archive for media types identified via post formats, css for taxonomy widget to display them.
 * (3.82) Small bug cleared to allow Customizer access to form if access code in play

@@ -477,6 +477,21 @@ class splotbox_Theme_Options {
 					)
 		);
 
+		$this->settings['sort_applies'] = array(
+			'section' => 'general',
+			'title'   => __( 'Sort Applied To'),
+			'desc'    => '',
+			'type'    => 'radio',
+			'std'     => 'all',
+			'choices' => array (
+							'all' => 'All Items',
+							'front' => 'Front Page Only',
+							'cat' => 'Categories Only',
+							'tag' => 'Tags Only',
+							'tagcat' => 'Categories and Tags'
+					)
+		);
+
 		// ------- single item display
 		$this->settings['single_item_heading'] = array(
 			'section' => 'general',

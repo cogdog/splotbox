@@ -175,23 +175,53 @@ function splotbox_comment_mod( $defaults ) {
 	return $defaults;
 }
 
+// -----  sort ordering
 
-// options for post order on front page
 add_action( 'pre_get_posts', 'splotbox_order_items' );
 
 function splotbox_order_items( $query ) {
 
-	// just the main, please
-	if ( $query->is_main_query() ) {
+	if ( !is_admin() && $query->is_main_query()  ) {
 
-		// change sort order on home, archives, or search results
-		if (  $query->is_home()  OR $query->is_archive() OR $query->is_search() ) {
 
-			$query->set( 'orderby', splotbox_option('sort_by')  );
-			$query->set( 'order', splotbox_option('sort_direction') );
+		switch (splotbox_option('sort_applies')) {
 
-		}
-	}
+			case 'all':
+				if (  $query->is_home() OR $query->is_archive() OR $query->is_search() ) {
+					$query->set( 'orderby', splotbox_option('sort_by')  );
+					$query->set( 'order', splotbox_option('sort_direction') );
+				}
+				break;
+
+			case 'front':
+				if (  $query->is_home() ) {
+					$query->set( 'orderby', splotbox_option('sort_by')  );
+					$query->set( 'order', splotbox_option('sort_direction') );
+				}
+				break;
+			case 'tag':
+				if (  $query->is_tag() ) {
+					$query->set( 'orderby', splotbox_option('sort_by')  );
+					$query->set( 'order', splotbox_option('sort_direction') );
+				}
+				break;
+			case 'cat':
+				if (  $query->is_category() ) {
+					$query->set( 'orderby', splotbox_option('sort_by')  );
+					$query->set( 'order', splotbox_option('sort_direction') );
+				}
+				break;
+			case 'tagcat':
+				if (  $query->is_archive() ) {
+					$query->set( 'orderby', splotbox_option('sort_by')  );
+					$query->set( 'order', splotbox_option('sort_direction') );
+				}
+				break;
+
+		} // switch
+
+	} // if  main query
+
 }
 
 // -----  add allowable url parameters
