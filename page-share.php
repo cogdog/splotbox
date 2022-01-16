@@ -5,7 +5,7 @@ Template Name: Sharing Page
 
 // set blanks
 $wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = $ia_media_type = $wAlt = $wAlt_by_link = $wAccess = '';
-$wAccessCodeOk = $is_published = false;
+$wAccessCodeOk = $is_published = $is_submitted = false;
 $audio_file_size = 0;
 $errors = array();
 
@@ -48,6 +48,7 @@ if ( !empty( splotbox_option('accesscode') ) AND !$wAccessCodeOk  ) {
 // verify that a form was submitted and it passes the nonce check
 if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST['splotbox_form_make_submitted'], 'splotbox_form_make' ) ) {
 
+	$is_submitted = true;
 	// grab the variables from the form
 	$wTitle = 					sanitize_text_field( stripslashes( $_POST['wTitle'] ) );
 	$wAuthor = 					( isset ($_POST['wAuthor'] ) ) ? sanitize_text_field( stripslashes($_POST['wAuthor']) ) : 'Anonymous';
@@ -377,7 +378,7 @@ get_header();
 
 						<div class="post-content">
 
-			    	<?php the_content(); ?>
+			    	<?php if (!$is_submitted) the_content(); ?>
 
 		    		<?php echo $box_style . $feedback_msg . '</div>';?>
 
@@ -517,13 +518,13 @@ get_header();
 
 						<?php if ( splotbox_option('use_media_recorder') ) :?>
 
-							<div id="media_by_recorder" <?php if ( $wMediaMethod != "media_by_recorder" ) echo ' style="visibility:hidden;"'?>>
+							<div id="media_by_recorder" <?php if ( $wMediaMethod != "media_by_recorder" ) echo ' style="display:none;"'?>>
 
 							<label for="wMediaRecorder"><?php _e('Record Audio', 'garfunkel') ?></label>
 
-							<p>Record up to <?php echo splotbox_option('max_record_time')?> minutes of audio directly to this site. <span style="color:red"><strong>Note- at this time recordings not saved on iOS devices.</strong></span>.</p>
+							<p>Record up to <?php echo splotbox_option('max_record_time')?> minutes of audio directly to this site. <span style="color:red"><strong>Note: Functionally partly supported on Apple mobile devices.</strong></span>.</p>
 
-							<audio id="wMediaRecorder" class="video-js vjs-default-skin"></audio>
+							<audio id="wMediaRecorder" class="video-js vjs-default-skin vjs-fluid"></audio>
 
 							<p class="recordermsg"><span id="recordstatus">Audio recorder standing by. Click microphone button to grant access to device.</span>
 							<input type="button" id="wUploadRecording" value="Use This Audio" style="display:none" />

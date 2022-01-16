@@ -175,25 +175,25 @@ jQuery(document).ready(function() {
   					// show the matching div
 
   					// for media recorder we have to toggle visibility
-  					if (uploadhow == "by_recorder") {
-  					    jQuery("#wUploadRecording").css("display", "none");
-  					    jQuery("#media_by_recorder").css("visibility", "visible");
-  					} else {
+  				//	if (uploadhow == "by_recorder") {
+  				//	    jQuery("#wUploadRecording").css("display", "none");
+  				//	    jQuery("#media_by_recorder").css("visibility", "visible");
+  				//	} else {
   					    // other stuff we can show
 
   					     jQuery("#media_" + uploadhow).show("slow");
-  					}
+  				//	}
 
   				} else {
   					// hide the div
 
   					// for media recorder we have to toggle visibility
-  					if (uploadhow == "by_recorder") {
-  					    jQuery("#media_by_recorder").css("visibility", "hidden");
-  					 } else {
+  			//		if (uploadhow == "by_recorder") {
+  					 //   jQuery("#media_by_recorder").css("visibility", "hidden");
+  			//		 } else {
                 // other stuff we can hide
                 jQuery("#media_" + uploadhow).hide();
-             }
+        //     }
   				}
 			});
 	});
