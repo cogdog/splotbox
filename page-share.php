@@ -518,11 +518,11 @@ get_header();
 
 						<?php if ( splotbox_option('use_media_recorder') ) :?>
 
-							<div id="media_by_recorder" <?php if ( $wMediaMethod != "media_by_recorder" ) echo ' style="display:none;"'?>>
+							<div id="media_by_recorder" <?php if ( $wMediaMethod != "media_by_recorder" ) echo ' style="visibility:hidden;"'?>>
 
 							<label for="wMediaRecorder"><?php _e('Record Audio', 'garfunkel') ?></label>
 
-							<p>Record up to <?php echo splotbox_option('max_record_time')?> minutes of audio directly to this site. <span style="color:red"><strong>Note: Functionally partly supported on Apple mobile devices.</strong></span>.</p>
+							<p>Record up to <?php echo splotbox_option('max_record_time')?> minutes of audio directly to this site. <span style="color:red"><strong>Note: Quasi-experimental, not supported on Apple mobile devices.</strong></span>.</p>
 
 							<audio id="wMediaRecorder" class="video-js vjs-default-skin vjs-fluid"></audio>
 
