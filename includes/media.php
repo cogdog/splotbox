@@ -15,7 +15,7 @@ function splotbox_supports() {
 
 	// all possible supported sites that are built into the theme
 	$all_sites = array(
-		'm_spark' => 'Adobe Spark Pages/Videos',
+		'm_spark' => 'Adobe Express Pages/Videos',
 		'm_flickr' => 'Flickr',
 		'm_giphy' => 'Giphy',
 		'm_archive' => 'Internet Archive',
@@ -174,7 +174,12 @@ function url_is_video ( $url ) {
 
 		// more than one matching patterns
 		if  ( $key  == 'm_youtube' and splotbox_option( $key ) ) $allowables[] = 'youtu.be';
-		if  ( $key  == 'm_spark' and splotbox_option( $key ) ) $allowables[] = 'spark.adobe.com/video';
+		if  ( $key  == 'm_spark' and splotbox_option( $key ) ) {
+			// account for adobes damn brand change
+			$allowables[] = 'spark.adobe.com/video';
+			$allowables[] = 'express.adobe.com/video';
+			$allowables[] = 'express.adobe.com/page';
+		}
 	}
 
 	// check for more videos in extender plugin
@@ -418,29 +423,25 @@ function splotbox_get_videoplayer( $url ) {
 			$videoplayer = '<code>' . $iamediatype . '</code> is not a supported Internet Archive media type';
 		}
 
-	} elseif  ( is_in_url( 'spark.adobe.com/video/', $url ) ) {
+	} elseif  ( is_in_url( 'adobe.com/video/', $url ) ) {
 
-		// Adobe Spark Video
+		// Adobe Spark Video or Adobe Express
 
-		// get string position right before ID
-		$pos = strpos( $url, 'video/');
-		$spark_id = substr($url, $pos + 6) ;
-		$spark_id = rtrim( $spark_id, '/');
+		// trim trailing splash
+		$url =  rtrim($url, '/');
 
-		// spark video iframe code
-		$videoplayer = '<iframe src="https://spark.adobe.com/video/' . $spark_id . '/embed"  width="960" height="540" frameborder="0" allowfullscreen></iframe>';
+		// express video iframe code
+		$videoplayer = '<iframe src="' . $url  .  '/embed"  width="960" height="540" frameborder="0" allowfullscreen></iframe>';
 
-	} elseif  ( is_in_url( 'spark.adobe.com/page/', $url ) ) {
 
-		// Adobe Spark Page
+	} elseif  ( is_in_url( 'adobe.com/page/', $url ) ) {
 
-		// get string position right before ID
-		$pos = strpos( $url, 'page/');
-		$spark_id = substr($url, $pos + 5) ;
-		$spark_id = rtrim( $spark_id, '/');
+		// Adobe Spark or Adobe Express Page
+		// trim trailing slash
+		$url =  rtrim($url, '/');
 
 		// spark page embed code
-		$videoplayer = '<script id="asp-embed-script" data-zindex="1000000" type="text/javascript" charset="utf-8" src="https://spark.adobe.com/page-embed.js"></script><a class="asp-embed-link" href="https://spark.adobe.com/page/' . $spark_id . '/" target="_blank"><img src="https://spark.adobe.com/page/' . $spark_id . '/embed.jpg" alt="" style="width:100%" border="0" /></a>';
+		$videoplayer = '<script id="asp-embed-script" data-zindex="1000000" type="text/javascript" charset="utf-8" src="https://spark.adobe.com/page-embed.js"></script><a class="asp-embed-link" href="' . $url . '/" target="_blank"><img src=' . $url . '/embed.jpg" alt="" style="width:100%" border="0" /></a>';
 
 	} elseif  ( is_in_url( 'loom.com/share/', $url ) ) {
 
