@@ -249,7 +249,14 @@ function splotbox_queryvars( $qvars ) {
 # -----------------------------------------------------------------
 
 
+/* set up rewrite rules */
+add_action('init','splotbox_rewrite_rules');
+
+
 function splotbox_rewrite_rules() {
+
+	// let's go random
+	add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
 
 	$licensed_page_slug = splotbox_get_licensed_page();
 	$license_page_id = splotbox_get_license_page_id();
@@ -259,15 +266,13 @@ function splotbox_rewrite_rules() {
 
 	add_rewrite_rule( '^' . $licensed_page_slug . '/([^/]*)/?',  'index.php?page_id=' . $license_page_id . '&flavor=$matches[1]','top');
 
-	// let's go random
-	add_rewrite_rule('random/?$', 'index.php?random=1', 'top');
 }
 
 /* set up function to handle redirects */
 
- add_action('template_redirect','splotbox_random_template');
+ add_action('template_redirect','splotbox_write_director');
 
- function splotbox_random_template() {
+ function splotbox_write_director() {
 
  	// manage redirect for /random
    if ( get_query_var('random') == 1 ) {
@@ -276,17 +281,19 @@ function splotbox_rewrite_rules() {
 			'post_type' => 'post',
 			'post_status' => 'publish',
 			'posts_per_page' => 1,
+			'ignore_sticky_posts' => 1,
 			'orderby' => 'rand'
 		);
 
 		// It's time! Go someplace random
 		$my_random_post = new WP_Query ( $args );
 
-		while ( $my_random_post->have_posts () ) {
-		  $my_random_post->the_post ();
+		// die(print_r($my_random_post) );
+		while ( $my_random_post->have_posts() ) {
+		  $my_random_post->the_post();
 
 		  // redirect to the random post
-		  wp_redirect ( get_permalink () );
+		  wp_redirect ( get_permalink() );
 		  exit;
 		}
    }
