@@ -27,6 +27,7 @@ function splotbox_supports() {
 		'm_speakerdeck' => 'Speaker Deck',
 		'm_ted' => 'TED Talks',
 		'm_vocaroo' => 'Vocaroo',
+		"m_boombox" => 'Sodaphonic',
 		'm_vimeo' => 'Vimeo',
 		'm_youtube' => 'YouTube',
 	);
@@ -84,15 +85,15 @@ function splotbox_supports_by_link() {
     		break;
     	case 1:
     		// audio and image media
-    		return 'You can also use a web address to audio or image content -- ones that link diretly to <code>.mp3 .m4a .ogg .jpg .jpeg .png .gif</code> files.';
+    		return 'You can also use a web address to audio or image content -- ones that link directly to <code>.mp3 .m4a .ogg .jpg .jpeg .png .gif</code> files.';
     		break;
     	case 2:
     		//image media only
-     		return 'You can also use a web address to image content -- ones that link diretly to <code>jpg .png .gif</code> files.';
+     		return 'You can also use a web address to image content -- ones that link directly to <code>jpg .png .gif</code> files.';
     		break;
     	case 3:
     		//audio media only
-     		return 'You can also use a web address to audio content -- ones that link diretly to <code>.mp3 .m4a .ogg</code> files.';
+     		return 'You can also use a web address to audio content -- ones that link directly to <code>.mp3 .m4a .ogg</code> files.';
     		break;
     }
 }
@@ -122,6 +123,7 @@ function url_is_audio ( $url ) {
 		'm_soundcloud' => 'soundcloud.com',
 		'm_audioboom' => 'audioboom.com',
 		'm_vocaroo' => 'vocaroo.com',
+		'm_boombox' => 'sodaphonic.com/audio',
 	);
 
 	// pull names of ones activated in theme options
@@ -373,6 +375,13 @@ function splotbox_get_audioplayer( $url ) {
 		$url_array = explode('/', $url);
 
 		return '<iframe width="100%" height="60" src="https://vocaroo.com/embed/' . $url_array[3] . '" autoplay="0" frameborder="0" allow="autoplay"></iframe>';
+		
+	} elseif  ( is_in_url( 'sodaphonic.com/audio', $url ) ) {
+	
+		// use a substitution to turn the public link to it's embed one
+		$boombox_url = str_replace ( 'audio' , 'embed' , $url );
+		
+		return '<iframe width="100%" height="156" scrolling="no" frameborder="no" src="' . $boombox_url  . '"></iframe>';
 
 	} elseif ( function_exists('splotboxplus_exists') ) {
 		return splotboxplus_get_mediaplayer( $url );

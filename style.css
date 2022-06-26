@@ -1,9 +1,9 @@
 /*
 Theme Name: 	Splotbox
-Theme URI: 		http://github.com/cogdog/splotbox
-Description: 	SPLOT Media Collector (Child of Garfunkel)
-Version: 		3.98
-Template:   garfunkel
+Theme URI: 		https://github.com/cogdog/splotbox
+Description: 	The SPLOT Media Collector (Child of Garfunkel) for building collections of contributed audio, video, and image media, kind of like a jukebox but better.
+Version: 		4.0
+Template:   	garfunkel
 Author: 		CogDog
 Author URI: 	https://cog.dog/
 License: GNU General Public License v2.0 & Apache License 2.0
@@ -286,7 +286,7 @@ a.download-link:hover {
     text-decoration: none;
 }
 
-#splotboxform a.fbutton:hover, a.splotbutton:hover {
+#splotboxform a.fbutton:hover, a.splotbutton:hover, #checkit:hover, #makeit:hover  {
 	cursor: pointer;
 	background: #ca2017;
 	color: #fff;

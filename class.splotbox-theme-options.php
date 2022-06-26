@@ -320,14 +320,25 @@ class splotbox_Theme_Options {
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
 
-		$this->settings['m_slideshare'] = array(
+		$this->settings['m_boombox'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Slideshare Presentations http://slideshare.net/' ),
+			'desc'    => __( 'Sodaphonic Audio https://sodaphonic.com/' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
 		);
+		
+		$this->settings['m_audioboom'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'Audioboom https://audioboom.com' ),
+			'type'    => 'checkbox',
+			'class'	  => 'mtype',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+		
+		
 		$this->settings['m_soundcloud'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),

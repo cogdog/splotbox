@@ -162,7 +162,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 			$post_status = 'draft';
 			$box_style = '<div class="notify notify-green"><span class="symbol icon-tick"></span> ';
 
-			$feedback_msg = 'Your draft has been updated and can again be <a href="'. site_url() . '/?p=' . $post_id . '&preview=true&ispre=1' . '" target="_blank">previewed</a> to review changes. If it looks okay, then <a href="#theButtons">just scroll down</a> and click "Submit Item" to add it to' . get_bloginfo( 'name' ) . '.';
+			$feedback_msg = 'Your draft has been updated and can again be <a href="'. site_url() . '/?p=' . $post_id . '&preview=true&ispre=1' . '" target="_blank">previewed</a> to review changes. If it looks okay, then <a href="#theButtons">just scroll down</a> and click "Submit Item" to add it to ' . get_bloginfo( 'name' ) . '.';
 
 			// enable preview and submit buttons
 			$previewBtnState = '';
@@ -470,7 +470,7 @@ get_header();
 								if ($wUploadMediaID) {
 									$defthumb = wp_get_attachment_image( $wUploadMediaID, 'thumbnail', true, array( "id" => "mediathumb" ) );
 								} else {
-									$defthumb = '<img src="https://place-hold.it/150x150?text=Upload+Image" alt="" width="150" height="150" id="mediathumb">';
+									$defthumb = '<img src="https://place-hold.it/150x150?text=Upload+Media" alt="" width="150" height="150" id="mediathumb">';
 
 								}
 

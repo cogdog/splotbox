@@ -35,6 +35,7 @@ In addition, special code has been added to support:
 * Adobe Spark Videos
 * Internet Archive audio or video
 * Loom screencasts
+* Sodaophonic audio
 * Vocaroo audio
 
 And another exciting option:
@@ -396,7 +397,7 @@ Go build collections of media!
 
 ## Relatively Cool New Features & Updates
 
-
+* (4.0)  Support for Sodaphonic audio, minor typo fixes, minr CSS tweaks
 * (3.95) SPLOTbox Options provides settings to change the sorting of published items to be by date or alphabetical, and can be ascending or descending. There are also settings to apply it only to the home page, or just to tag and/or category archives. Also updated template to properly display archive headings and descriptions (for tag and category archives). Added shortcodes for listing all (or with other options some) tags used plus a shortcode to display the total number of items published in a box
 * (3.92) Customizer options created for all metadata fields in a single item view. Also, new theme options added to enable use of categories or tags by admin editing only (they are not options on the share form, but can be edited in the Dashboard).
 * (3.9) Tested for support of Kaltura video via SPLOTbox Extender plugin, archive for media types identified via post formats, css for taxonomy widget to display them.
