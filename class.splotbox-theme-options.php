@@ -76,11 +76,17 @@ class splotbox_Theme_Options {
 		<h1>Splotbox Documentation</h1>
 		<h2 class="nav-tab-wrapper">
 		<a class="nav-tab" href="?page=splotbox-options">Settings</a>
-		<a class="nav-tab nav-tab-active" href="?page=splotbox-docs">Documentation</a></h2>';
+		<a class="nav-tab nav-tab-active" href="?page=splotbox-docs">Documentation</a></h2>
+		<p>The most current SPOLOTbox documentation is displayed below (<a href="https://docsify-this.net/?basePath=https://raw.githubusercontent.com/cogdog/splotbox/master/&amp;toc=true" target="_blank">view in a new window</a>). Generated with <a href="https://docsify-this.net/" target="_blank">Docsify This</a>.</p>';
 
-		include( get_stylesheet_directory() . '/includes/splotbox-theme-options-docs.php');
+		echo '<div class="iframe-container">
+		
+		
+		<iframe src="https://docsify-this.net/?basePath=https://raw.githubusercontent.com/cogdog/splotbox/master/" title="SPLOTbox Documentation" allowfullscreen><a href="https://docsify-this.net/?basePath=https://raw.githubusercontent.com/cogdog/splotbox/master/&toc=true" target="_blank">View Documentation</a></iframe>
+		</div>
+	</div>';
 
-		echo '</div>';
+
 	}
 
 
@@ -314,7 +320,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_mixcloud'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Mixcloud Audio http://mixcloud.com/' ),
+			'desc'    => __( 'Mixcloud Audio https://mixcloud.com/' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -342,7 +348,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_soundcloud'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Soundcloud Audio http://soundcloud.com/' ),
+			'desc'    => __( 'Soundcloud Audio https://soundcloud.com/' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -350,7 +356,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_speakerdeck'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Speakerdeck Presentations http://speakerdeck.com/' ),
+			'desc'    => __( 'Speakerdeck Presentations https://speakerdeck.com/' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -359,7 +365,16 @@ class splotbox_Theme_Options {
 		$this->settings['m_ted'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Ted Talk Video http://ted.com/' ),
+			'desc'    => __( 'Ted Talk Video https://ted.com/' ),
+			'type'    => 'checkbox',
+			'class'	  => 'mtype',
+			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
+		);
+		
+		$this->settings['m_tiktok'] = array(
+			'section' => 'general',
+			'title'   => __( '' ),
+			'desc'    => __( 'TikTok Video https://tiktok.com/' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -369,7 +384,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_vimeo'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Vimeo video http://vimeo.com' ),
+			'desc'    => __( 'Vimeo video https://vimeo.com' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -378,7 +393,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_vocaroo'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Vocaroo Audio http://vocaroo.com' ),
+			'desc'    => __( 'Vocaroo Audio https://vocaroo.com' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.
@@ -388,7 +403,7 @@ class splotbox_Theme_Options {
 		$this->settings['m_youtube'] = array(
 			'section' => 'general',
 			'title'   => __( '' ),
-			'desc'    => __( 'Youtube video http://youtube.com/' ),
+			'desc'    => __( 'Youtube video https://youtube.com/' ),
 			'type'    => 'checkbox',
 			'class'	  => 'mtype',
 			'std'     => 1 // Set to 1 to be checked by default, 0 to be unchecked by default.

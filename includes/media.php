@@ -26,6 +26,7 @@ function splotbox_supports() {
 		'm_soundcloud' => 'Soundcloud',
 		'm_speakerdeck' => 'Speaker Deck',
 		'm_ted' => 'TED Talks',
+		'm_tiktok' => 'TikTok',
 		'm_vocaroo' => 'Vocaroo',
 		"m_boombox" => 'Sodaphonic',
 		'm_vimeo' => 'Vimeo',
@@ -166,6 +167,7 @@ function url_is_video ( $url ) {
 		'm_slideshare' => 'slideshare.net',
 		'm_speakerdeck' => 'speakerdeck.com',
 		'm_ted' => 'ted.com/talk',
+		'm_tiktok' => 'tiktok.com', 
  		'm_youtube' => 'youtube.com/watch?',
 		'm_vimeo' => 'vimeo.com',
 	);
@@ -274,6 +276,7 @@ function is_url_embeddable( $url ) {
 		'm_slideshare' => 'slideshare.net',
 		'm_speakerdeck' => 'speakerdeck.com',
 		'm_ted' => 'ted.com/talk',
+		'm_tiktok' => 'tiktok.com', 
  		'm_youtube' => 'youtube.com/watch?',
 		'm_vimeo' => 'vimeo.com',
 		'm_soundcloud' => 'soundcloud.com',
