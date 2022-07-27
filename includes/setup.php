@@ -374,7 +374,7 @@ function add_splotbox_scripts() {
    		wp_enqueue_script( 'mce-view', '', array('tiny_mce') );
 
  		// tinymce mods
-		add_filter("mce_external_plugins", "splotbox_register_buttons");
+		// add_filter("mce_external_plugins", "splotbox_register_buttons");
 		add_filter('mce_buttons','splotbox_tinymce_buttons');
 		add_filter('mce_buttons_2','splotbox_tinymce_2_buttons');
 
@@ -586,9 +586,15 @@ function splotbox_is_preview() {
 
 add_filter( 'tiny_mce_before_init', 'splotbox_tinymce_settings' );
 
+// add to WP editor media upload to post
+// help from https://stackoverflow.com/a/70266933/2418186
 function splotbox_tinymce_settings( $settings ) {
 
-	// $settings['file_picker_types'] = 'image';
+	$settings['selector'] = '#wText';
+	$settings['plugins'] = 'image';
+	$settings['file_picker_types'] = 'image';
+
+	// ajax handler for uploads
 	$settings['images_upload_handler'] = 'function (blobInfo, success, failure) {
     var xhr, formData;
 
@@ -620,7 +626,18 @@ function splotbox_tinymce_settings( $settings ) {
     xhr.send(formData);
   }';
 
-
+	// for ios Safari issue
+	// https://stackoverflow.com/a/70266933/2418186
+	$settings['setup'] = 'function(editor){
+           editor.on(\'OpenWindow\', function(e){
+                jQuery(\'.mce-browsebutton button\').on(\'touchend\', function(event) {
+                    jQuery(this).click();
+                });
+            });
+            editor.on(\'CloseWindow\', function(e){
+                 jQuery(\'.mce-browsebutton button\').off(\'touchend\');
+            });
+         }';
 	return $settings;
 }
 
@@ -643,13 +660,12 @@ function splotbox_tinymce_buttons($buttons) {
 
 	// now add the image button in, and the second one that acts like a label
 	$buttons[] = 'image';
-	$buttons[] = 'imgbutton';
+	// $buttons[] = 'imgbutton';
 
 	return $buttons;
  }
 
-// remove  more buttons from the visual editor
-
+// remove  buttons from the visual editor
 
 function splotbox_tinymce_2_buttons( $buttons)  {
 	//Remove the keybord shortcut and paste text buttons

@@ -43,11 +43,11 @@ function splotbox_the_license( $lcode = '--' ) {
 	// output the title of a license
 
 	// passed by form with no menu selected
-	if ($lcode == '--') return '';
+	if ($lcode == '--') return 'unknown';
 
 	$all_licenses = splotbox_get_licences();
 
-	echo $all_licenses[$lcode];
+	return $all_licenses[$lcode];
 }
 
 function splotbox_attributor( $license, $work_title, $work_link, $work_creator='') {

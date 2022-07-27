@@ -38,6 +38,9 @@ function splotbox_enqueue_options_scripts() {
 	wp_register_script( 'splotbox_options_js' , get_stylesheet_directory_uri() . '/js/jquery.splotbox-options.js', null , '1.0', TRUE );
 	wp_enqueue_script( 'splotbox_options_js' );
 	
+	// css for splot  options
+	wp_enqueue_style( 'splotbox-options', get_stylesheet_directory_uri() . '/css/splotbox-options.css' );
+	
 }
 
 function splotbox_load_theme_options() {

@@ -245,7 +245,7 @@ This is a preview of your entry that shows how it will look when published. <a h
 
 							if  ( splotbox_option('use_license') > 0  AND $wLicense) {
 								echo '<p><strong>' . get_license_label() . ':</strong>  ';
-								splotbox_the_license( $wLicense );
+								echo splotbox_the_license( $wLicense );
 								echo '</p>';
 
 								// display attribution?
