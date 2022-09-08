@@ -15,8 +15,9 @@ $splotbox_supports = splotbox_supports(); // sites supported by external URL
 
 // see if we have an incoming clear the code form variable only on sharing form
 // ignored if options are not to use it or we are in the customizer
+// Thanks @troywelcg for catching this
 
-$wAccessCodeOk = isset( $_POST['wAccessCodeOk'] ) ? true : (is_customize_preview()) ? true : false;
+$wAccessCodeOk = ((isset( $_POST['wAccessCodeOk'] )) ? true : (is_customize_preview())) ? true : false;
 
 
 // check that an access code is in play and it's not been yet passed
