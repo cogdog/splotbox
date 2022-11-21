@@ -51,20 +51,20 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 
 	$is_submitted = true;
 	// grab the variables from the form
-	$wTitle = 					sanitize_text_field( stripslashes( $_POST['wTitle'] ) );
+	$wTitle = 					( isset ($_POST['wTitle'] ) ) ? sanitize_text_field( stripslashes( $_POST['wTitle'] ) ) : '';
 	$wAuthor = 					( isset ($_POST['wAuthor'] ) ) ? sanitize_text_field( stripslashes($_POST['wAuthor']) ) : 'Anonymous';
-	$wTags = 					sanitize_text_field( $_POST['wTags'] );
-	$wText = 					wp_kses_post( $_POST['wText'] );
-	$wSource = 					sanitize_text_field( $_POST['wSource']  );
-	$wNotes = 					sanitize_text_field( stripslashes( $_POST['wNotes'] ) );
-	$wMediaURL = 				trim($_POST['wMediaURL']);
+	$wTags = 					( isset ($_POST['wTags'] ) ) ? sanitize_text_field( $_POST['wTags']) : '';
+	$wText = 					( isset ($_POST['wText'] ) ) ?  wp_kses_post( $_POST['wText'] ) : '';
+	$wSource = 					( isset ($_POST['wSource'] ) ) ? sanitize_text_field( $_POST['wSource']  ) : '';
+	$wNotes = 					( isset ($_POST['wNotes'] ) ) ? sanitize_text_field( stripslashes( $_POST['wNotes'] ) ) : '';
+	$wMediaURL = 				( isset ($_POST['wMediaURL'] ) ) ? trim($_POST['wMediaURL']) : '';
 	$wCats = 					( isset ($_POST['wCats'] ) ) ? $_POST['wCats'] : array();
 	$wLicense = 				( isset ($_POST['wLicense'] ) ) ? $_POST['wLicense'] : '--';
-	$wUploadMediaID =			$_POST['wUploadMedia'];
+	$wUploadMediaID =			( isset ($_POST['wTags'] ) ) ? $_POST['wUploadMedia'] : '';
 	$wMediaMethod = 			$_POST['wMediaMethod'];
 	$wAlt = 					( isset ($_POST['wAlt'] ) ) ? $_POST['wAlt'] : '';
 
-	$wAlt_by_link = 					( isset ($_POST['wAlt_by_link'] ) ) ? sanitize_text_field($_POST['wAlt_by_link']) : '';
+	$wAlt_by_link = 			( isset ($_POST['wAlt_by_link'] ) ) ? sanitize_text_field($_POST['wAlt_by_link']) : '';
 
 	if ( isset ($_POST['post_id'] ) ) $post_id = $_POST['post_id'];
 

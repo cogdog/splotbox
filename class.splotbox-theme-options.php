@@ -70,7 +70,7 @@ class splotbox_Theme_Options {
 
 	/*  display documentation in a tab */
 	public function display_docs() {
-		// This displays on the "Documentation" tab.
+		// This displays on the "Documentation" using docsify-this to render directly from repo
 
 	 	echo '<div class="wrap">
 		<h1>Splotbox Documentation</h1>
