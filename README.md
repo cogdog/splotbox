@@ -77,9 +77,10 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 [![Support me on Patreon](http://cogdog.github.io/images/badge-patreon.png)](https://patreon.com/cogdog) [![Support me on via PayPal](http://cogdog.github.io/images/badge-paypal.png)](https://paypal.me/cogdog)
 
 
-## Relatively Cool New Features & Updates
+## Update History
 
-* (4.0)  Support for Sodaphonic audio, minor typo fixes, minr CSS tweaks
+* (4.1) Fixed issues related to PHOP 8.0, enable embedded docs in theme options using Docsify This
+* (4.0)  Support for Sodaphonic audio, minor typo fixes,  CSS tweaks
 * (3.95) SPLOTbox Options provides settings to change the sorting of published items to be by date or alphabetical, and can be ascending or descending. There are also settings to apply it only to the home page, or just to tag and/or category archives. Also updated template to properly display archive headings and descriptions (for tag and category archives). Added shortcodes for listing all (or with other options some) tags used plus a shortcode to display the total number of items published in a box
 * (3.92) Customizer options created for all metadata fields in a single item view. Also, new theme options added to enable use of categories or tags by admin editing only (they are not options on the share form, but can be edited in the Dashboard).
 * (3.9) Tested for support of Kaltura video via SPLOTbox Extender plugin, archive for media types identified via post formats, css for taxonomy widget to display them.
