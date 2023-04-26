@@ -176,8 +176,13 @@ function url_is_video ( $url ) {
 	foreach ($all_sites as $key => $value ) {
 		if ( splotbox_option( $key ) ) $allowables[] = $value;
 
-		// more than one matching patterns
-		if  ( $key  == 'm_youtube' and splotbox_option( $key ) ) $allowables[] = 'youtu.be';
+		// more than one matching pattern for YouTube- short links and for "shorts'
+		if  ( $key  == 'm_youtube' and splotbox_option( $key ) ) {
+			$allowables[] = 'youtu.be';
+			$allowables[] = 'youtube.com/shorts';
+		}
+		
+		// multiple formats for Adobe Spark
 		if  ( $key  == 'm_spark' and splotbox_option( $key ) ) {
 			// account for adobes damn brand change
 			$allowables[] = 'spark.adobe.com/video';
@@ -289,9 +294,14 @@ function is_url_embeddable( $url ) {
 	// pull names of ones activated in theme options
 	foreach ($all_sites as $key => $value ) {
 
-		if ( splotbox_option( $key ) ) $allowed_embeds[] = $value;
-		// more than one matching patterns
-		if  ($key  == 'm_youtube' and splotbox_option( $key )) $allowed_embeds[] = 'youtu.be';
+		if ( splotbox_option( $key ) ) $allowed_embeds[] = $value;		
+		
+		// more than one matching pattern for YouTube- short links and for "shorts'
+		if  ( $key  == 'm_youtube' and splotbox_option( $key ) ) {
+			$allowed_embeds[] = 'youtu.be';
+			$allowed_embeds[] = 'youtube.com/shorts';
+		}
+
 	}
 
 	// add ones made available in extender plugin

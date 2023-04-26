@@ -79,6 +79,8 @@ SPLOTbox was evolved from an earlier [Sound Collector](http://splot.ca/splots/tr
 
 ## Update History
 
+
+* (4.2) Now supports YouTube "shorts" thanks to suggestion by Suzanne B
 * (4.1) Fixed issues related to PHOP 8.0, enable embedded docs in theme options using Docsify This
 * (4.0)  Support for Sodaphonic audio, minor typo fixes,  CSS tweaks
 * (3.95) SPLOTbox Options provides settings to change the sorting of published items to be by date or alphabetical, and can be ascending or descending. There are also settings to apply it only to the home page, or just to tag and/or category archives. Also updated template to properly display archive headings and descriptions (for tag and category archives). Added shortcodes for listing all (or with other options some) tags used plus a shortcode to display the total number of items published in a box
