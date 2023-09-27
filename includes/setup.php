@@ -28,7 +28,6 @@ function splotbox_setup () {
   	);
 
   	wp_insert_post( $page_data );
-
   }
 
 
@@ -591,7 +590,6 @@ add_filter( 'tiny_mce_before_init', 'splotbox_tinymce_settings' );
 function splotbox_tinymce_settings( $settings ) {
 
 	$settings['selector'] = '#wText';
-	$settings['plugins'] = 'image';
 	$settings['file_picker_types'] = 'image';
 
 	// ajax handler for uploads
