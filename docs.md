@@ -254,7 +254,7 @@ If you are updating a site built with a previous version of the theme and someth
 
 Current version [![Wordpress version badge](https://img.shields.io/badge/version-4.1.4-green.svg)](https://github.com/cogdog/truwriter/blob/master/style.css)
 
-Compare this to the version of SPLOTbox reported in your list of themes. Note that WordPress's reporting of themes being up to date does **not** reflect custom themes such as this one.  If what you see is less than the version above, here is how to update your copy of TRU Writer. 
+Compare this to the version of SPLOTbox reported in your list of themes. Note that WordPress's reporting of themes being up to date does **not** reflect custom themes such as this one.  If what you see is less than the version above, here is how to update your copy of SPLOTbox. 
 
 If you [installed SPLOTbox using the WP-Pusher plugin[(https://github.com/cogdog/splotbox/blob/master/install.md#installing-splotbox-in-one-click-with-wp-pusher-get-automatic-updates), updates can be made automatic or done in one click!
 
@@ -264,7 +264,7 @@ Otherwise, if you installed manually, updates are not too hard to do.
 
 Custom (a.k.a unique!) WordPress themes like SPLOTbox are installed by uploading a `.zip` file. They can now be updated the same way you installed it. It's that easy! 
 
-Just [download the newest version of TRU Writer as a .zip ](https://github.com/cogdog/splotbox/archive/refs/heads/master.zip). Now in your WordPress Dashboard, go to **Themes**, then **Add Theme** and finally **Upload Theme**. You will be asked to confirm updating the theme with the newer version.  
+Just [download the newest version of SPLOTbox as a .zip ](https://github.com/cogdog/splotbox/archive/refs/heads/master.zip). Now in your WordPress Dashboard, go to **Themes**, then **Add Theme** and finally **Upload Theme**. You will be asked to confirm updating the theme with the newer version.  
 
 When done, your site should report this current version as active.
 
