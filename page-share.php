@@ -5,6 +5,7 @@ Template Name: Sharing Page
 
 // set blanks
 $wTitle = $wSource =  $wMediaURL = $wNotes = $wTags = $wText = $w_upload_status = $ia_media_type = $wAlt = $wAlt_by_link = $wAccess = '';
+
 $wAccessCodeOk = $is_published = $is_submitted = false;
 $audio_file_size = 0;
 $errors = array();
@@ -58,7 +59,7 @@ if ( isset( $_POST['splotbox_form_make_submitted'] ) && wp_verify_nonce( $_POST[
 	$wSource = 					( isset ($_POST['wSource'] ) ) ? sanitize_text_field( $_POST['wSource']  ) : '';
 	$wNotes = 					( isset ($_POST['wNotes'] ) ) ? sanitize_text_field( stripslashes( $_POST['wNotes'] ) ) : '';
 	$wMediaURL = 				( isset ($_POST['wMediaURL'] ) ) ? trim($_POST['wMediaURL']) : '';
-	$wCats = 					( isset ($_POST['wCats'] ) ) ? $_POST['wCats'] : array();
+	$wCats = 					( isset ($_POST['wCats'] ) ) ? $_POST['wCats'] : array( splotbox_option('def_cat'));
 	$wLicense = 				( isset ($_POST['wLicense'] ) ) ? $_POST['wLicense'] : '--';
 	$wUploadMediaID =			( isset ($_POST['wTags'] ) ) ? $_POST['wUploadMedia'] : '';
 	$wMediaMethod = 			$_POST['wMediaMethod'];
