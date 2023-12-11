@@ -1,7 +1,7 @@
 # SPLOTbox Wordpress Theme
 by Alan Levine https://cog.dog or http://cogdogblog.com/
 
-[![Wordpress version badge](https://img.shields.io/badge/version-4.1.4-green.svg)](https://github.com/cogdog/tru-collector/blob/master/style.css)
+[![Wordpress version badge](https://img.shields.io/badge/version-4.2.2-green.svg)](https://github.com/cogdog/tru-collector/blob/master/style.css)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 :house: SPLOTbox

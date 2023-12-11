@@ -190,7 +190,7 @@ Use [splotcount] to display the number of all published items
 
 ## Other Wordpressy Things You Might Want to Do
 
-I like shorter links than using a title, so I typically use a Custom Permalink setting (under `Settings -- Permalinks`) of `/%post_id%/'
+I like shorter links than using a title, so I typically use a Custom Permalink setting (under `Settings -- Permalinks`) of `/%post_id%/`
 
 ![Simplest Permalink](images/permalink.jpg "custom permalink") 
 
@@ -252,7 +252,7 @@ If you are updating a site built with a previous version of the theme and someth
 
 ## Updating The SPLOTbox theme
 
-Current version [![Wordpress version badge](https://img.shields.io/badge/version-4.1.4-green.svg)](https://github.com/cogdog/truwriter/blob/master/style.css)
+Current version [![Wordpress version badge](https://img.shields.io/badge/version-4.2.2-green.svg)](https://github.com/cogdog/truwriter/blob/master/style.css)
 
 Compare this to the version of SPLOTbox reported in your list of themes. Note that WordPress's reporting of themes being up to date does **not** reflect custom themes such as this one.  If what you see is less than the version above, here is how to update your copy of SPLOTbox. 
 
